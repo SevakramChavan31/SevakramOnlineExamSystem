@@ -1,0 +1,1059 @@
+ <!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Detailed Answer Review | Online Examination System</title>
+
+    <!-- Bootstrap -->
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+            rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+
+    <style>
+
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --background: #f8fafc;
+            --text: #172033;
+            --secondary: #64748b;
+            --border: #e2e8f0;
+
+            --success: #16a34a;
+            --success-bg: #f0fdf4;
+
+            --danger: #dc2626;
+            --danger-bg: #fef2f2;
+
+            --warning: #f59e0b;
+            --warning-bg: #fffbeb;
+        }
+
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+            margin: 0;
+            background: var(--background);
+            color: var(--text);
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+
+        /* =====================================================
+           NAVBAR
+        ===================================================== */
+
+        .navbar-custom {
+            height: 70px;
+            background: white;
+            border-bottom: 1px solid var(--border);
+        }
+
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            text-decoration: none;
+
+            color: var(--text);
+
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+
+        .brand-icon {
+            width: 40px;
+            height: 40px;
+
+            border-radius: 10px;
+
+            background: linear-gradient(
+                    135deg,
+                    var(--primary),
+                    var(--primary-dark)
+            );
+
+            color: white;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 21px;
+        }
+
+
+        .brand span {
+            color: var(--primary);
+        }
+
+
+        /* =====================================================
+           MAIN
+        ===================================================== */
+
+        .main-wrapper {
+            max-width: 1000px;
+
+            margin: 0 auto;
+
+            padding: 35px 20px 50px;
+        }
+
+
+        /* =====================================================
+           PAGE HEADER
+        ===================================================== */
+
+        .page-header {
+            background: white;
+
+            border: 1px solid var(--border);
+
+            border-radius: 18px;
+
+            padding: 25px;
+
+            margin-bottom: 25px;
+        }
+
+
+        .page-title {
+            font-size: 25px;
+
+            font-weight: 700;
+
+            margin-bottom: 8px;
+        }
+
+
+        .page-subtitle {
+            color: var(--secondary);
+
+            font-size: 14px;
+
+            margin: 0;
+        }
+
+
+        .exam-info {
+            margin-top: 18px;
+
+            padding-top: 18px;
+
+            border-top: 1px solid var(--border);
+
+            display: flex;
+
+            justify-content: space-between;
+
+            gap: 15px;
+
+            flex-wrap: wrap;
+        }
+
+
+        .exam-info-item {
+            color: var(--secondary);
+
+            font-size: 13px;
+        }
+
+
+        .exam-info-item strong {
+            color: var(--text);
+        }
+
+
+        /* =====================================================
+           QUESTION CARD
+        ===================================================== */
+
+        .question-card {
+            background: white;
+
+            border: 1px solid var(--border);
+
+            border-radius: 16px;
+
+            padding: 24px;
+
+            margin-bottom: 18px;
+        }
+
+
+        .question-header {
+            display: flex;
+
+            align-items: flex-start;
+
+            gap: 15px;
+
+            margin-bottom: 16px;
+        }
+
+
+        .question-number {
+            min-width: 36px;
+
+            height: 36px;
+
+            border-radius: 9px;
+
+            background: #eff6ff;
+
+            color: var(--primary);
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 14px;
+
+            font-weight: 700;
+        }
+
+
+        .question-text {
+            flex: 1;
+
+            font-size: 16px;
+
+            font-weight: 600;
+
+            line-height: 1.6;
+        }
+
+
+        .marks-badge {
+            background: #f1f5f9;
+
+            color: #475569;
+
+            padding: 6px 10px;
+
+            border-radius: 8px;
+
+            font-size: 12px;
+
+            font-weight: 600;
+
+            white-space: nowrap;
+        }
+
+
+        /* =====================================================
+           STATUS
+        ===================================================== */
+
+        .result-status {
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 6px;
+
+            padding: 7px 12px;
+
+            border-radius: 20px;
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+            margin-bottom: 12px;
+        }
+
+
+        .status-correct {
+            background: #dcfce7;
+
+            color: #15803d;
+        }
+
+
+        .status-wrong {
+            background: #fee2e2;
+
+            color: #b91c1c;
+        }
+
+
+        .status-unanswered {
+            background: #fef3c7;
+
+            color: #b45309;
+        }
+
+
+        /* =====================================================
+           ANSWER BOX
+        ===================================================== */
+
+        .answer-box {
+            border-radius: 10px;
+
+            padding: 15px 16px;
+
+            margin-top: 10px;
+        }
+
+
+        .answer-label {
+            font-size: 12px;
+
+            font-weight: 700;
+
+            margin-bottom: 7px;
+        }
+
+
+        .answer-text {
+            font-size: 14px;
+
+            line-height: 1.6;
+        }
+
+
+        /* YOUR ANSWER */
+
+        .your-answer {
+            background: #eff6ff;
+
+            border: 1px solid #bfdbfe;
+        }
+
+
+        .your-answer .answer-label {
+            color: var(--primary);
+        }
+
+
+        /* CORRECT ANSWER */
+
+        .correct-answer {
+            background: var(--success-bg);
+
+            border: 1px solid #bbf7d0;
+        }
+
+
+        .correct-answer .answer-label {
+            color: var(--success);
+        }
+
+
+        /* WRONG ANSWER */
+
+        .wrong-answer {
+            background: var(--danger-bg);
+
+            border: 1px solid #fecaca;
+        }
+
+
+        .wrong-answer .answer-label {
+            color: var(--danger);
+        }
+
+
+        /* UNANSWERED */
+
+        .unanswered-answer {
+            background: var(--warning-bg);
+
+            border: 1px solid #fde68a;
+        }
+
+
+        .unanswered-answer .answer-label {
+            color: #b45309;
+        }
+
+
+        /* =====================================================
+           DIVIDER
+        ===================================================== */
+
+        .answer-divider {
+            border-top: 1px dashed var(--border);
+
+            margin: 15px 0;
+        }
+
+
+        /* =====================================================
+           ACTIONS
+        ===================================================== */
+
+        .action-card {
+            background: white;
+
+            border: 1px solid var(--border);
+
+            border-radius: 15px;
+
+            padding: 22px;
+
+            display: flex;
+
+            justify-content: center;
+
+            gap: 12px;
+
+            flex-wrap: wrap;
+
+            margin-top: 25px;
+        }
+
+
+        .btn-dashboard {
+            background: var(--primary);
+
+            color: white;
+
+            border: none;
+
+            padding: 11px 22px;
+
+            border-radius: 9px;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            text-decoration: none;
+        }
+
+
+        .btn-dashboard:hover {
+            background: var(--primary-dark);
+
+            color: white;
+        }
+
+
+        .btn-result {
+            background: white;
+
+            color: var(--primary);
+
+            border: 1px solid #bfdbfe;
+
+            padding: 11px 22px;
+
+            border-radius: 9px;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            text-decoration: none;
+        }
+
+
+        .btn-result:hover {
+            background: #eff6ff;
+
+            color: var(--primary-dark);
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media (max-width: 767px) {
+
+            .main-wrapper {
+                padding: 20px 15px 40px;
+            }
+
+
+            .page-title {
+                font-size: 21px;
+            }
+
+
+            .question-header {
+                flex-wrap: wrap;
+            }
+
+
+            .question-text {
+                flex-basis: calc(100% - 55px);
+            }
+
+
+            .marks-badge {
+                margin-left: 51px;
+            }
+
+
+            .exam-info {
+                flex-direction: column;
+            }
+
+
+            .action-card {
+                flex-direction: column;
+            }
+
+
+            .action-card a {
+                width: 100%;
+
+                text-align: center;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     NAVBAR
+========================================================= -->
+
+<nav class="navbar-custom">
+
+    <div class="container-fluid px-4 h-100
+                d-flex align-items-center">
+
+        <a
+                href="/student/dashboard"
+                class="brand">
+
+            <div class="brand-icon">
+
+                <i class="bi bi-mortarboard-fill"></i>
+
+            </div>
+
+            <div>
+                Online <span>Exam</span>
+            </div>
+
+        </a>
+
+    </div>
+
+</nav>
+
+
+<!-- =========================================================
+     MAIN
+========================================================= -->
+
+<main class="main-wrapper">
+
+
+    <!-- =====================================================
+         PAGE HEADER
+    ====================================================== -->
+
+    <div class="page-header">
+
+        <div class="page-title">
+
+            <i class="bi bi-list-check text-primary me-2"></i>
+
+            Detailed Answer Review
+
+        </div>
+
+
+        <p class="page-subtitle">
+
+            Review your answers, correct answers and marks
+            for this examination.
+
+        </p>
+
+
+        <div class="exam-info">
+
+
+            <!-- EXAM -->
+
+            <div class="exam-info-item">
+
+                <strong>Exam:</strong>
+
+                <span th:text="${exam.title}">
+                    Python Programming
+                </span>
+
+            </div>
+
+
+            <!-- SCORE -->
+
+            <div class="exam-info-item">
+
+                <strong>Score:</strong>
+
+                <span th:text="${attempt.score}">
+                    9
+                </span>
+
+                /
+
+                <span th:text="${attempt.totalMarks}">
+                    30
+                </span>
+
+            </div>
+
+
+            <!-- PERCENTAGE -->
+
+            <div class="exam-info-item">
+
+                <strong>Percentage:</strong>
+
+                <span
+                        th:text="${#numbers.formatDecimal(attempt.percentage, 1, 2) + '%'}">
+
+                    30.00%
+
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         ALL QUESTIONS
+
+         IMPORTANT:
+         We loop through "questions", NOT "answers".
+
+         This allows unanswered questions to appear.
+    ====================================================== -->
+
+    <div th:if="${questions != null and !questions.isEmpty()}">
+
+
+        <div
+                class="question-card"
+                th:each="question, stat : ${questions}">
+
+
+            <!-- =================================================
+                 QUESTION HEADER
+            ================================================== -->
+
+            <div class="question-header">
+
+
+                <!-- QUESTION NUMBER -->
+
+                <div
+                        class="question-number"
+                        th:text="${stat.count}">
+
+                    1
+
+                </div>
+
+
+                <!-- QUESTION TEXT -->
+
+                <div
+                        class="question-text"
+                        th:text="${question.questionText}">
+
+                    Which keyword is used to define a function
+                    in Python?
+
+                </div>
+
+
+                <!-- MARKS -->
+
+                <div class="marks-badge">
+
+                    <span
+                            th:text="${answerMap[question.id] != null
+                                ? answerMap[question.id].marksObtained
+                                : 0}">
+
+                        0
+
+                    </span>
+
+                    /
+
+                    <span
+                            th:text="${question.marks}">
+
+                        3
+
+                    </span>
+
+                    Marks
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 GET STUDENT ANSWER
+
+                 answerMap[question.id]
+
+                 If null:
+                 student did not answer this question.
+            ================================================== -->
+
+
+            <!-- =================================================
+                 CORRECT STATUS
+            ================================================== -->
+
+            <div
+                    th:if="${answerMap[question.id] != null
+                            and answerMap[question.id].correct}">
+
+                <div class="result-status status-correct">
+
+                    <i class="bi bi-check-circle-fill"></i>
+
+                    Correct Answer
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 WRONG STATUS
+            ================================================== -->
+
+            <div
+                    th:if="${answerMap[question.id] != null
+                            and !answerMap[question.id].correct}">
+
+                <div class="result-status status-wrong">
+
+                    <i class="bi bi-x-circle-fill"></i>
+
+                    Wrong Answer
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 UNANSWERED STATUS
+            ================================================== -->
+
+            <div
+                    th:if="${answerMap[question.id] == null}">
+
+                <div class="result-status status-unanswered">
+
+                    <i class="bi bi-exclamation-circle-fill"></i>
+
+                    Unanswered
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 YOUR ANSWER
+            ================================================== -->
+
+            <div class="answer-box your-answer">
+
+
+                <div class="answer-label">
+
+                    <i class="bi bi-person-check me-1"></i>
+
+                    Your Answer
+
+                </div>
+
+
+                <!-- Student selected an option -->
+
+                <div
+                        class="answer-text"
+                        th:if="${answerMap[question.id] != null
+                                and answerMap[question.id].selectedOption != null}">
+
+
+                    <strong
+                            th:text="${answerMap[question.id].selectedOption.optionLabel}">
+
+                        C
+
+                    </strong>
+
+                    -
+
+                    <span
+                            th:text="${answerMap[question.id].selectedOption.optionText}">
+
+                        func
+
+                    </span>
+
+                </div>
+
+
+                <!-- Student did not answer -->
+
+                <div
+                        class="answer-text"
+                        th:if="${answerMap[question.id] == null
+                                or answerMap[question.id].selectedOption == null}">
+
+                    <span class="text-muted">
+
+                        Not Answered
+
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 CORRECT ANSWER
+            ================================================== -->
+
+            <div
+                    class="answer-box correct-answer"
+                    th:if="${correctOptions[question.id] != null}">
+
+
+                <div class="answer-label">
+
+                    <i class="bi bi-check-circle me-1"></i>
+
+                    Correct Answer
+
+                </div>
+
+
+                <div class="answer-text">
+
+
+                    <strong
+                            th:text="${correctOptions[question.id].optionLabel}">
+
+                        A
+
+                    </strong>
+
+                    -
+
+                    <span
+                            th:text="${correctOptions[question.id].optionText}">
+
+                        def
+
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 RESULT MESSAGE - CORRECT
+            ================================================== -->
+
+            <div
+                    class="answer-box correct-answer"
+                    th:if="${answerMap[question.id] != null
+                            and answerMap[question.id].correct}">
+
+                <div class="answer-text">
+
+                    <i class="bi bi-check-circle-fill text-success me-1"></i>
+
+                    <strong class="text-success">
+                        Correct!
+                    </strong>
+
+                    You selected the correct answer.
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 RESULT MESSAGE - WRONG
+            ================================================== -->
+
+            <div
+                    class="answer-box wrong-answer"
+                    th:if="${answerMap[question.id] != null
+                            and !answerMap[question.id].correct}">
+
+                <div class="answer-text">
+
+                    <i class="bi bi-x-circle-fill text-danger me-1"></i>
+
+                    <strong class="text-danger">
+                        Incorrect
+                    </strong>
+
+                    Your selected answer was incorrect.
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 RESULT MESSAGE - UNANSWERED
+            ================================================== -->
+
+            <div
+                    class="answer-box unanswered-answer"
+                    th:if="${answerMap[question.id] == null}">
+
+                <div class="answer-text">
+
+                    <i class="bi bi-dash-circle-fill me-1"
+                       style="color:#b45309;">
+                    </i>
+
+                    <strong style="color:#b45309;">
+                        Not Answered
+                    </strong>
+
+                    You did not select an answer for this question.
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         NO QUESTIONS
+    ====================================================== -->
+
+    <div
+            th:if="${questions == null or questions.isEmpty()}"
+            class="question-card text-center">
+
+
+        <i
+                class="bi bi-info-circle text-warning"
+                style="font-size: 40px;">
+        </i>
+
+
+        <h5 class="mt-3">
+
+            No Questions Available
+
+        </h5>
+
+
+        <p class="text-muted mb-0">
+
+            There are no questions available for this examination.
+
+        </p>
+
+    </div>
+
+
+    <!-- =====================================================
+         ACTION BUTTONS
+    ====================================================== -->
+
+    <div class="action-card">
+
+
+        <!-- BACK TO RESULT -->
+
+        <a
+                th:href="@{/student/result(attemptId=${attempt.id})}"
+                class="btn-result">
+
+            <i class="bi bi-arrow-left me-1"></i>
+
+            Back to Result
+
+        </a>
+
+
+        <!-- DASHBOARD -->
+
+        <a
+                href="/student/dashboard"
+                class="btn-dashboard">
+
+            <i class="bi bi-grid-1x2-fill me-1"></i>
+
+            Dashboard
+
+        </a>
+
+    </div>
+
+
+</main>
+
+
+<!-- =========================================================
+     BOOTSTRAP JS
+========================================================= -->
+
+<script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+
+</body>
+
+</html>

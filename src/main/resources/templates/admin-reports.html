@@ -1,0 +1,1582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Reports | Online Examination System</title>
+
+    <!-- Bootstrap 5.3 -->
+    <link
+            href= "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+            rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+
+        :root {
+            --primary: #2563EB;
+            --primary-dark: #1D4ED8;
+            --dark-blue: #1E40AF;
+            --page-bg: #F8FAFC;
+            --text: #172033;
+            --secondary: #64748B;
+            --border: #E2E8F0;
+            --success: #16A34A;
+            --danger: #DC2626;
+            --warning: #D97706;
+        }
+
+        body {
+            background: var(--page-bg);
+            color: var(--text);
+            font-family: Arial, sans-serif;
+        }
+
+        /* ================= NAVBAR ================= */
+
+        .admin-navbar {
+            background: #ffffff;
+            border-bottom: 1px solid var(--border);
+            height: 70px;
+        }
+
+        .brand-logo {
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            background: linear-gradient(
+                    135deg,
+                    var(--primary),
+                    var(--dark-blue)
+            );
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .brand-title {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .brand-subtitle {
+            font-size: 12px;
+            color: var(--secondary);
+        }
+
+        .admin-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #DBEAFE;
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+
+        /* ================= SIDEBAR ================= */
+
+        .sidebar {
+            position: fixed;
+            top: 70px;
+            left: 0;
+            width: 250px;
+            height: calc(100vh - 70px);
+            background: #ffffff;
+            border-right: 1px solid var(--border);
+            padding: 20px 14px;
+            overflow-y: auto;
+        }
+
+        .sidebar-title {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: .08em;
+            color: #94A3B8;
+            font-weight: 700;
+            padding: 10px 12px;
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 11px 13px;
+            margin-bottom: 5px;
+            border-radius: 9px;
+            color: #475569;
+            text-decoration: none;
+            font-size: 14px;
+            transition: .2s;
+        }
+
+        .sidebar-link:hover {
+            background: #EFF6FF;
+            color: var(--primary);
+        }
+
+        .sidebar-link.active {
+            background: #DBEAFE;
+            color: var(--primary-dark);
+            font-weight: 600;
+        }
+
+        .sidebar-link i {
+            font-size: 17px;
+        }
+
+        /* ================= MAIN ================= */
+
+        .main-content {
+            margin-left: 250px;
+            padding: 30px;
+        }
+
+        .page-title {
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .page-subtitle {
+            color: var(--secondary);
+            font-size: 14px;
+        }
+
+        /* ================= FILTER ================= */
+
+        .filter-card {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 20px;
+        }
+
+        .form-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #475569;
+        }
+
+        .form-control,
+        .form-select {
+            min-height: 42px;
+            border-color: var(--border);
+            font-size: 14px;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 .2rem rgba(37, 99, 235, .12);
+        }
+
+        /* ================= STAT CARDS ================= */
+
+        .stat-card {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 20px;
+            height: 100%;
+            transition: .2s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(15, 23, 42, .06);
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 21px;
+        }
+
+        .icon-blue {
+            background: #DBEAFE;
+            color: #2563EB;
+        }
+
+        .icon-green {
+            background: #DCFCE7;
+            color: #16A34A;
+        }
+
+        .icon-purple {
+            background: #F3E8FF;
+            color: #9333EA;
+        }
+
+        .icon-orange {
+            background: #FFEDD5;
+            color: #EA580C;
+        }
+
+        .stat-label {
+            color: var(--secondary);
+            font-size: 13px;
+            margin-top: 14px;
+        }
+
+        .stat-value {
+            font-size: 25px;
+            font-weight: 700;
+            margin-top: 3px;
+        }
+
+        /* ================= REPORT CARDS ================= */
+
+        .report-card {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 20px;
+            height: 100%;
+        }
+
+        .report-title {
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .report-subtitle {
+            color: var(--secondary);
+            font-size: 12px;
+        }
+
+        /* ================= DONUT ================= */
+
+        .donut-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .donut {
+            width: 190px;
+            height: 190px;
+            border-radius: 50%;
+            background: conic-gradient(
+                    var(--success) 0%,
+                    var(--success) var(--pass-rate, 0%),
+                    var(--danger) var(--pass-rate, 0%),
+                    var(--danger) 100%
+            );
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background .3s ease;
+        }
+
+        .donut-inner {
+            width: 125px;
+            height: 125px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .donut-value {
+            font-size: 28px;
+            font-weight: 800;
+        }
+
+        .donut-label {
+            font-size: 12px;
+            color: var(--secondary);
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+            font-size: 13px;
+        }
+
+        .legend-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .dot-green {
+            background: var(--success);
+        }
+
+        .dot-red {
+            background: var(--danger);
+        }
+
+        /* ================= BAR CHART ================= */
+
+        .chart-row {
+            margin-bottom: 18px;
+        }
+
+        .chart-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            margin-bottom: 7px;
+        }
+
+        .chart-name {
+            font-weight: 600;
+        }
+
+        .chart-value {
+            color: var(--secondary);
+        }
+
+        .progress {
+            height: 9px;
+            background: #E2E8F0;
+            border-radius: 20px;
+        }
+
+        .progress-bar {
+            border-radius: 20px;
+        }
+
+        /* ================= TABLE ================= */
+
+        .table-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            overflow: hidden;
+        }
+
+        .table-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .table thead th {
+            background: #F8FAFC;
+            color: #64748B;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: .04em;
+            font-weight: 700;
+            padding: 15px;
+            white-space: nowrap;
+        }
+
+        .table tbody td {
+            padding: 14px 15px;
+            vertical-align: middle;
+            font-size: 14px;
+            border-color: #F1F5F9;
+        }
+
+        .badge-pass {
+            background: #DCFCE7;
+            color: #15803D;
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+
+        .badge-fail {
+            background: #FEE2E2;
+            color: #B91C1C;
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+
+        /* ================= EMPTY STATE ================= */
+
+        .empty-state {
+            padding: 40px 20px;
+            text-align: center;
+            color: var(--secondary);
+        }
+
+        .empty-state i {
+            font-size: 34px;
+        }
+
+        .filter-summary {
+            color: var(--secondary);
+            font-size: 13px;
+        }
+
+        .table-responsive {
+            min-height: 120px;
+        }
+
+        @media (max-width: 575.98px) {
+            .main-content {
+                padding: 18px 12px;
+            }
+
+            .filter-card,
+            .report-card,
+            .stat-card {
+                padding: 16px;
+            }
+
+            .donut {
+                width: 155px;
+                height: 155px;
+            }
+
+            .donut-inner {
+                width: 105px;
+                height: 105px;
+            }
+
+            .donut-value {
+                font-size: 24px;
+            }
+        }
+
+        /* ================= MOBILE ================= */
+
+        .mobile-menu {
+            display: none;
+        }
+
+        @media (max-width: 991px) {
+
+            .sidebar {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                width: 250px;
+                height: calc(100vh - 70px);
+                border-right: 1px solid var(--border);
+                border-bottom: none;
+                display: none;
+                box-shadow: 8px 0 24px rgba(15, 23, 42, .10);
+            }
+
+            .sidebar.show-mobile {
+                display: block;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 20px 15px;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+        }
+
+
+        /* ================= NOTIFICATIONS ================= */
+        .admin-notification-wrapper { position: relative; }
+        .admin-notification-dropdown {
+            width: min(390px, calc(100vw - 24px));
+            max-height: min(70vh, 560px);
+            overflow: hidden;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            box-shadow: 0 12px 35px rgba(15, 23, 42, .16);
+            z-index: 1085;
+        }
+        .notification-header { padding: 14px 16px; border-bottom: 1px solid var(--border); }
+        .admin-notification-list { max-height: 440px; overflow-y: auto; }
+        .admin-notification-item { padding: 13px 15px; border-bottom: 1px solid #eef2f7; }
+        .admin-notification-item.unread { background: #eff6ff; }
+        .admin-notification-title { font-size: 13px; font-weight: 700; color: var(--text); }
+        .admin-notification-message { font-size: 12px; color: #64748b; overflow-wrap: anywhere; margin-top: 4px; }
+        .admin-notification-date { font-size: 11px; color: #94a3b8; margin-top: 5px; }
+        .admin-notification-actions { display:flex; gap:8px; align-items:center; margin-top:8px; }
+        .admin-notification-actions a { font-size:12px; text-decoration:none; }
+        .admin-notification-actions button { font-size:11px; padding:3px 8px; }
+        @media (max-width: 575.98px) {
+            .admin-navbar { height:auto; min-height:70px; padding-top:10px; padding-bottom:10px; }
+            .admin-navbar > .container-fluid { gap:10px; flex-wrap:wrap; }
+            .admin-navbar .brand-title { font-size:15px; }
+            .admin-navbar .brand-subtitle { font-size:11px; }
+            .admin-navbar .d-flex.align-items-center.gap-3 { gap:8px !important; }
+            .admin-notification-dropdown { position: fixed !important; top: 76px !important; right: 8px !important; left: auto !important; transform: none !important; }
+            .page-title { font-size:23px; }
+            .main-content { width:100%; }
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+
+<nav class="navbar admin-navbar px-3">
+
+    <div class="container-fluid">
+
+        <div class="d-flex align-items-center gap-3">
+
+            <button class="btn btn-light mobile-menu"
+                    onclick="toggleSidebar()">
+
+                <i class="bi bi-list fs-5"></i>
+
+            </button>
+
+            <div class="brand-logo">
+                OE
+            </div>
+
+            <div>
+
+                <div class="brand-title">
+                    Online Examination
+                </div>
+
+                <div class="brand-subtitle">
+                    Administration Panel
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="d-flex align-items-center gap-3">
+
+            <div class="dropdown admin-notification-wrapper" id="adminNotificationWrapper">
+                <button class="btn btn-light position-relative" type="button"
+                        id="adminNotificationBell" aria-expanded="false"
+                        aria-label="Notifications" title="Notifications">
+                    <i class="bi bi-bell fs-5"></i>
+                    <span id="adminNotificationBadge"
+                          class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                          style="display:none;">0</span>
+                </button>
+                <div class="dropdown-menu dropdown-menu-end admin-notification-dropdown p-0"
+                     id="adminNotificationDropdown" aria-labelledby="adminNotificationBell">
+                    <div class="notification-header d-flex justify-content-between align-items-center gap-2">
+                        <div>
+                            <div class="fw-bold">Notifications</div>
+                            <div class="small text-muted" id="adminNotificationCount">Loading...</div>
+                        </div>
+                        <button type="button" class="btn btn-sm btn-outline-primary"
+                                id="markAllAdminNotificationsRead">Mark all as read</button>
+                    </div>
+                    <div id="adminNotificationList" class="admin-notification-list">
+                        <div class="p-3 text-muted small">Loading notifications...</div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="admin-avatar"
+                 th:text="${session.userName != null
+         and !#strings.isEmpty(session.userName.trim())
+         ? #strings.substring(session.userName.trim(), 0, 1).toUpperCase()
+         : 'U'}">
+                U
+            </div>
+
+
+            <div class="d-none d-md-block">
+
+                <div class="fw-semibold"
+                     style="font-size:14px;"
+                     th:text="${session.userName != null
+         and !#strings.isEmpty(session.userName.trim())
+         ? session.userName
+         : 'Admin'}">
+                    Admin
+                </div>
+
+                <!--                <div class="text-muted"-->
+                <!--                     style="font-size:14px;"-->
+                <!--                     th:text="${session.role != null-->
+                <!--         ? session.role-->
+                <!--         : 'Administrator'}">-->
+                <!--                    Administrator-->
+                <!--                </div>-->
+
+            </div>
+
+
+            <button class="btn btn-light">
+
+                <i class="bi bi-box-arrow-right"></i>
+
+            </button>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+<!-- ================= SIDEBAR ================= -->
+
+<aside class="sidebar" id="sidebar">
+
+    <div class="sidebar-title">
+        Main Menu
+    </div>
+
+
+    <a href="/admin/dashboard"
+       class="sidebar-link">
+
+        <i class="bi bi-grid-1x2"></i>
+
+        Dashboard
+
+    </a>
+
+
+    <a href="/admin/exams"
+       class="sidebar-link">
+
+        <i class="bi bi-journal-text"></i>
+
+        Manage Exams
+
+    </a>
+
+
+    <a href="/admin/questions"
+       class="sidebar-link">
+
+        <i class="bi bi-question-circle"></i>
+
+        Questions
+
+    </a>
+
+
+    <a href="/admin/students"
+       class="sidebar-link">
+
+        <i class="bi bi-people"></i>
+
+        Students
+
+    </a>
+
+
+    <a href="/admin/results"
+       class="sidebar-link">
+
+        <i class="bi bi-bar-chart"></i>
+
+        Exam Results
+
+    </a>
+
+
+    <a href="/admin/support"
+       class="sidebar-link">
+
+        <i class="bi bi-headset"></i>
+
+        Support Tickets
+
+    </a>
+
+
+    <div class="sidebar-title mt-3">
+        Management
+    </div>
+
+
+    <a href="/admin/reports"
+       class="sidebar-link active">
+
+        <i class="bi bi-file-earmark-bar-graph"></i>
+
+        Reports
+
+    </a>
+
+
+    <a href="#"
+       class="sidebar-link">
+
+        <i class="bi bi-gear"></i>
+
+        Settings
+
+    </a>
+
+</aside>
+
+
+<!-- ================= MAIN ================= -->
+
+<main class="main-content">
+
+    <!-- Page Header -->
+
+    <div class="d-flex justify-content-between
+                align-items-start flex-wrap gap-3 mb-4">
+
+        <div>
+
+            <h1 class="page-title">
+                Reports & Analytics
+            </h1>
+
+            <p class="page-subtitle mb-0">
+                Analyze examination performance and student activity.
+            </p>
+
+        </div>
+
+
+        <button class="btn btn-primary"
+                onclick="exportReport()">
+
+            <i class="bi bi-download me-1"></i>
+
+            Export Report
+
+        </button>
+
+    </div>
+
+
+    <!-- ================= FILTER ================= -->
+
+    <div class="filter-card mb-4">
+
+        <form method="get" action="/admin/reports" id="reportFilterForm">
+
+            <div class="row g-3 align-items-end">
+
+                <div class="col-lg-4 col-md-6">
+                    <label class="form-label">
+                        Exam
+                    </label>
+
+                    <select class="form-select"
+                            id="examFilter"
+                            name="exam">
+
+                        <option value=""
+                                th:selected="${selectedExam == null}">
+                            All Exams
+                        </option>
+
+                        <option th:each="exam : ${exams}"
+                                th:value="${exam.id}"
+                                th:text="${exam.title}"
+                                th:selected="${selectedExam != null && selectedExam == exam.id}">
+                        </option>
+
+                    </select>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <label class="form-label">
+                        From Date
+                    </label>
+
+                    <input type="date"
+                           class="form-control"
+                           id="fromDate"
+                           name="fromDate"
+                           th:value="${fromDate}">
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <label class="form-label">
+                        To Date
+                    </label>
+
+                    <input type="date"
+                           class="form-control"
+                           id="toDate"
+                           name="toDate"
+                           th:value="${toDate}">
+                </div>
+
+                <div class="col-lg-2 col-md-6">
+                    <div class="d-flex gap-2">
+
+                        <button type="submit"
+                                class="btn btn-primary flex-grow-1">
+                            <i class="bi bi-filter me-1"></i>
+                            Apply
+                        </button>
+
+                        <a href="/admin/reports"
+                           class="btn btn-outline-secondary"
+                           title="Reset filters">
+                            <i class="bi bi-arrow-counterclockwise"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </form>
+
+        <div class="filter-summary mt-3"
+             th:if="${selectedExam != null || fromDate != null || toDate != null}">
+            <i class="bi bi-funnel me-1"></i>
+            Filters are currently applied.
+        </div>
+
+    </div>
+
+
+    <!-- ================= STAT CARDS ================= -->
+
+    <div class="row g-3 mb-4">
+
+        <!-- Exams -->
+
+        <div class="col-xl-3 col-md-6">
+
+            <div class="stat-card">
+
+                <div class="d-flex justify-content-between">
+
+                    <div>
+
+                        <div class="stat-label">
+                            Total Exams
+                        </div>
+
+                        <div class="stat-value"
+                             th:text="${totalExams}">
+                            0
+                        </div>
+
+                    </div>
+
+                    <div class="stat-icon icon-blue">
+
+                        <i class="bi bi-journal-text"></i>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Students -->
+
+        <div class="col-xl-3 col-md-6">
+
+            <div class="stat-card">
+
+                <div class="d-flex justify-content-between">
+
+                    <div>
+
+                        <div class="stat-label">
+                            Total Students
+                        </div>
+
+                        <div class="stat-value"
+                             th:text="${totalStudents}">
+                            0
+                        </div>
+
+                    </div>
+
+                    <div class="stat-icon icon-green">
+
+                        <i class="bi bi-people"></i>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Attempts -->
+
+        <div class="col-xl-3 col-md-6">
+
+            <div class="stat-card">
+
+                <div class="d-flex justify-content-between">
+
+                    <div>
+
+                        <div class="stat-label">
+                            Total Attempts
+                        </div>
+
+                        <div class="stat-value"
+                             th:text="${totalAttempts}">
+                            0
+                        </div>
+
+                    </div>
+
+                    <div class="stat-icon icon-purple">
+
+                        <i class="bi bi-clipboard-check"></i>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Average -->
+
+        <div class="col-xl-3 col-md-6">
+
+            <div class="stat-card">
+
+                <div class="d-flex justify-content-between">
+
+                    <div>
+
+                        <div class="stat-label">
+                            Average Score
+                        </div>
+
+                        <div class="stat-value">
+                            <span th:text="${averageScore}">0</span>%
+                        </div>
+
+                    </div>
+
+                    <div class="stat-icon icon-orange">
+
+                        <i class="bi bi-graph-up-arrow"></i>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= CHARTS ================= -->
+
+    <div class="row g-4 mb-4">
+
+        <!-- PASS FAIL -->
+
+        <div class="col-lg-5">
+
+            <div class="report-card">
+
+                <div class="report-title">
+                    Pass vs Fail
+                </div>
+
+                <div class="report-subtitle mb-3">
+                    Based on completed and auto-submitted attempts
+                </div>
+
+                <div class="row align-items-center">
+
+                    <div class="col-md-7">
+
+                        <div class="donut-wrapper">
+
+                            <div class="donut"
+                                 th:style="'--pass-rate:' + ${passRate} + '%'">
+
+                                <div class="donut-inner">
+
+                                    <div class="donut-value">
+                                        <span th:text="${passRate}">0</span>%
+                                    </div>
+
+                                    <div class="donut-label">
+                                        Pass Rate
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-5">
+
+                        <div class="legend-item">
+                            <span class="legend-dot dot-green"></span>
+                            <span>
+                                Passed -
+                                <strong th:text="${passedAttempts}">0</strong>
+                            </span>
+                        </div>
+
+                        <div class="legend-item">
+                            <span class="legend-dot dot-red"></span>
+                            <span>
+                                Failed -
+                                <strong th:text="${failedAttempts}">0</strong>
+                            </span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- EXAM PERFORMANCE -->
+
+        <div class="col-lg-7">
+
+            <div class="report-card">
+
+                <div class="report-title">
+                    Exam-wise Performance
+                </div>
+
+                <div class="report-subtitle mb-4">
+                    Average percentage by examination
+                </div>
+
+
+                <div th:if="${#lists.isEmpty(examPerformance)}"
+                     class="empty-state">
+
+                    <i class="bi bi-bar-chart"></i>
+
+                    <div class="mt-2">
+                        No examination performance data available.
+                    </div>
+
+                </div>
+
+
+                <div th:each="performance, performanceStat : ${examPerformance}"
+                     class="chart-row"
+                     th:classappend="${performanceStat.last} ? 'mb-0' : ''">
+
+                    <div class="chart-label">
+
+                        <span class="chart-name"
+                              th:text="${performance.examTitle}">
+                            Exam
+                        </span>
+
+                        <span class="chart-value"
+                              th:text="${performance.averagePercentage + '%'}">
+                            0%
+                        </span>
+
+                    </div>
+
+                    <div class="progress">
+
+                        <div class="progress-bar bg-primary"
+                             role="progressbar"
+                             th:style="'width:' + ${performance.averagePercentage} + '%;'"
+                             th:attr="aria-valuenow=${performance.averagePercentage}"
+                             aria-valuemin="0"
+                             aria-valuemax="100">
+                        </div>
+
+                    </div>
+
+                    <div class="small text-muted mt-1"
+                         th:text="${performance.attempts + ' attempts'}">
+                        0 attempts
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ================= ANSWER ANALYTICS ================= -->
+
+    <div class="row g-3 mb-4">
+
+        <div class="col-lg-4 col-md-6">
+            <div class="stat-card answer-card">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <div class="stat-label">Correct Answers</div>
+                        <div class="stat-value text-success"
+                             th:text="${totalCorrect}">0</div>
+                    </div>
+                    <div class="stat-icon icon-green">
+                        <i class="bi bi-check-circle"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6">
+            <div class="stat-card answer-card">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <div class="stat-label">Wrong Answers</div>
+                        <div class="stat-value text-danger"
+                             th:text="${totalWrong}">0</div>
+                    </div>
+                    <div class="stat-icon"
+                         style="background:#FEE2E2;color:#DC2626;">
+                        <i class="bi bi-x-circle"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6">
+            <div class="stat-card answer-card">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <div class="stat-label">Unanswered</div>
+                        <div class="stat-value text-warning"
+                             th:text="${totalUnanswered}">0</div>
+                    </div>
+                    <div class="stat-icon icon-orange">
+                        <i class="bi bi-dash-circle"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ================= RECENT PERFORMANCE ================= -->
+
+    <div class="table-card">
+
+        <div class="table-header">
+
+            <div class="d-flex justify-content-between
+                        align-items-center flex-wrap gap-2">
+
+                <div>
+                    <div class="report-title">
+                        Recent Performance
+                    </div>
+
+                    <div class="report-subtitle">
+                        Latest completed and auto-submitted attempts
+                    </div>
+                </div>
+
+                <a href="/admin/results"
+                   class="btn btn-outline-primary btn-sm">
+                    View All Results
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="table-responsive">
+
+            <table class="table mb-0"
+                   id="reportTable">
+
+                <thead>
+                <tr>
+                    <th>Student</th>
+                    <th>Exam</th>
+                    <th>Date</th>
+                    <th>Score</th>
+                    <th>Percentage</th>
+                    <th>Correct</th>
+                    <th>Wrong</th>
+                    <th>Unanswered</th>
+                    <th>Status</th>
+                </tr>
+                </thead>
+
+
+                <tbody>
+
+                <tr th:each="attempt : ${recentAttempts}">
+
+                    <td>
+                        <strong th:text="${attempt.user.fullName}">
+                            Student
+                        </strong>
+                    </td>
+
+                    <td th:text="${attempt.exam.title}">
+                        Exam
+                    </td>
+
+                    <td th:text="${attempt.submittedAt != null
+                            ? #temporals.format(attempt.submittedAt, 'dd MMM yyyy HH:mm')
+                            : (attempt.startedAt != null
+                                ? #temporals.format(attempt.startedAt, 'dd MMM yyyy HH:mm')
+                                : '-')}"
+                        class="text-nowrap">
+                        -
+                    </td>
+
+                    <td>
+                        <strong>
+                            <span th:text="${attempt.score != null ? attempt.score : 0}">
+                                0
+                            </span>
+                            /
+                            <span th:text="${attempt.totalMarks != null
+                                    ? attempt.totalMarks
+                                    : attempt.exam.totalMarks}">
+                                0
+                            </span>
+                        </strong>
+                    </td>
+
+                    <td>
+                        <strong>
+                            <span th:text="${attempt.percentage != null
+                                    ? attempt.percentage
+                                    : 0}">
+                                0
+                            </span>%
+                        </strong>
+                    </td>
+
+                    <td class="text-success fw-semibold"
+                        th:text="${attempt.correctAnswers != null
+                                ? attempt.correctAnswers
+                                : 0}">
+                        0
+                    </td>
+
+                    <td class="text-danger fw-semibold"
+                        th:text="${attempt.wrongAnswers != null
+                                ? attempt.wrongAnswers
+                                : 0}">
+                        0
+                    </td>
+
+                    <td class="text-warning fw-semibold"
+                        th:text="${attempt.unanswered != null
+                                ? attempt.unanswered
+                                : 0}">
+                        0
+                    </td>
+
+                    <td>
+
+                        <span th:if="${attempt.score != null
+                                && attempt.exam.passingMarks != null
+                                && attempt.score >= attempt.exam.passingMarks}"
+                              class="badge-pass">
+                            Passed
+                        </span>
+
+                        <span th:if="${attempt.score == null
+                                || attempt.exam.passingMarks == null
+                                || attempt.score < attempt.exam.passingMarks}"
+                              class="badge-fail">
+                            Failed
+                        </span>
+
+                    </td>
+
+                </tr>
+
+
+                <tr th:if="${#lists.isEmpty(recentAttempts)}">
+
+                    <td colspan="9"
+                        class="empty-state">
+
+                        <i class="bi bi-inbox"></i>
+
+                        <div class="mt-2">
+                            No examination attempts found for the selected filters.
+                        </div>
+
+                    </td>
+
+                </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</main>
+
+
+<!-- ================= BOOTSTRAP ================= -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+
+<script>
+
+    // =========================================================
+    // MOBILE SIDEBAR
+    // =========================================================
+
+    function toggleSidebar() {
+        const sidebar = document.getElementById("sidebar");
+        sidebar.classList.toggle("show-mobile");
+    }
+
+
+    // Close mobile sidebar when clicking outside it
+    document.addEventListener("click", function (event) {
+
+        const sidebar = document.getElementById("sidebar");
+        const menuButton = document.querySelector(".mobile-menu");
+
+        if (
+            window.innerWidth <= 991 &&
+            sidebar.classList.contains("show-mobile") &&
+            !sidebar.contains(event.target) &&
+            !menuButton.contains(event.target)
+        ) {
+            sidebar.classList.remove("show-mobile");
+        }
+    });
+
+
+    // Close sidebar on ESC
+    document.addEventListener("keydown", function (event) {
+
+        if (event.key === "Escape") {
+
+            const sidebar = document.getElementById("sidebar");
+
+            if (sidebar) {
+                sidebar.classList.remove("show-mobile");
+            }
+        }
+    });
+
+
+    // =========================================================
+    // FILTER VALIDATION
+    // =========================================================
+
+    const filterForm =
+        document.getElementById("reportFilterForm");
+
+    if (filterForm) {
+
+        filterForm.addEventListener("submit", function (event) {
+
+            const fromDate =
+                document.getElementById("fromDate").value;
+
+            const toDate =
+                document.getElementById("toDate").value;
+
+
+            if (fromDate && toDate && fromDate > toDate) {
+
+                event.preventDefault();
+
+                alert(
+                    "From Date cannot be greater than To Date."
+                );
+
+                return;
+            }
+        });
+    }
+
+
+    // =========================================================
+    // BACKEND CSV EXPORT
+    // =========================================================
+
+    function exportReport() {
+
+        const exam =
+            document.getElementById("examFilter").value;
+
+        const fromDate =
+            document.getElementById("fromDate").value;
+
+        const toDate =
+            document.getElementById("toDate").value;
+
+        if (fromDate && toDate && fromDate > toDate) {
+            alert("From Date cannot be greater than To Date.");
+            return;
+        }
+
+        const params = new URLSearchParams();
+
+        if (exam) {
+            params.append("exam", exam);
+        }
+
+        if (fromDate) {
+            params.append("fromDate", fromDate);
+        }
+
+        if (toDate) {
+            params.append("toDate", toDate);
+        }
+
+        const query = params.toString();
+
+        window.location.href =
+            "/admin/reports/export" +
+            (query ? "?" + query : "");
+    }
+
+</script>
+
+
+<script>
+    (function () {
+        const bell = document.getElementById('adminNotificationBell');
+        const dropdown = document.getElementById('adminNotificationDropdown');
+        const badge = document.getElementById('adminNotificationBadge');
+        const list = document.getElementById('adminNotificationList');
+        const count = document.getElementById('adminNotificationCount');
+        const markAllButton = document.getElementById('markAllAdminNotificationsRead');
+        if (!bell || !dropdown || !badge || !list || !count) return;
+
+        let loading = false;
+        let refreshAgain = false;
+        const esc = value => String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+        function updateBadge(value) {
+            const unread = Math.max(0, Number(value) || 0);
+            badge.textContent = unread > 9 ? '9+' : String(unread);
+            badge.style.display = unread ? 'inline-block' : 'none';
+            badge.setAttribute('aria-label', unread + ' unread notifications');
+            if (markAllButton) markAllButton.disabled = unread === 0;
+        }
+        function dateText(value) {
+            if (!value) return '';
+            const date = new Date(value);
+            return Number.isNaN(date.getTime()) ? String(value) : date.toLocaleString();
+        }
+        async function loadNotifications() {
+            if (loading) { refreshAgain = true; return; }
+            loading = true;
+            try {
+                const response = await fetch('/admin/notifications', {
+                    method: 'GET', credentials: 'same-origin', cache: 'no-store',
+                    headers: { 'Accept': 'application/json' }
+                });
+                if (!response.ok) throw new Error('Could not load notifications (HTTP ' + response.status + ').');
+                const data = await response.json();
+                const items = Array.isArray(data.items) ? data.items : [];
+                const unreadCount = Math.max(0, Number(data.unreadCount) || 0);
+                updateBadge(unreadCount);
+                count.textContent = unreadCount + ' unread · ' + items.length + ' total';
+                if (!items.length) { list.innerHTML = '<div class="p-3 text-muted small">No notifications yet.</div>'; return; }
+                list.innerHTML = items.map(item => {
+                    const id = Number(item.id);
+                    const url = typeof item.targetUrl === 'string' && item.targetUrl.startsWith('/') ? item.targetUrl : '/admin/dashboard';
+                    const isRead = item.read === true;
+                    return '<div class="admin-notification-item ' + (isRead ? '' : 'unread') + '" data-notification-id="' + id + '">' +
+                        '<div class="admin-notification-title">' + esc(item.title || 'Notification') + (isRead ? '' : ' <span class="badge bg-primary ms-1">New</span>') + '</div>' +
+                        '<div class="admin-notification-message">' + esc(item.message || '') + '</div>' +
+                        '<div class="admin-notification-date">' + esc(dateText(item.createdAt)) + '</div>' +
+                        '<div class="admin-notification-actions"><a href="' + esc(url) + '" data-notification-open="' + id + '">Open</a>' +
+                        (isRead ? '<span class="small text-muted">Read</span>' : '<button type="button" class="btn btn-sm btn-outline-secondary" data-notification-read="' + id + '">Mark as read</button>') + '</div></div>';
+                }).join('');
+            } catch (error) {
+                console.error('Notification loading failed:', error);
+                count.textContent = 'Unable to load';
+                list.innerHTML = '<div class="p-3 text-danger small">Unable to load notifications. Refresh the page or sign in again.</div>';
+            } finally {
+                loading = false;
+                if (refreshAgain) { refreshAgain = false; loadNotifications(); }
+            }
+        }
+        async function postRead(url) {
+            const response = await fetch(url, { method:'POST', credentials:'same-origin', cache:'no-store', headers:{'Accept':'application/json'} });
+            if (!response.ok) throw new Error('Mark-as-read request failed (HTTP ' + response.status + ').');
+        }
+        bell.addEventListener('click', async function (event) {
+            event.stopPropagation();
+            const opening = !dropdown.classList.contains('show');
+            dropdown.classList.toggle('show', opening);
+            bell.setAttribute('aria-expanded', String(opening));
+            if (opening) await loadNotifications();
+        });
+        document.addEventListener('click', function (event) {
+            if (!event.target.closest('#adminNotificationWrapper')) { dropdown.classList.remove('show'); bell.setAttribute('aria-expanded', 'false'); }
+        });
+        list.addEventListener('click', async function (event) {
+            const readButton = event.target.closest('[data-notification-read]');
+            const openLink = event.target.closest('[data-notification-open]');
+            const id = readButton ? readButton.dataset.notificationRead : (openLink ? openLink.dataset.notificationOpen : null);
+            if (!id) return;
+            if (readButton) event.preventDefault();
+            if (openLink) event.preventDefault();
+            try {
+                if (readButton || openLink) await postRead('/admin/notifications/' + encodeURIComponent(id) + '/read');
+                await loadNotifications();
+                if (openLink) window.location.href = openLink.getAttribute('href');
+            } catch (error) { console.error(error); alert('Could not update notification status. Please refresh and try again.'); }
+        });
+        if (markAllButton) markAllButton.addEventListener('click', async function () {
+            if (markAllButton.disabled || markAllButton.dataset.processing === 'true') return;
+            markAllButton.dataset.processing = 'true';
+            markAllButton.disabled = true;
+            const originalText = markAllButton.textContent;
+            markAllButton.textContent = 'Marking...';
+            try {
+                await postRead('/admin/notifications/read-all');
+                await loadNotifications();
+            } catch (error) { console.error(error); alert('Could not mark all notifications as read. Check that you are logged in as admin.'); }
+            finally { markAllButton.textContent = originalText; delete markAllButton.dataset.processing; await loadNotifications(); }
+        });
+        loadNotifications();
+        window.setInterval(loadNotifications, 30000);
+    })();
+</script>
+
+</body>
+</html>

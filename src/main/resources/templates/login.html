@@ -1,0 +1,3024 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th= "http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Online Examination System</title>
+
+    <!-- Bootstrap -->
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+            rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+            rel="stylesheet">
+
+
+    <style>
+
+        /* =========================================================
+           GLOBAL
+        ========================================================= */
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            min-height: 100%;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            color: #101a35;
+            background: #f4f8ff;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+
+        /* =========================================================
+           NAVBAR
+        ========================================================= */
+
+        .navbar {
+            height: 76px;
+            background: #ffffff;
+
+            border-bottom: 1px solid #e8edf5;
+
+            box-shadow:
+                    0 2px 12px
+                    rgba(15, 23, 42, 0.04);
+
+            position: relative;
+            z-index: 100;
+        }
+
+
+        .navbar-container {
+            width: 100%;
+            max-width: 1500px;
+
+            height: 100%;
+
+            margin: auto;
+
+            padding:
+                    0 45px;
+
+            display: flex;
+            align-items: center;
+        }
+
+
+        /* BRAND */
+
+        .brand {
+            display: flex;
+            align-items: center;
+
+            gap: 12px;
+
+            color: #111a36;
+
+            font-size: 22px;
+            font-weight: 800;
+
+            letter-spacing: -0.6px;
+        }
+
+        .brand:hover {
+            color: #111a36;
+        }
+
+
+        .brand-icon {
+            width: 48px;
+            height: 48px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 12px;
+
+            background:
+                    linear-gradient(
+                            135deg,
+                            #145ee8,
+                            #2c78f5
+                    );
+
+            color: white;
+
+            font-size: 25px;
+
+            box-shadow:
+                    0 7px 18px
+                    rgba(37, 99, 235, .25);
+        }
+
+
+        .brand-blue {
+            color: #1766e8;
+        }
+
+
+        /* NAV LINKS */
+
+        .nav-menu {
+            margin-left: auto;
+
+            display: flex;
+            align-items: center;
+
+            gap: 32px;
+        }
+
+
+        .nav-menu a {
+            color: #17213d;
+
+            font-size: 14px;
+            font-weight: 600;
+
+            transition: .2s ease;
+        }
+
+
+        .nav-menu a:hover {
+            color: #1766e8;
+        }
+
+
+        /* THEME */
+
+        .theme-button {
+            width: 46px;
+            height: 46px;
+
+            margin-left: 22px;
+
+            border-radius: 50%;
+
+            border:
+                    1px solid #e4eaf3;
+
+            background: #ffffff;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            color: #18233e;
+
+            cursor: pointer;
+
+            box-shadow:
+                    0 4px 12px
+                    rgba(15, 23, 42, .05);
+        }
+
+
+        /* ADMIN */
+
+        .admin-button {
+            height: 46px;
+
+            margin-left: 12px;
+
+            padding:
+                    0 21px;
+
+            border-radius: 10px;
+
+            background: #1766e8;
+
+            color: white !important;
+
+            display: flex;
+            align-items: center;
+
+            gap: 8px;
+
+            font-size: 14px;
+            font-weight: 700;
+
+            box-shadow:
+                    0 7px 18px
+                    rgba(37, 99, 235, .22);
+        }
+
+
+        /* =========================================================
+           HERO
+        ========================================================= */
+
+        .hero {
+            position: relative;
+
+            min-height:
+                    calc(100vh - 76px);
+
+            overflow: hidden;
+
+            background:
+                    linear-gradient(
+                            115deg,
+                            #0759e5 0%,
+                            #1769ed 40%,
+                            #74aaf1 74%,
+                            #edf7ff 100%
+                    );
+        }
+
+
+        /* BACKGROUND CIRCLES */
+
+        .circle-one {
+            position: absolute;
+
+            width: 650px;
+            height: 650px;
+
+            border-radius: 50%;
+
+            background:
+                    rgba(255,255,255,.08);
+
+            top: -380px;
+            left: 30%;
+        }
+
+
+        .circle-two {
+            position: absolute;
+
+            width: 480px;
+            height: 480px;
+
+            border-radius: 50%;
+
+            background:
+                    rgba(255,255,255,.07);
+
+            bottom: -330px;
+            left: -170px;
+        }
+
+
+        .circle-three {
+            position: absolute;
+
+            width: 400px;
+            height: 400px;
+
+            border-radius: 50%;
+
+            background:
+                    rgba(255,255,255,.055);
+
+            right: 20%;
+            top: 22%;
+        }
+
+
+        /* =========================================================
+           HERO CONTAINER
+        ========================================================= */
+
+        .hero-container {
+            width: 100%;
+            max-width: 1500px;
+
+            min-height:
+                    calc(100vh - 76px);
+
+            margin: auto;
+
+            padding:
+                    30px 45px 25px;
+
+            position: relative;
+
+            z-index: 5;
+        }
+
+
+        /* =========================================================
+           MAIN GRID
+        ========================================================= */
+
+        .main-content {
+
+            min-height:
+                    calc(100vh - 155px);
+
+            display: grid;
+
+            /*
+               LEFT      CENTER       RIGHT
+               35%        40%          25%
+            */
+
+            grid-template-columns:
+                    35% 40% 25%;
+
+            align-items: center;
+        }
+
+
+        /* =========================================================
+           LEFT CONTENT
+        ========================================================= */
+
+        .left-content {
+
+            color: #ffffff;
+
+            padding-left: 8px;
+
+            position: relative;
+
+            z-index: 10;
+        }
+
+
+        .small-badge {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            padding:
+                    8px 17px;
+
+            border:
+                    1px solid
+                    rgba(255,255,255,.35);
+
+            border-radius: 30px;
+
+            background:
+                    rgba(255,255,255,.10);
+
+            font-size: 12px;
+
+            font-weight: 600;
+
+            margin-bottom: 22px;
+        }
+
+
+        .main-heading {
+
+            margin: 0;
+
+            font-size:
+                    clamp(48px, 5vw, 72px);
+
+            line-height: .94;
+
+            letter-spacing: -3px;
+
+            font-weight: 850;
+        }
+
+
+        .main-heading .highlight {
+
+            display: block;
+
+            color: #23e4dc;
+        }
+
+
+        .description {
+
+            max-width: 480px;
+
+            margin:
+                    23px 0 27px;
+
+            font-size: 15px;
+
+            line-height: 1.65;
+
+            color:
+                    rgba(255,255,255,.91);
+        }
+
+
+        /* =========================================================
+           FEATURES
+        ========================================================= */
+
+        .feature-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                    repeat(2, 1fr);
+
+            gap:
+                    17px 20px;
+
+            max-width: 530px;
+        }
+
+
+        .feature {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+        }
+
+
+        .feature-icon {
+
+            width: 43px;
+            height: 43px;
+
+            flex-shrink: 0;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 11px;
+
+            background:
+                    rgba(255,255,255,.12);
+
+            border:
+                    1px solid
+                    rgba(255,255,255,.18);
+
+            font-size: 18px;
+        }
+
+
+        .feature-title {
+
+            font-size: 12px;
+
+            font-weight: 800;
+        }
+
+
+        .feature-text {
+
+            margin-top: 2px;
+
+            font-size: 10px;
+
+            line-height: 1.3;
+
+            color:
+                    rgba(255,255,255,.75);
+        }
+
+
+        /* =========================================================
+           CENTER VISUAL
+        ========================================================= */
+
+        .visual-area {
+
+            height: 590px;
+
+            position: relative;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            /*
+               Keep complete illustration
+               inside center area.
+            */
+            z-index: 10;
+        }
+
+
+        .visual-glow {
+
+            position: absolute;
+
+            width: 550px;
+            height: 550px;
+
+            border-radius: 50%;
+
+            background:
+                    radial-gradient(
+                            circle,
+                            rgba(255,255,255,.27),
+                            rgba(255,255,255,0)
+                    );
+        }
+
+
+        /* DOTS */
+
+        .dots {
+
+            position: absolute;
+
+            top: 7%;
+            right: 8%;
+
+            width: 85px;
+            height: 70px;
+
+            background-image:
+                    radial-gradient(
+                            rgba(255,255,255,.8) 3px,
+                            transparent 3px
+                    );
+
+            background-size: 17px 17px;
+        }
+
+
+        /* ORBIT */
+
+        .orbit {
+
+            position: absolute;
+
+            width: 270px;
+            height: 270px;
+
+            border:
+                    1px dashed
+                    rgba(255,255,255,.55);
+
+            border-radius: 50%;
+
+            top: 12%;
+            left: 28%;
+        }
+
+
+        /* =========================================================
+           FLOATING ICONS
+        ========================================================= */
+
+        .float-icon {
+
+            position: absolute;
+
+            width: 65px;
+            height: 65px;
+
+            border-radius: 50%;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            background:
+                    rgba(255,255,255,.92);
+
+            color: #101a35;
+
+            font-size: 23px;
+
+            box-shadow:
+                    0 12px 25px
+                    rgba(15,23,42,.12);
+
+            z-index: 20;
+        }
+
+
+        .cap-icon {
+            top: 10%;
+            left: 42%;
+        }
+
+
+        .document-icon {
+
+            top: 29%;
+            left: 10%;
+
+            color: #1766e8;
+        }
+
+
+        .bulb-icon {
+
+            left: 5%;
+            top: 51%;
+
+            background: #ffbd27;
+
+            color: white;
+        }
+
+
+        /* =========================================================
+           STUDENT ILLUSTRATION
+        ========================================================= */
+
+        .student {
+
+            position: absolute;
+
+            width: 410px;
+            height: 400px;
+
+            left: 13%;
+            top: 25%;
+
+            z-index: 8;
+        }
+
+
+        /* =========================================================
+           EXAM SCREEN
+        ========================================================= */
+
+        .exam-screen {
+
+            position: absolute;
+
+            width: 205px;
+            height: 255px;
+
+            /*
+               IMPORTANT:
+               Move exam panel left so it doesn't sit
+               directly under login card.
+            */
+
+            right: 15%;
+
+            top: 24%;
+
+            z-index: 15;
+
+            transform:
+                    rotate(5deg);
+
+            border-radius: 15px;
+
+            background: #ffffff;
+
+            box-shadow:
+                    0 20px 35px
+                    rgba(15,23,42,.20);
+
+            overflow: hidden;
+        }
+
+
+        .screen-top {
+
+            height: 39px;
+
+            background: #1766e8;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 5px;
+
+            padding-left: 13px;
+        }
+
+
+        .screen-top span {
+
+            width: 6px;
+            height: 6px;
+
+            border-radius: 50%;
+
+            background: white;
+        }
+
+
+        .screen-body {
+            padding: 16px;
+        }
+
+
+        .screen-line {
+
+            height: 7px;
+
+            width: 100%;
+
+            margin-bottom: 8px;
+
+            border-radius: 10px;
+
+            background: #b8c3d5;
+        }
+
+
+        .screen-line.small {
+            width: 65%;
+        }
+
+
+        .answer {
+
+            height: 34px;
+
+            margin-top: 9px;
+
+            border-radius: 9px;
+
+            background: #f1f5fa;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            padding: 0 10px;
+
+            color: #5c6980;
+
+            font-size: 11px;
+        }
+
+
+        .answer.active {
+
+            background: #cfe1ff;
+
+            color: #1766e8;
+
+            font-weight: 700;
+        }
+
+
+        .answer-circle {
+
+            width: 13px;
+            height: 13px;
+
+            border-radius: 50%;
+
+            border:
+                    2px solid #246be8;
+        }
+
+
+        .active .answer-circle {
+
+            background: #246be8;
+
+            box-shadow:
+                    inset 0 0 0 3px white;
+        }
+
+
+        /* =========================================================
+           TIMER
+        ========================================================= */
+
+        .timer {
+
+            position: absolute;
+
+            /*
+               Timer stays with illustration.
+            */
+
+            right: 9%;
+
+            top: 54%;
+
+            z-index: 25;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            padding:
+                    9px 13px;
+
+            border-radius: 11px;
+
+            background: #0758d0;
+
+            color: white;
+
+            font-size: 12px;
+
+            font-weight: 800;
+
+            box-shadow:
+                    0 10px 22px
+                    rgba(15,23,42,.18);
+        }
+
+
+        .timer small {
+
+            display: block;
+
+            font-size: 8px;
+
+            font-weight: 500;
+
+            opacity: .8;
+        }
+
+
+        /* =========================================================
+           DESK
+        ========================================================= */
+
+        .desk {
+
+            position: absolute;
+
+            width: 570px;
+            height: 25px;
+
+            left: 5%;
+
+            bottom: 84px;
+
+            border-radius: 15px;
+
+            background:
+                    linear-gradient(
+                            90deg,
+                            #f0b384,
+                            #dc9c74
+                    );
+
+            box-shadow:
+                    0 12px 20px
+                    rgba(15,23,42,.18);
+
+            z-index: 18;
+        }
+
+
+        /* =========================================================
+           BOOKS
+        ========================================================= */
+
+        .books {
+
+            position: absolute;
+
+            left: 5%;
+
+            bottom: 96px;
+
+            z-index: 17;
+        }
+
+
+        .book {
+
+            height: 15px;
+
+            margin-top: 4px;
+
+            border-radius: 4px;
+
+            box-shadow:
+                    0 4px 7px
+                    rgba(15,23,42,.15);
+        }
+
+
+        .book-1 {
+            width: 130px;
+            background: white;
+        }
+
+
+        .book-2 {
+            width: 125px;
+            background: #1e6be9;
+        }
+
+
+        .book-3 {
+            width: 140px;
+            background: #f5a623;
+        }
+
+
+        /* =========================================================
+           PLANT
+        ========================================================= */
+
+        .plant {
+
+            position: absolute;
+
+            right: 11%;
+
+            bottom: 96px;
+
+            width: 75px;
+            height: 115px;
+
+            z-index: 19;
+        }
+
+
+        .plant-pot {
+
+            position: absolute;
+
+            left: 17px;
+
+            bottom: 0;
+
+            width: 48px;
+            height: 44px;
+
+            background: white;
+
+            border-radius:
+                    5px 5px 17px 17px;
+        }
+
+
+        .leaf {
+
+            position: absolute;
+
+            width: 30px;
+            height: 60px;
+
+            background: #299d51;
+
+            border-radius:
+                    100% 0 100% 0;
+
+            transform-origin:
+                    bottom center;
+        }
+
+
+        .leaf-1 {
+
+            left: 28px;
+
+            bottom: 33px;
+
+            transform:
+                    rotate(-28deg);
+        }
+
+
+        .leaf-2 {
+
+            left: 13px;
+
+            bottom: 34px;
+
+            transform:
+                    rotate(-55deg);
+        }
+
+
+        .leaf-3 {
+
+            left: 38px;
+
+            bottom: 37px;
+
+            transform:
+                    rotate(27deg);
+        }
+
+
+        /* =========================================================
+           LOGIN AREA
+        ========================================================= */
+
+        .login-area {
+
+            position: relative;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: flex-end;
+
+            /*
+               IMPORTANT:
+               Login is moved RIGHT and DOWN.
+            */
+
+            transform:
+                    translate(20px, 55px);
+
+            padding-right: 0;
+
+            z-index: 50;
+        }
+
+
+        /* =========================================================
+           LOGIN CARD
+        ========================================================= */
+
+        .login-card {
+
+            width: 100%;
+
+            max-width: 390px;
+
+            background: #ffffff;
+
+            border:
+                    1px solid #e2e9f2;
+
+            border-radius: 22px;
+
+            box-shadow:
+                    0 24px 55px
+                    rgba(15,23,42,.16);
+
+            overflow: hidden;
+
+            position: relative;
+
+            z-index: 50;
+        }
+
+
+        /* ALERT */
+
+        .login-alert {
+
+            margin: 0 !important;
+
+            border: 0 !important;
+
+            border-radius: 0 !important;
+
+            font-size: 12px;
+        }
+
+
+        /* =========================================================
+           LOGIN HEADER
+        ========================================================= */
+
+        .login-header {
+
+            text-align: center;
+
+            padding:
+                    28px 30px 18px;
+        }
+
+
+        .login-icon {
+
+            width: 62px;
+            height: 62px;
+
+            margin: auto;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 16px;
+
+            background: #e6efff;
+
+            color: #1766e8;
+
+            font-size: 29px;
+        }
+
+
+        .login-header h2 {
+
+            margin:
+                    14px 0 6px;
+
+            font-size: 25px;
+
+            font-weight: 850;
+
+            letter-spacing: -.6px;
+
+            color: #10182f;
+        }
+
+
+        .login-header p {
+
+            margin: 0;
+
+            color: #69768b;
+
+            font-size: 12px;
+
+            line-height: 1.5;
+        }
+
+
+        /* =========================================================
+           LOGIN BODY
+        ========================================================= */
+
+        .login-body {
+
+            padding:
+                    12px 30px 25px;
+        }
+
+
+        .form-label {
+
+            margin-bottom: 7px;
+
+            color: #18233d;
+
+            font-size: 12px;
+
+            font-weight: 750;
+        }
+
+
+        .input-group {
+
+            height: 48px;
+        }
+
+
+        .input-group-text {
+
+            min-width: 45px;
+
+            display: flex;
+
+            justify-content: center;
+
+            background: #ffffff;
+
+            border:
+                    1px solid #dbe3ed;
+
+            color: #64748b;
+        }
+
+
+        .input-group-text:first-child {
+
+            border-right: 0;
+
+            border-radius:
+                    10px 0 0 10px;
+        }
+
+
+        .form-control {
+
+            height: 48px;
+
+            border:
+                    1px solid #dbe3ed;
+
+            border-left: 0;
+
+            font-size: 12px;
+
+            color: #17213a;
+        }
+
+
+        .form-control:focus {
+
+            border-color: #1766e8;
+
+            box-shadow:
+                    0 0 0 3px
+                    rgba(23,102,232,.09);
+        }
+
+
+        .password-toggle {
+
+            cursor: pointer;
+
+            border-left: 0 !important;
+
+            border-radius:
+                    0 10px 10px 0 !important;
+        }
+
+
+        .form-check-label {
+
+            font-size: 11px;
+
+            color: #66738a;
+
+            cursor: pointer;
+        }
+
+
+        .forgot-link {
+
+            font-size: 11px;
+
+            font-weight: 700;
+
+            color: #1766e8;
+        }
+
+
+        /* =========================================================
+           LOGIN BUTTON
+        ========================================================= */
+
+        .login-button {
+
+            width: 100%;
+
+            height: 48px;
+
+            border: 0;
+
+            border-radius: 10px;
+
+            background:
+                    linear-gradient(
+                            135deg,
+                            #1766e8,
+                            #256ff0
+                    );
+
+            color: white;
+
+            font-size: 13px;
+
+            font-weight: 750;
+
+            box-shadow:
+                    0 8px 18px
+                    rgba(37,99,235,.23);
+
+            transition: .2s ease;
+        }
+
+
+        .login-button:hover {
+
+            transform:
+                    translateY(-1px);
+
+            box-shadow:
+                    0 11px 22px
+                    rgba(37,99,235,.30);
+        }
+
+
+        /* =========================================================
+           DIVIDER
+        ========================================================= */
+
+        .divider {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            margin:
+                    18px 0 14px;
+
+            color: #8a96a8;
+
+            font-size: 10px;
+
+            font-weight: 600;
+        }
+
+
+        .divider::before,
+        .divider::after {
+
+            content: "";
+
+            flex: 1;
+
+            height: 1px;
+
+            background: #e4e9f0;
+        }
+
+
+        /* =========================================================
+           GOOGLE
+        ========================================================= */
+
+        .google-button {
+
+            width: 100%;
+
+            height: 45px;
+
+            border:
+                    1px solid #dce4ed;
+
+            border-radius: 10px;
+
+            background: white;
+
+            color: #263249;
+
+            font-size: 11px;
+
+            font-weight: 700;
+
+            transition: .2s ease;
+        }
+
+
+        .google-button:hover {
+
+            background: #f8fafc;
+        }
+
+
+        .google-button i {
+
+            margin-right: 7px;
+
+            color: #4285f4;
+
+            font-size: 16px;
+        }
+
+
+        /* =========================================================
+           REGISTER
+        ========================================================= */
+
+        .register-text {
+
+            margin-top: 17px;
+
+            text-align: center;
+
+            color: #718096;
+
+            font-size: 11px;
+        }
+
+
+        .register-text a {
+
+            color: #1766e8;
+
+            font-weight: 750;
+        }
+
+
+        /* =========================================================
+           SECURITY
+        ========================================================= */
+
+        .security {
+
+            margin-top: 17px;
+
+            padding-top: 13px;
+
+            border-top:
+                    1px solid #edf1f5;
+
+            text-align: center;
+
+            color: #9aa5b5;
+
+            font-size: 9px;
+        }
+
+
+        /* =========================================================
+           STATISTICS
+        ========================================================= */
+
+        .stats {
+
+            position: absolute;
+
+            left: 22%;
+
+            bottom: 18px;
+
+            width: 42%;
+
+            min-height: 88px;
+
+            padding:
+                    12px 10px;
+
+            border-radius: 17px;
+
+            background:
+                    rgba(255,255,255,.97);
+
+            box-shadow:
+                    0 17px 35px
+                    rgba(15,23,42,.15);
+
+            display: grid;
+
+            grid-template-columns:
+                    repeat(4,1fr);
+
+            align-items: center;
+
+            z-index: 60;
+        }
+
+
+        .stat {
+
+            text-align: center;
+
+            border-right:
+                    1px solid #e7ebf1;
+        }
+
+
+        .stat:last-child {
+            border-right: none;
+        }
+
+
+        .stat-icon {
+
+            width: 31px;
+            height: 31px;
+
+            margin:
+                    0 auto 4px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 9px;
+
+            font-size: 14px;
+        }
+
+
+        .green {
+
+            background: #dcfce7;
+
+            color: #16a34a;
+        }
+
+
+        .blue {
+
+            background: #dbeafe;
+
+            color: #2563eb;
+        }
+
+
+        .purple {
+
+            background: #ede9fe;
+
+            color: #7c3aed;
+        }
+
+
+        .orange {
+
+            background: #ffedd5;
+
+            color: #ea580c;
+        }
+
+
+        .stat-number {
+
+            font-size: 15px;
+
+            font-weight: 850;
+
+            color: #10182f;
+        }
+
+
+        .stat-label {
+
+            margin-top: 1px;
+
+            color: #59677d;
+
+            font-size: 9px;
+        }
+
+
+        /* =========================================================
+           LARGE DESKTOP
+        ========================================================= */
+
+        @media (min-width: 1500px) {
+
+            .navbar-container,
+            .hero-container {
+                max-width: 1600px;
+            }
+
+            .main-content {
+
+                grid-template-columns:
+                        34% 40% 26%;
+            }
+
+            .login-card {
+
+                max-width: 405px;
+            }
+
+            .login-area {
+
+                transform:
+                        translate(15px, 55px);
+            }
+        }
+
+
+        /* =========================================================
+           1200 - 1400
+        ========================================================= */
+
+        @media (max-width: 1400px) {
+
+            .navbar-container,
+            .hero-container {
+
+                padding-left: 30px;
+                padding-right: 30px;
+            }
+
+
+            .main-content {
+
+                grid-template-columns:
+                        35% 39% 26%;
+            }
+
+
+            .main-heading {
+
+                font-size: 58px;
+            }
+
+
+            .visual-area {
+
+                transform:
+                        scale(.93);
+            }
+
+
+            .login-area {
+
+                transform:
+                        translate(10px, 50px);
+            }
+
+
+            .stats {
+
+                left: 21%;
+
+                width: 43%;
+            }
+        }
+
+
+        /* =========================================================
+           TABLET
+        ========================================================= */
+
+        @media (max-width: 1100px) {
+
+            .nav-menu {
+
+                gap: 20px;
+            }
+
+
+            .main-content {
+
+                grid-template-columns:
+                        36% 36% 28%;
+            }
+
+
+            .main-heading {
+
+                font-size: 50px;
+            }
+
+
+            .description {
+
+                font-size: 13px;
+            }
+
+
+            .visual-area {
+
+                transform:
+                        scale(.82);
+            }
+
+
+            .login-card {
+
+                max-width: 360px;
+            }
+
+
+            .login-area {
+
+                transform:
+                        translate(5px, 45px);
+            }
+
+
+            .stats {
+
+                left: 21%;
+
+                width: 45%;
+            }
+        }
+
+
+        /* =========================================================
+           TABLET / MOBILE
+        ========================================================= */
+
+        @media (max-width: 991px) {
+
+            .navbar {
+
+                height: 70px;
+            }
+
+
+            .navbar-container {
+
+                padding:
+                        0 20px;
+            }
+
+
+            .nav-menu {
+
+                display: none;
+            }
+
+
+            .theme-button {
+
+                margin-left: auto;
+            }
+
+
+            .hero {
+
+                min-height: auto;
+            }
+
+
+            .hero-container {
+
+                min-height: auto;
+
+                padding:
+                        30px 20px;
+            }
+
+
+            .main-content {
+
+                display: block;
+
+                min-height: auto;
+            }
+
+
+            .left-content {
+
+                padding:
+                        20px 5px 35px;
+            }
+
+
+            .main-heading {
+
+                font-size: 55px;
+            }
+
+
+            .visual-area {
+
+                display: none;
+            }
+
+
+            .login-area {
+
+                justify-content: center;
+
+                padding: 0;
+
+                transform: none;
+            }
+
+
+            .login-card {
+
+                max-width: 500px;
+            }
+
+
+            .stats {
+
+                position: relative;
+
+                left: auto;
+
+                bottom: auto;
+
+                width: 100%;
+
+                max-width: 700px;
+
+                margin:
+                        25px auto 0;
+            }
+        }
+
+
+        /* =========================================================
+           MOBILE
+        ========================================================= */
+
+        @media (max-width: 575px) {
+
+            .brand {
+
+                font-size: 16px;
+            }
+
+
+            .brand-icon {
+
+                width: 40px;
+                height: 40px;
+
+                font-size: 21px;
+            }
+
+
+            .admin-button {
+
+                padding:
+                        0 12px;
+
+                font-size: 11px;
+            }
+
+
+            .theme-button {
+
+                width: 40px;
+                height: 40px;
+            }
+
+
+            .main-heading {
+
+                font-size: 42px;
+
+                letter-spacing: -2px;
+            }
+
+
+            .description {
+
+                font-size: 13px;
+            }
+
+
+            .feature-grid {
+
+                grid-template-columns: 1fr;
+            }
+
+
+            .login-header {
+
+                padding:
+                        25px 22px 15px;
+            }
+
+
+            .login-body {
+
+                padding:
+                        10px 22px 23px;
+            }
+
+
+            .stats {
+
+                grid-template-columns:
+                        repeat(2,1fr);
+
+                gap: 10px;
+
+                padding: 12px;
+            }
+
+
+            .stat:nth-child(1),
+            .stat:nth-child(2) {
+
+                padding-bottom: 9px;
+
+                border-bottom:
+                        1px solid #e7ebf1;
+            }
+
+
+            .stat:nth-child(2) {
+
+                border-right: none;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     NAVBAR
+========================================================= -->
+
+<nav class="navbar">
+
+    <div class="navbar-container">
+
+
+        <!-- BRAND -->
+
+        <a href="/" class="brand">
+
+            <span class="brand-icon">
+
+                <i class="bi bi-mortarboard-fill"></i>
+
+            </span>
+
+
+            <span>
+
+                Online
+
+                <span class="brand-blue">
+                    Examination
+                </span>
+
+                System
+
+            </span>
+
+        </a>
+
+
+
+        <!-- MENU -->
+
+        <div class="nav-menu">
+
+            <a href="/" class="nav-link">
+                Home
+            </a>
+
+            <a href="/about" class="nav-link">
+                About
+            </a>
+
+            <a href="/features" class="nav-link">
+                Features
+            </a>
+
+            <a href="/help" class="nav-link">
+                Help
+            </a>
+
+        </div>
+
+
+
+        <!-- THEME -->
+
+        <button
+                type="button"
+                class="theme-button"
+                onclick="toggleTheme()">
+
+            <i
+                    id="themeIcon"
+                    class="bi bi-sun-fill">
+            </i>
+
+        </button>
+
+
+
+        <!-- ADMIN -->
+
+        <a
+                href="/login?role=admin"
+                class="admin-button">
+
+            <i class="bi bi-person"></i>
+
+            Admin Login
+
+        </a>
+
+    </div>
+
+</nav>
+
+
+
+<!-- =========================================================
+     HERO
+========================================================= -->
+
+<section
+        class="hero"
+        id="about">
+
+
+    <!-- BACKGROUND -->
+
+    <div class="circle-one"></div>
+
+    <div class="circle-two"></div>
+
+    <div class="circle-three"></div>
+
+
+
+    <div class="hero-container">
+
+
+        <div class="main-content">
+
+
+            <!-- =================================================
+                 LEFT CONTENT
+            ================================================== -->
+
+            <div class="left-content">
+
+
+                <div class="small-badge">
+
+                    <i class="bi bi-mortarboard-fill"></i>
+
+                    Empowering Learning, Anytime, Anywhere
+
+                </div>
+
+
+
+                <h1 class="main-heading">
+
+                    Online
+
+                    <span class="highlight">
+                        Examination
+                    </span>
+
+                    System
+
+                </h1>
+
+
+
+                <p class="description">
+
+                    A secure, reliable and user-friendly platform
+                    to take your examinations online. Test your
+                    knowledge, track your performance and achieve
+                    your goals.
+
+                </p>
+
+
+
+                <!-- FEATURES -->
+
+                <div
+                        class="feature-grid"
+                        id="features">
+
+
+                    <div class="feature">
+
+                        <div class="feature-icon">
+
+                            <i class="bi bi-shield-check"></i>
+
+                        </div>
+
+
+                        <div>
+
+                            <div class="feature-title">
+                                Secure &amp; Reliable
+                            </div>
+
+                            <div class="feature-text">
+                                Advanced security ensures fair examinations
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="feature">
+
+                        <div class="feature-icon">
+
+                            <i class="bi bi-clock-history"></i>
+
+                        </div>
+
+
+                        <div>
+
+                            <div class="feature-title">
+                                Time Management
+                            </div>
+
+                            <div class="feature-text">
+                                Built-in timer and auto submission
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="feature">
+
+                        <div class="feature-icon">
+
+                            <i class="bi bi-bar-chart-fill"></i>
+
+                        </div>
+
+
+                        <div>
+
+                            <div class="feature-title">
+                                Instant Results
+                            </div>
+
+                            <div class="feature-text">
+                                Get your results immediately
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="feature">
+
+                        <div class="feature-icon">
+
+                            <i class="bi bi-phone"></i>
+
+                        </div>
+
+
+                        <div>
+
+                            <div class="feature-title">
+                                Anytime, Anywhere
+                            </div>
+
+                            <div class="feature-text">
+                                Take exams from any device
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 CENTER ILLUSTRATION
+            ================================================== -->
+
+            <div class="visual-area">
+
+
+                <div class="visual-glow"></div>
+
+
+                <div class="dots"></div>
+
+
+                <div class="orbit"></div>
+
+
+
+                <!-- CAP -->
+
+                <div class="float-icon cap-icon">
+
+                    <i class="bi bi-mortarboard-fill"></i>
+
+                </div>
+
+
+
+                <!-- DOCUMENT -->
+
+                <div class="float-icon document-icon">
+
+                    <i class="bi bi-file-earmark-text-fill"></i>
+
+                </div>
+
+
+
+                <!-- BULB -->
+
+                <div class="float-icon bulb-icon">
+
+                    <i class="bi bi-lightbulb-fill"></i>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     STUDENT
+                ================================================== -->
+
+                <svg
+                        class="student"
+                        viewBox="0 0 430 420"
+                        xmlns="http://www.w3.org/2000/svg">
+
+
+                    <!-- Shadow -->
+
+                    <ellipse
+                            cx="215"
+                            cy="397"
+                            rx="175"
+                            ry="14"
+                            fill="rgba(15,23,42,.15)"/>
+
+
+                    <!-- Body -->
+
+                    <path
+                            d="M125 350
+                               Q130 180 215 170
+                               Q300 180 320 350
+                               Z"
+                            fill="#1764e8"/>
+
+
+                    <!-- Hoodie -->
+
+                    <path
+                            d="M145 205
+                               Q215 160 285 205
+                               L320 350
+                               Q215 375 110 350
+                               Z"
+                            fill="#1053c7"/>
+
+
+                    <!-- Shirt -->
+
+                    <path
+                            d="M180 205
+                               L215 245
+                               L250 205
+                               L262 355
+                               L168 355
+                               Z"
+                            fill="#0b43a8"/>
+
+
+                    <!-- Neck -->
+
+                    <rect
+                            x="196"
+                            y="165"
+                            width="38"
+                            height="42"
+                            rx="14"
+                            fill="#efb98e"/>
+
+
+                    <!-- Face -->
+
+                    <circle
+                            cx="215"
+                            cy="123"
+                            r="62"
+                            fill="#f4bd91"/>
+
+
+                    <!-- Hair -->
+
+                    <path
+                            d="M155 123
+                               Q155 43 218 48
+                               Q284 45 282 120
+                               Q258 86 220 86
+                               Q186 101 155 123Z"
+                            fill="#101426"/>
+
+
+                    <path
+                            d="M166 101
+                               Q192 61 235 65
+                               Q267 67 282 101"
+                            fill="none"
+                            stroke="#101426"
+                            stroke-width="18"
+                            stroke-linecap="round"/>
+
+
+                    <!-- Eyes -->
+
+                    <circle
+                            cx="193"
+                            cy="128"
+                            r="5"
+                            fill="#111936"/>
+
+
+                    <circle
+                            cx="239"
+                            cy="128"
+                            r="5"
+                            fill="#111936"/>
+
+
+                    <!-- Smile -->
+
+                    <path
+                            d="M204 154
+                               Q215 162 227 154"
+                            fill="none"
+                            stroke="#9e604d"
+                            stroke-width="3"
+                            stroke-linecap="round"/>
+
+
+                    <!-- Left Arm -->
+
+                    <path
+                            d="M145 225
+                               Q100 250 105 304"
+                            fill="none"
+                            stroke="#f4bd91"
+                            stroke-width="25"
+                            stroke-linecap="round"/>
+
+
+                    <!-- Right Arm -->
+
+                    <path
+                            d="M287 225
+                               Q350 222 382 280"
+                            fill="none"
+                            stroke="#f4bd91"
+                            stroke-width="27"
+                            stroke-linecap="round"/>
+
+
+                    <circle
+                            cx="382"
+                            cy="280"
+                            r="14"
+                            fill="#f4bd91"/>
+
+                </svg>
+
+
+
+                <!-- =================================================
+                     EXAM SCREEN
+                ================================================== -->
+
+                <div class="exam-screen">
+
+
+                    <div class="screen-top">
+
+                        <span></span>
+                        <span></span>
+                        <span></span>
+
+                    </div>
+
+
+                    <div class="screen-body">
+
+
+                        <div class="screen-line"></div>
+
+                        <div class="screen-line small"></div>
+
+
+                        <div class="answer">
+
+                            <span class="answer-circle"></span>
+
+                            A
+
+                        </div>
+
+
+                        <div class="answer active">
+
+                            <span class="answer-circle"></span>
+
+                            B
+
+                        </div>
+
+
+                        <div class="answer">
+
+                            <span class="answer-circle"></span>
+
+                            C
+
+                        </div>
+
+
+                        <div class="answer">
+
+                            <span class="answer-circle"></span>
+
+                            D
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- TIMER -->
+
+                <div class="timer">
+
+                    <i class="bi bi-clock"></i>
+
+                    <div>
+
+                        00:45:00
+
+                        <small>
+                            Time Remaining
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- BOOKS -->
+
+                <div class="books">
+
+                    <div class="book book-1"></div>
+
+                    <div class="book book-2"></div>
+
+                    <div class="book book-3"></div>
+
+                </div>
+
+
+
+                <!-- PLANT -->
+
+                <div class="plant">
+
+                    <div class="leaf leaf-1"></div>
+
+                    <div class="leaf leaf-2"></div>
+
+                    <div class="leaf leaf-3"></div>
+
+                    <div class="plant-pot"></div>
+
+                </div>
+
+
+
+                <!-- DESK -->
+
+                <div class="desk"></div>
+
+
+            </div>
+
+
+
+            <!-- =================================================
+                 LOGIN
+            ================================================== -->
+
+            <div class="login-area">
+
+
+                <div class="login-card">
+
+
+                    <!-- SUCCESS -->
+
+                    <div
+                            th:if="${success}"
+                            class="alert alert-success login-alert d-flex align-items-center">
+
+                        <i
+                                class="bi bi-check-circle-fill me-2">
+                        </i>
+
+                        <span th:text="${success}">
+                            Password changed successfully.
+                        </span>
+
+                    </div>
+
+
+
+
+
+
+
+                    <!-- ERROR -->
+
+                    <div
+                            th:if="${error}"
+                            class="alert alert-danger login-alert d-flex align-items-center">
+
+                        <i
+                                class="bi bi-exclamation-triangle-fill me-2">
+                        </i>
+
+                        <span th:text="${error}">
+                            Invalid email or password.
+                        </span>
+
+                    </div>
+
+
+
+                    <!-- LOGIN HEADER -->
+
+                    <div class="login-header">
+
+
+                        <div class="login-icon">
+
+                            <i class="bi bi-mortarboard-fill"></i>
+
+                        </div>
+
+
+                        <h2
+                                th:text="${loginRole == 'admin'
+                                               ? 'Admin Login'
+                                               : 'Student Login'}">
+
+
+                            Student Login
+
+                        </h2>
+
+
+                        <p
+                                th:text="${loginRole == 'admin'
+        ? 'Sign in to access the administration portal'
+        : 'Sign in to access your examination portal'}">
+
+                            Sign in to access your examination portal
+
+                        </p>
+
+
+                    </div>
+
+
+
+                    <!-- LOGIN BODY -->
+
+                    <div class="login-body">
+
+
+                        <form method="post" action="/login">
+
+
+                            <!-- CSRF Token -->
+                            <input type="hidden"
+                                   th:name="${_csrf.parameterName}"
+                                   th:value="${_csrf.token}">
+
+                            <!-- User Role -->
+
+
+                            <input
+                                    type="hidden"
+                                    name="role"
+                                    th:value="${loginRole}">
+
+
+                            <!-- EMAIL -->
+
+                            <div class="mb-3">
+
+
+                                <label
+                                        class="form-label"
+                                        for="email">
+
+                                    Email Address
+
+                                </label>
+
+
+                                <div class="input-group">
+
+
+                                    <span class="input-group-text">
+
+                                        <i class="bi bi-envelope"></i>
+
+                                    </span>
+
+
+                                    <input
+                                            type="email"
+                                            class="form-control"
+                                            id="email"
+                                            name="email"
+                                            placeholder="Enter your email address"
+                                            autocapitalize="none"
+                                            spellcheck="false">
+
+                                </div>
+
+                            </div>
+
+
+
+                            <!-- PASSWORD -->
+
+                            <div class="mb-3">
+
+
+                                <label
+                                        class="form-label"
+                                        for="password">
+
+                                    Password
+
+                                </label>
+
+
+                                <div class="input-group">
+
+
+                                    <span class="input-group-text">
+
+                                        <i class="bi bi-lock"></i>
+
+                                    </span>
+
+
+                                    <input
+                                            type="password"
+                                            class="form-control"
+                                            id="password"
+                                            name="password"
+                                            placeholder="Enter your password"
+                                            autocomplete="new-password"
+                                            required>
+
+
+                                    <button
+                                            type="button"
+                                            class="input-group-text password-toggle"
+                                            onclick="togglePassword()">
+
+                                        <i
+                                                class="bi bi-eye"
+                                                id="passwordIcon">
+                                        </i>
+
+                                    </button>
+
+
+                                </div>
+
+                            </div>
+
+
+
+                            <!-- REMEMBER / FORGOT -->
+
+                            <div
+                                    class="d-flex justify-content-between align-items-center mb-3">
+
+
+                                <div class="form-check">
+
+
+                                    <input
+                                            class="form-check-input"
+                                            type="checkbox"
+                                            id="rememberMe"
+                                            name="rememberMe">
+
+
+                                    <label
+                                            class="form-check-label"
+                                            for="rememberMe">
+
+                                        Remember me
+
+                                    </label>
+
+                                </div>
+
+
+                                <a
+                                        href="/forgot-password"
+                                        class="forgot-link">
+
+                                    Forgot Password?
+
+                                </a>
+
+
+                            </div>
+
+
+
+                            <!-- LOGIN -->
+
+                            <button
+                                    type="submit"
+                                    class="login-button">
+
+                                <i
+                                        class="bi bi-box-arrow-in-right me-2">
+                                </i>
+
+                                Login
+
+                            </button>
+
+
+                        </form>
+
+
+
+                        <!--                        &lt;!&ndash; DIVIDER &ndash;&gt;-->
+
+                        <!--                        <div class="divider">-->
+                        <!--                            OR-->
+                        <!--                        </div>-->
+
+
+
+                        <!--                        &lt;!&ndash; GOOGLE &ndash;&gt;-->
+
+                        <!--                        <button-->
+                        <!--                                type="button"-->
+                        <!--                                class="google-button">-->
+
+                        <!--                            <i class="bi bi-google"></i>-->
+
+                        <!--                            Continue with Google-->
+
+                        <!--                        </button>-->
+
+
+
+                        <!-- REGISTER -->
+
+                        <div class="register-text">
+
+                            Don't have an account?
+
+                            <a href="/register">
+                                Register Now
+                            </a>
+
+                        </div>
+
+
+
+                        <!-- SECURITY -->
+
+                        <div
+                                class="security"
+                                id="help">
+
+                            <i
+                                    class="bi bi-shield-lock me-1">
+                            </i>
+
+                            Secure login protected by
+                            Online Examination System
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =================================================
+             STATISTICS
+        ================================================== -->
+
+        <div class="stats">
+
+
+            <!-- STUDENTS -->
+
+            <div class="stat">
+
+                <div class="stat-icon green">
+
+                    <i class="bi bi-people-fill"></i>
+
+                </div>
+
+                <div class="stat-number">
+                    10K+
+                </div>
+
+                <div class="stat-label">
+                    Happy Students
+                </div>
+
+            </div>
+
+
+
+            <!-- EXAMS -->
+
+            <div class="stat">
+
+                <div class="stat-icon blue">
+
+                    <i class="bi bi-file-earmark-text-fill"></i>
+
+                </div>
+
+                <div class="stat-number">
+                    500+
+                </div>
+
+                <div class="stat-label">
+                    Exams Conducted
+                </div>
+
+            </div>
+
+
+
+            <!-- SUCCESS -->
+
+            <div class="stat">
+
+                <div class="stat-icon purple">
+
+                    <i class="bi bi-bar-chart-fill"></i>
+
+                </div>
+
+                <div class="stat-number">
+                    95%
+                </div>
+
+                <div class="stat-label">
+                    Success Rate
+                </div>
+
+            </div>
+
+
+
+            <!-- SUPPORT -->
+
+            <div class="stat">
+
+                <div class="stat-icon orange">
+
+                    <i class="bi bi-shield-fill-check"></i>
+
+                </div>
+
+                <div class="stat-number">
+                    24/7
+                </div>
+
+                <div class="stat-label">
+                    Support
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
+
+<script>
+
+    /* =====================================================
+       PASSWORD SHOW / HIDE
+    ===================================================== */
+
+    function togglePassword() {
+
+        const password =
+            document.getElementById("password");
+
+        const icon =
+            document.getElementById("passwordIcon");
+
+
+        if (password.type === "password") {
+
+            password.type = "text";
+
+            icon.classList.remove("bi-eye");
+
+            icon.classList.add("bi-eye-slash");
+
+        } else {
+
+            password.type = "password";
+
+            icon.classList.remove("bi-eye-slash");
+
+            icon.classList.add("bi-eye");
+
+        }
+
+    }
+
+
+    /* =====================================================
+       THEME ICON
+    ===================================================== */
+
+    function toggleTheme() {
+
+        const icon =
+            document.getElementById("themeIcon");
+
+
+        if (icon.classList.contains("bi-sun-fill")) {
+
+            icon.classList.remove("bi-sun-fill");
+
+            icon.classList.add("bi-moon-fill");
+
+        } else {
+
+            icon.classList.remove("bi-moon-fill");
+
+            icon.classList.add("bi-sun-fill");
+
+        }
+
+    }
+
+</script>
+
+
+<script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+
+</body>
+
+</html>

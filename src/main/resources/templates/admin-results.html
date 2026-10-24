@@ -1,0 +1,1629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Exam Results | Online Examination System</title>
+
+    <!-- Bootstrap 5.3 -->
+    <link
+             href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+             rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+        :root {
+            --primary: #2563EB;
+            --primary-dark: #1D4ED8;
+            --dark-blue: #1E40AF;
+            --page-bg: #F8FAFC;
+            --card: #FFFFFF;
+            --text: #172033;
+            --secondary: #64748B;
+            --border: #E2E8F0;
+            --success: #16A34A;
+            --danger: #DC2626;
+            --warning: #D97706;
+        }
+
+        body {
+            background: var(--page-bg);
+            color: var(--text);
+            font-family: Arial, sans-serif;
+        }
+
+        /* Navbar */
+        .admin-navbar {
+            background: #ffffff;
+            border-bottom: 1px solid var(--border);
+            height: 70px;
+        }
+
+        .brand-logo {
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--primary), var(--dark-blue));
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .brand-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .brand-subtitle {
+            font-size: 12px;
+            color: var(--secondary);
+        }
+
+        .admin-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #DBEAFE;
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            top: 70px;
+            left: 0;
+            width: 250px;
+            height: calc(100vh - 70px);
+            background: #ffffff;
+            border-right: 1px solid var(--border);
+            padding: 20px 14px;
+            overflow-y: auto;
+        }
+
+        .sidebar-title {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: .08em;
+            color: #94A3B8;
+            font-weight: 700;
+            padding: 10px 12px;
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 11px 13px;
+            margin-bottom: 5px;
+            border-radius: 9px;
+            color: #475569;
+            text-decoration: none;
+            font-size: 14px;
+            transition: .2s;
+        }
+
+        .sidebar-link i {
+            font-size: 17px;
+        }
+
+        .sidebar-link:hover {
+            background: #EFF6FF;
+            color: var(--primary);
+        }
+
+        .sidebar-link.active {
+            background: #DBEAFE;
+            color: var(--primary-dark);
+            font-weight: 600;
+        }
+
+        /* Main */
+        .main-content {
+            margin-left: 250px;
+            padding: 30px;
+        }
+
+        .page-title {
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .page-subtitle {
+            color: var(--secondary);
+            font-size: 14px;
+        }
+
+        /* Stat cards */
+        .stat-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 20px;
+            height: 100%;
+            transition: .2s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(15, 23, 42, .06);
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 21px;
+        }
+
+        .icon-blue {
+            background: #DBEAFE;
+            color: #2563EB;
+        }
+
+        .icon-green {
+            background: #DCFCE7;
+            color: #16A34A;
+        }
+
+        .icon-red {
+            background: #FEE2E2;
+            color: #DC2626;
+        }
+
+        .icon-purple {
+            background: #F3E8FF;
+            color: #9333EA;
+        }
+
+        .stat-label {
+            color: var(--secondary);
+            font-size: 13px;
+            margin-top: 14px;
+        }
+
+        .stat-value {
+            font-size: 25px;
+            font-weight: 700;
+            margin-top: 3px;
+        }
+
+        /* Filter card */
+        .filter-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 20px;
+        }
+
+        .form-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #475569;
+        }
+
+        .form-control,
+        .form-select {
+            border-color: var(--border);
+            min-height: 42px;
+            font-size: 14px;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 .2rem rgba(37, 99, 235, .12);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            border-color: var(--primary-dark);
+        }
+
+        /* Results table */
+        .results-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            overflow: hidden;
+        }
+
+        .results-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .table {
+            margin-bottom: 0;
+        }
+
+        .table thead th {
+            background: #F8FAFC;
+            color: #64748B;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: .04em;
+            font-weight: 700;
+            padding: 15px;
+            border-bottom: 1px solid var(--border);
+            white-space: nowrap;
+        }
+
+        .table tbody td {
+            padding: 15px;
+            vertical-align: middle;
+            font-size: 14px;
+            border-color: #F1F5F9;
+        }
+
+        .student-name {
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .student-email {
+            color: var(--secondary);
+            font-size: 12px;
+        }
+
+        .exam-name {
+            font-weight: 600;
+        }
+
+        .score {
+            font-weight: 700;
+        }
+
+        .percentage {
+            font-weight: 700;
+        }
+
+        .badge-pass {
+            background: #DCFCE7;
+            color: #15803D;
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+
+        .badge-fail {
+            background: #FEE2E2;
+            color: #B91C1C;
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+
+        .action-btn {
+            width: 34px;
+            height: 34px;
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border);
+            background: white;
+            color: #475569;
+        }
+
+        .action-btn:hover {
+            background: #EFF6FF;
+            color: var(--primary);
+            border-color: #BFDBFE;
+        }
+
+        /* Modal */
+        .result-summary {
+            background: #F8FAFC;
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .result-score {
+            font-size: 38px;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .detail-box {
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 14px;
+            height: 100%;
+        }
+
+        .detail-label {
+            font-size: 12px;
+            color: var(--secondary);
+        }
+
+        .detail-value {
+            font-size: 16px;
+            font-weight: 700;
+            margin-top: 4px;
+        }
+
+        /* Mobile */
+        @media (max-width: 991px) {
+            .sidebar {
+                position: static;
+                width: 100%;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid var(--border);
+                display: none;
+            }
+
+            .sidebar.show-mobile {
+                display: block;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 20px 15px;
+            }
+
+            .mobile-menu {
+                display: block !important;
+            }
+        }
+
+        .mobile-menu {
+            display: none;
+        }
+
+        @media (max-width: 576px) {
+            .page-title {
+                font-size: 22px;
+            }
+
+            .stat-card {
+                padding: 15px;
+            }
+
+            .results-card {
+                overflow-x: auto;
+            }
+
+            .results-card .table {
+                min-width: 900px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+<nav class="navbar admin-navbar px-3">
+    <div class="container-fluid">
+
+        <div class="d-flex align-items-center gap-3">
+
+            <button class="btn btn-light mobile-menu"
+                    onclick="toggleSidebar()">
+                <i class="bi bi-list fs-5"></i>
+            </button>
+
+            <div class="brand-logo">
+                OE
+            </div>
+
+            <div>
+                <div class="brand-title">
+                    Online Examination
+                </div>
+                <div class="brand-subtitle">
+                    Administration Panel
+                </div>
+            </div>
+
+        </div>
+
+        <div class="d-flex align-items-center gap-3">
+
+            <div class="dropdown">
+                <button class="btn btn-light position-relative"
+                        id="adminNotificationBell"
+                        type="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                        aria-label="Notifications">
+                    <i class="bi bi-bell fs-5"></i>
+                    <span id="adminNotificationBadge"
+                          class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger d-none">0</span>
+                </button>
+
+                <div class="dropdown-menu dropdown-menu-end shadow border-0 p-0"
+                     aria-labelledby="adminNotificationBell"
+                     style="width: 320px; max-width: calc(100vw - 30px);">
+                    <div class="px-3 py-2 border-bottom fw-bold">Notifications</div>
+                    <div id="adminNotificationList" style="max-height: 360px; overflow-y: auto;">
+                        <div class="p-3 text-muted small">Loading notifications...</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="admin-avatar"
+                 th:text="${session.userName != null
+         and !#strings.isEmpty(session.userName.trim())
+         ? #strings.substring(session.userName.trim(), 0, 1).toUpperCase()
+         : 'U'}">
+                U
+            </div>
+
+            <div class="d-none d-md-block">
+                <div class="fw-semibold" style="font-size:14px;"
+                     th:text="${session.userName != null
+         and !#strings.isEmpty(session.userName.trim())
+         ? session.userName
+         : 'Admin'}">
+                    Admin
+                </div>
+
+<!--                <div class="text-muted" style="font-size:12px;"-->
+<!--                     th:text="${session.role != null-->
+<!--         ? session.role-->
+<!--         : 'Administrator'}">-->
+<!--                    Administrator-->
+<!--                </div>-->
+            </div>
+
+            <button class="btn btn-light">
+                <i class="bi bi-box-arrow-right"></i>
+            </button>
+
+        </div>
+
+    </div>
+</nav>
+
+
+<!-- ================= SIDEBAR ================= -->
+<aside class="sidebar" id="sidebar">
+
+    <div class="sidebar-title">
+        Main Menu
+    </div>
+
+    <a href="/admin/dashboard" class="sidebar-link">
+        <i class="bi bi-grid-1x2"></i>
+        Dashboard
+    </a>
+
+    <a href="/admin/exams" class="sidebar-link">
+        <i class="bi bi-journal-text"></i>
+        Manage Exams
+    </a>
+
+    <a href="/admin/questions" class="sidebar-link">
+        <i class="bi bi-question-circle"></i>
+        Questions
+    </a>
+
+    <a href="/admin/students" class="sidebar-link">
+        <i class="bi bi-people"></i>
+        Students
+    </a>
+
+    <a href="/admin/results" class="sidebar-link active">
+        <i class="bi bi-bar-chart"></i>
+        Exam Results
+    </a>
+
+
+    <a href="/admin/support"
+       class="sidebar-link">
+
+        <i class="bi bi-headset"></i>
+
+        Support Tickets
+
+    </a>
+
+    <div class="sidebar-title mt-3">
+        Management
+    </div>
+
+    <a href="#" class="sidebar-link">
+        <i class="bi bi-file-earmark-bar-graph"></i>
+        Reports
+    </a>
+
+    <a href="#" class="sidebar-link">
+        <i class="bi bi-gear"></i>
+        Settings
+    </a>
+
+</aside>
+
+
+<!-- ================= MAIN CONTENT ================= -->
+<main class="main-content">
+
+    <!-- Page Header -->
+    <div class="mb-4">
+
+        <h1 class="page-title">
+            Exam Results
+        </h1>
+
+        <p class="page-subtitle mb-0">
+            View and manage student examination results and performance.
+        </p>
+
+    </div>
+
+
+    <!-- ================= STAT CARDS ================= -->
+    <div class="row g-3 mb-4">
+
+        <!-- Total Attempts -->
+        <div class="col-xl-3 col-md-6">
+
+            <div class="stat-card">
+
+                <div class="d-flex justify-content-between">
+
+                    <div>
+                        <div class="stat-label">
+                            Total Attempts
+                        </div>
+
+                        <div class="stat-value">
+                            <span th:text="${totalAttempts}">0</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-icon icon-blue">
+                        <i class="bi bi-clipboard-check"></i>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Passed -->
+        <div class="col-xl-3 col-md-6">
+
+            <div class="stat-card">
+
+                <div class="d-flex justify-content-between">
+
+                    <div>
+                        <div class="stat-label">
+                            Passed
+                        </div>
+
+                        <div class="stat-value">
+                            <span th:text="${passedAttempts}">0</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-icon icon-green">
+                        <i class="bi bi-check-circle"></i>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Failed -->
+        <div class="col-xl-3 col-md-6">
+
+            <div class="stat-card">
+
+                <div class="d-flex justify-content-between">
+
+                    <div>
+                        <div class="stat-label">
+                            Failed
+                        </div>
+
+                        <div class="stat-value">
+                            <span th:text="${failedAttempts}">0</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-icon icon-red">
+                        <i class="bi bi-x-circle"></i>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Average -->
+        <div class="col-xl-3 col-md-6">
+
+            <div class="stat-card">
+
+                <div class="d-flex justify-content-between">
+
+                    <div>
+                        <div class="stat-label">
+                            Average Score
+                        </div>
+
+                        <div class="stat-value">
+                            <span th:text="${#numbers.formatDecimal(averageScore, 1, 1) + '%'}">0.0%</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-icon icon-purple">
+                        <i class="bi bi-graph-up-arrow"></i>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= FILTERS ================= -->
+    <div class="filter-card mb-4">
+
+        <div class="d-flex align-items-center mb-3">
+
+            <div>
+                <h5 class="mb-1 fw-bold">
+                    Search & Filter
+                </h5>
+
+                <div class="text-muted small">
+                    Find specific examination results.
+                </div>
+            </div>
+
+        </div>
+
+
+        <form method="get" th:action="@{/admin/results}" id="resultsFilterForm">
+            <div class="row g-3">
+
+                <div class="col-lg-4 col-md-6">
+                    <label class="form-label">Search</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
+                        <input type="text"
+                               id="searchInput"
+                               name="search"
+                               class="form-control"
+                               placeholder="Student name or exam..."
+                               th:value="${search}">
+                    </div>
+                </div>
+
+                <div class="col-lg-2 col-md-6">
+                    <label class="form-label">Exam</label>
+                    <select id="examFilter" name="exam" class="form-select" onchange="submitResultFilters()">
+                        <option value="" th:selected="${selectedExam == null or selectedExam == ''}">All Exams</option>
+                        <option th:each="examItem : ${exams}"
+                                th:value="${examItem.id}"
+                                th:text="${examItem.title}"
+                                th:selected="${selectedExam == examItem.id.toString()}">Exam Name</option>
+                    </select>
+                </div>
+
+                <div class="col-lg-2 col-md-6">
+                    <label class="form-label">Status</label>
+                    <select id="statusFilter" name="status" class="form-select" onchange="submitResultFilters()">
+                        <option value="" th:selected="${selectedStatus == null or selectedStatus == '' or selectedStatus == 'ALL'}">All Status</option>
+                        <option value="PASSED" th:selected="${selectedStatus == 'PASSED'}">Passed</option>
+                        <option value="FAILED" th:selected="${selectedStatus == 'FAILED'}">Failed</option>
+                    </select>
+                </div>
+
+                <div class="col-lg-2 col-md-6">
+                    <label class="form-label">Date</label>
+                    <select id="dateFilter" name="date" class="form-select" onchange="submitResultFilters()">
+                        <option value="ALL" th:selected="${selectedDate == null or selectedDate == '' or selectedDate == 'ALL'}">All Time</option>
+                        <option value="TODAY" th:selected="${selectedDate == 'TODAY'}">Today</option>
+                        <option value="7" th:selected="${selectedDate == '7'}">This Week</option>
+                        <option value="30" th:selected="${selectedDate == '30'}">This Month</option>
+                    </select>
+                </div>
+
+                <div class="col-lg-2 col-md-6 d-flex align-items-end">
+                    <a class="btn btn-outline-secondary w-100" th:href="@{/admin/results}">
+                        <i class="bi bi-arrow-counterclockwise me-1"></i> Reset
+                    </a>
+                </div>
+
+            </div>
+        </form>
+
+    </div>
+
+
+    <!-- ================= RESULTS TABLE ================= -->
+    <div class="results-card">
+
+        <div class="results-header">
+
+            <div class="d-flex justify-content-between
+                        align-items-center flex-wrap gap-2">
+
+                <div>
+
+                    <h5 class="mb-1 fw-bold">
+                        Examination Results
+                    </h5>
+
+                    <div class="text-muted small">
+                        Showing recent student attempts
+                    </div>
+
+                </div>
+
+                <button class="btn btn-primary"
+                        onclick="exportResults()">
+
+                    <i class="bi bi-download me-1"></i>
+                    Export Results
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="table-responsive">
+
+            <table class="table align-middle">
+
+                <thead>
+
+                <tr>
+
+                    <th>Student</th>
+
+                    <th>Exam</th>
+
+                    <th>Date</th>
+
+                    <th>Score</th>
+
+                    <th>Percentage</th>
+
+                    <th>Status</th>
+
+                    <th class="text-center">Action</th>
+
+                </tr>
+
+                </thead>
+
+
+                <tbody id="resultsTable">
+
+                <tr th:each="attempt : ${results}">
+                    <td>
+                        <div class="student-name"
+                             th:text="${attempt.user != null ? attempt.user.fullName : 'Unknown Student'}">Student Name</div>
+                        <div class="student-email"
+                             th:text="${attempt.user != null ? attempt.user.email : ''}">student@email.com</div>
+                    </td>
+
+                    <td>
+                        <div class="exam-name"
+                             th:text="${attempt.exam != null ? attempt.exam.title : 'Unknown Exam'}">Exam Name</div>
+                        <small class="text-muted"
+                               th:text="${attempt.exam != null and attempt.exam.totalQuestions != null ? attempt.exam.totalQuestions + ' Questions' : 'Questions not available'}">30 Questions</small>
+                    </td>
+
+                    <td th:with="resultDate=${attempt.submittedAt != null ? attempt.submittedAt : attempt.startedAt}">
+                        <span th:if="${resultDate != null}"
+                              th:text="${#temporals.format(resultDate, 'dd MMM yyyy')}">02 Oct 2026</span>
+                        <span th:unless="${resultDate != null}">-</span>
+                        <div class="text-muted small"
+                             th:if="${resultDate != null}"
+                             th:text="${#temporals.format(resultDate, 'hh:mm a')}">10:30 AM</div>
+                    </td>
+
+                    <td>
+                        <span class="score"
+                              th:text="${(attempt.score != null ? attempt.score : 0) + ' / ' + (attempt.totalMarks != null ? attempt.totalMarks : (attempt.exam != null ? attempt.exam.totalMarks : 0))}">52 / 60</span>
+                    </td>
+
+                    <td>
+                        <span class="percentage"
+                              th:text="${attempt.percentage != null ? #numbers.formatDecimal(attempt.percentage, 1, 2) + '%' : '0.00%'}">86.67%</span>
+                    </td>
+
+                    <td>
+                        <span th:if="${attempt.score != null and attempt.exam != null and attempt.exam.passingMarks != null and attempt.score >= attempt.exam.passingMarks}"
+                              class="badge-pass">Passed</span>
+                        <span th:unless="${attempt.score != null and attempt.exam != null and attempt.exam.passingMarks != null and attempt.score >= attempt.exam.passingMarks}"
+                              class="badge-fail">Failed</span>
+                    </td>
+
+                    <td class="text-center">
+                        <button type="button"
+                                class="btn btn-primary"
+                                th:attr="
+            data-attempt-id=${attempt.id},
+            data-student=${attempt.user.fullName},
+            data-email=${attempt.user.email},
+            data-exam=${attempt.exam.title},
+            data-score=${attempt.score} + ' / ' + ${attempt.totalMarks},
+            data-percentage=${attempt.percentage} + '%',
+            data-status=${attempt.status},
+            data-correct=${attempt.correctAnswers},
+            data-wrong=${attempt.wrongAnswers},
+            data-unanswered=${attempt.unanswered},
+            data-started=${attempt.startedAt},
+            data-submitted=${attempt.submittedAt}
+        "
+                                onclick="viewResultFromButton(this)">
+                            View Result
+                        </button>
+                    </td>
+                </tr>
+
+                <tr th:if="${#lists.isEmpty(results)}">
+                    <td colspan="7" class="text-center py-5">
+                        <div class="text-muted">
+                            <i class="bi bi-inbox fs-2 d-block mb-2"></i>
+                            No examination results found.
+                        </div>
+                    </td>
+                </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        <!-- Result count -->
+        <div class="p-3 border-top">
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+                <div class="text-muted small">
+                    Showing <span th:text="${#lists.size(results)}">0</span> result(s)
+                </div>
+                <div class="text-muted small">
+                    Total completed attempts:
+                    <span th:text="${totalCompletedAttempts}">0</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</main>
+
+
+<!-- ================= RESULT MODAL ================= -->
+<div class="modal fade"
+     id="resultModal"
+     tabindex="-1">
+
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+
+        <div class="modal-content border-0 shadow">
+
+            <div class="modal-header">
+
+                <div>
+                    <h5 class="modal-title fw-bold">
+                        Examination Result
+                    </h5>
+
+                    <div class="text-muted small">
+                        Detailed attempt information
+                    </div>
+                </div>
+
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal">
+                </button>
+
+            </div>
+
+
+            <div class="modal-body">
+
+                <!-- Student / Exam -->
+                <div class="mb-4">
+
+                    <div class="fw-bold fs-5"
+                         id="modalStudent">
+                        Rahul Sharma
+                    </div>
+
+                    <div class="text-muted"
+                         id="modalExam">
+                        Java Programming
+                    </div>
+
+                </div>
+
+
+                <!-- Score -->
+                <div class="result-summary text-center mb-4">
+
+                    <div class="text-muted small">
+                        Final Score
+                    </div>
+
+                    <div class="result-score"
+                         id="modalScore">
+                        52 / 60
+                    </div>
+
+                    <div id="modalPercentage"
+                         class="fw-bold text-success">
+                        86.67%
+                    </div>
+
+                    <div class="mt-2">
+
+                        <span id="modalStatus"
+                              class="badge-pass">
+                            Passed
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Details -->
+                <div class="row g-3">
+
+                    <div class="col-md-3">
+
+                        <div class="detail-box">
+
+                            <div class="detail-label">
+                                Correct
+                            </div>
+
+                            <div class="detail-value text-success"
+                                 id="modalCorrect">
+                                26
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-md-3">
+
+                        <div class="detail-box">
+
+                            <div class="detail-label">
+                                Wrong
+                            </div>
+
+                            <div class="detail-value text-danger"
+                                 id="modalWrong">
+                                4
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-md-3">
+
+                        <div class="detail-box">
+
+                            <div class="detail-label">
+                                Unanswered
+                            </div>
+
+                            <div class="detail-value"
+                                 id="modalUnanswered">
+                                0
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-md-3">
+
+                        <div class="detail-box">
+
+                            <div class="detail-label">
+                                Time Taken
+                            </div>
+
+                            <div class="detail-value"
+                                 id="modalTime">
+                                24:18
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Progress -->
+                <div class="mt-4">
+
+                    <div class="d-flex justify-content-between mb-2">
+
+                        <span class="small fw-semibold">
+                            Performance
+                        </span>
+
+                        <span class="small text-muted"
+                              id="performanceText">
+                            86.67%
+                        </span>
+
+                    </div>
+
+                    <div class="progress"
+                         style="height: 9px;">
+
+                        <div id="performanceBar"
+                             class="progress-bar bg-success"
+                             style="width:86.67%;">
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="modal-footer">
+
+                <button type="button"
+                        class="btn btn-outline-secondary"
+                        data-bs-dismiss="modal">
+
+                    Close
+
+                </button>
+
+                <button type="button"
+                        class="btn btn-primary"
+                        onclick="viewDetailedAnswers()">
+
+                    <i class="bi bi-list-check me-1"></i>
+                    View Detailed Answers
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+<div class="modal fade"
+     id="detailedAnswersModal"
+     tabindex="-1"
+     aria-labelledby="detailedAnswersModalLabel"
+     aria-hidden="true">
+
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h5 class="modal-title"
+                    id="detailedAnswersModalLabel">
+                    Detailed Answer Review
+                </h5>
+
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close">
+                </button>
+
+            </div>
+
+            <div class="modal-body" id="detailedAnswersContent">
+
+                <div class="text-center py-4">
+                    Questions and answers will appear here.
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+
+                <button type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal">
+                    Close
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+
+<script>
+
+    /* ================= MOBILE SIDEBAR ================= */
+    function toggleSidebar() {
+        const sidebar = document.getElementById("sidebar");
+        sidebar.classList.toggle("show-mobile");
+    }
+
+    /* ================= VIEW RESULT ================= */
+    let selectedAttemptId = null;
+    function viewResultFromButton(button) {
+
+        selectedAttemptId = button.dataset.attemptId || null;
+        viewResult(
+            button.dataset.student || "Unknown Student",
+            button.dataset.exam || "Unknown Exam",
+            button.dataset.score || "0 / 0",
+            button.dataset.percentage || "0.00%",
+            button.dataset.status || "Failed",
+            button.dataset.correct || "0",
+            button.dataset.wrong || "0",
+            button.dataset.unanswered || "0",
+            button.dataset.started || "",
+            button.dataset.submitted || ""
+        );
+    }
+
+    function viewResult(student, exam, score, percentage, status, correct, wrong, unanswered, started, submitted) {
+        document.getElementById("modalStudent").textContent = student;
+        document.getElementById("modalExam").textContent = exam;
+        document.getElementById("modalScore").textContent = score;
+        document.getElementById("modalPercentage").textContent = percentage;
+        document.getElementById("modalCorrect").textContent = correct;
+        document.getElementById("modalWrong").textContent = wrong;
+        document.getElementById("modalUnanswered").textContent = unanswered;
+        document.getElementById("modalTime").textContent = calculateTimeTaken(started, submitted);
+
+        const modalStatus = document.getElementById("modalStatus");
+        modalStatus.textContent = status;
+
+        const numericPercentage = Math.min(100, Math.max(0, parseFloat(String(percentage).replace("%", "")) || 0));
+        document.getElementById("performanceText").textContent = percentage;
+        document.getElementById("performanceBar").style.width = numericPercentage + "%";
+
+        if (status === "Passed") {
+            modalStatus.className = "badge-pass";
+            document.getElementById("modalPercentage").className = "fw-bold text-success";
+            document.getElementById("performanceBar").className = "progress-bar bg-success";
+        } else {
+            modalStatus.className = "badge-fail";
+            document.getElementById("modalPercentage").className = "fw-bold text-danger";
+            document.getElementById("performanceBar").className = "progress-bar bg-danger";
+        }
+
+        const modal = new bootstrap.Modal(document.getElementById("resultModal"));
+        modal.show();
+    }
+
+    function calculateTimeTaken(started, submitted) {
+        if (!started || !submitted) return "-";
+
+        const startDate = new Date(started.replace(" ", "T"));
+        const endDate = new Date(submitted.replace(" ", "T"));
+
+        if (Number.isNaN(startDate.getTime()) || Number.isNaN(endDate.getTime())) return "-";
+
+        const seconds = Math.max(0, Math.floor((endDate - startDate) / 1000));
+        const hours = Math.floor(seconds / 3600);
+        const minutes = Math.floor((seconds % 3600) / 60);
+        const remainingSeconds = seconds % 60;
+
+        if (hours > 0) {
+            return String(hours).padStart(2, "0") + ":" + String(minutes).padStart(2, "0") + ":" + String(remainingSeconds).padStart(2, "0");
+        }
+
+        return String(minutes).padStart(2, "0") + ":" + String(remainingSeconds).padStart(2, "0");
+    }
+
+    /* ================= SERVER-SIDE SEARCH + FILTER ================= */
+    function submitResultFilters() {
+        document.getElementById("resultsFilterForm").submit();
+    }
+
+    document.getElementById("searchInput")?.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            submitResultFilters();
+        }
+    });
+
+    /* ================= RESET ================= */
+    function resetFilters() {
+        window.location.href = "/admin/results";
+    }
+
+    /* ================= EXPORT ================= */
+    function exportResults() {
+
+        const search =
+            document.getElementById("searchInput").value;
+
+        const exam =
+            document.getElementById("examFilter").value;
+
+        const status =
+            document.getElementById("statusFilter").value;
+
+        const date =
+            document.getElementById("dateFilter").value;
+
+
+        const params =
+            new URLSearchParams();
+
+        /*
+         * Search
+         */
+        if (search.trim() !== "") {
+
+            params.append(
+                "search",
+                search.trim()
+            );
+        }
+
+
+        /*
+         * Exam
+         */
+        if (exam.trim() !== "") {
+
+            params.append(
+                "exam",
+                exam
+            );
+        }
+
+
+        /*
+         * Status
+         */
+        if (status.trim() !== "") {
+
+            params.append(
+                "status",
+                status
+            );
+        }
+
+
+        /*
+         * Date
+         */
+        if (date.trim() !== "") {
+
+            params.append(
+                "date",
+                date
+            );
+        }
+
+
+        /*
+         * Download filtered CSV
+         */
+        window.location.href =
+            "/admin/results/export?"
+            + params.toString();
+    }
+
+    /* ================= ADMIN NOTIFICATIONS ================= */
+    function escapeNotificationHtml(value) {
+        return String(value ?? "").replace(/[&<>"']/g, function (character) {
+            return ({
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                '"': "&quot;",
+                "'": "&#39;"
+            })[character];
+        });
+    }
+
+    function formatNotificationDate(value) {
+        if (!value) return "";
+        const date = new Date(value);
+        if (Number.isNaN(date.getTime())) return "";
+        return date.toLocaleString("en-IN", { day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" });
+    }
+
+    async function loadAdminNotifications() {
+        const badge = document.getElementById("adminNotificationBadge");
+        const list = document.getElementById("adminNotificationList");
+        if (!badge || !list) return;
+        try {
+            const response = await fetch("/admin/notifications", { method: "GET", headers: { "Accept": "application/json" }, credentials: "same-origin", cache: "no-store" });
+            if (!response.ok) throw new Error("Notification request failed: " + response.status);
+            const data = await response.json();
+            const items = Array.isArray(data.items) ? data.items : [];
+            const unread = Number(data.unreadCount || 0);
+            badge.textContent = unread > 9 ? "9+" : String(unread);
+            badge.classList.toggle("d-none", unread === 0);
+            if (!items.length) {
+                list.innerHTML = '<div class="p-3 text-muted small">No notifications.</div>';
+                return;
+            }
+            list.innerHTML = items.map(function (item) {
+                const title = escapeNotificationHtml(item.title || "Notification");
+                const message = escapeNotificationHtml(item.message || "");
+                const createdAt = escapeNotificationHtml(formatNotificationDate(item.createdAt));
+                const targetUrl = typeof item.targetUrl === "string" && item.targetUrl.startsWith("/") ? item.targetUrl : "/admin/dashboard";
+                const unreadStyle = item.read ? "" : "background:#eff6ff;";
+                const dot = item.read ? "" : '<span class="badge bg-primary ms-2">New</span>';
+                return '<a href="' + escapeNotificationHtml(targetUrl) + '" data-notification-id="' + Number(item.id) + '" data-target-url="' + escapeNotificationHtml(targetUrl) + '" class="dropdown-item text-wrap border-bottom py-3" style="' + unreadStyle + '">' +
+                    '<div class="fw-semibold small mb-1">' + title + dot + '</div>' +
+                    '<div class="small text-secondary">' + message + '</div>' +
+                    '<div class="small text-muted mt-1">' + createdAt + '</div></a>';
+            }).join("");
+        } catch (error) {
+            console.error("Unable to load admin notifications:", error);
+            list.innerHTML = '<div class="p-3 text-danger small">Unable to load notifications. Please refresh the page.</div>';
+        }
+    }
+
+    document.getElementById("adminNotificationList")?.addEventListener("click", async function (event) {
+        const link = event.target.closest("a[data-notification-id]");
+        if (!link) return;
+        event.preventDefault();
+        const id = link.dataset.notificationId;
+        const targetUrl = link.dataset.targetUrl || "/admin/dashboard";
+        try {
+            const response = await fetch("/admin/notifications/" + encodeURIComponent(id) + "/read", { method: "POST", credentials: "same-origin", headers: { "Accept": "application/json" } });
+            if (!response.ok) throw new Error("Could not mark notification as read.");
+            await loadAdminNotifications();
+        } catch (error) { console.error(error); }
+        window.location.href = targetUrl;
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+        loadAdminNotifications();
+        window.setInterval(loadAdminNotifications, 60000);
+    });
+
+    /* ================= DETAILED ANSWERS ================= */
+    async function viewDetailedAnswers() {
+
+        if (!selectedAttemptId) {
+            alert("Please select an exam result first.");
+            return;
+        }
+
+        const content =
+            document.getElementById("detailedAnswersContent");
+
+        if (!content) {
+            alert("Detailed answers container was not found.");
+            return;
+        }
+
+        content.innerHTML = `
+        <div class="text-center py-4">
+            <div class="spinner-border text-primary"
+                 role="status"></div>
+            <p class="mt-2">Loading detailed answers...</p>
+        </div>
+    `;
+
+        const modalElement =
+            document.getElementById("detailedAnswersModal");
+
+        const modal =
+            bootstrap.Modal.getOrCreateInstance(modalElement);
+
+        bootstrap.Modal.getInstance(
+            document.getElementById("resultModal")
+        )?.hide();
+
+        modal.show();
+
+        try {
+
+            const response = await fetch(
+                "/admin/results/attempt/"
+                + encodeURIComponent(selectedAttemptId)
+                + "/answers",
+                {
+                    method: "GET",
+                    credentials: "same-origin",
+                    headers: {
+                        "Accept": "application/json"
+                    }
+                }
+            );
+
+            if (!response.ok) {
+                throw new Error(
+                    response.status === 401
+                        ? "Your admin session has expired. Please log in again."
+                        : "Unable to load detailed answers."
+                );
+            }
+
+            const questions = await response.json();
+
+            if (!Array.isArray(questions) || questions.length === 0) {
+                content.innerHTML = `
+                <div class="alert alert-info">
+                    No questions found for this exam attempt.
+                </div>
+            `;
+                return;
+            }
+
+            content.innerHTML = questions.map(question => {
+
+                const status = question.status || "Unanswered";
+
+                let badgeClass = "bg-secondary";
+
+                if (status === "Correct") {
+                    badgeClass = "bg-success";
+                } else if (status === "Incorrect") {
+                    badgeClass = "bg-danger";
+                }
+
+                const optionsHtml = (question.options || [])
+                    .map(option => {
+
+                        let optionClass = "border rounded p-2 mb-2";
+
+                        if (option.correct) {
+                            optionClass += " border-success bg-success-subtle";
+                        } else if (option.selected) {
+                            optionClass += " border-danger bg-danger-subtle";
+                        }
+
+                        let labels = [];
+
+                        if (option.selected) {
+                            labels.push("Your answer");
+                        }
+
+                        if (option.correct) {
+                            labels.push("Correct answer");
+                        }
+
+                        return `
+                        <div class="${optionClass}">
+                            <span>
+                                ${escapeNotificationHtml(option.label || "")}.
+                                ${escapeNotificationHtml(option.text || "")}
+                            </span>
+
+                            ${
+                            labels.length
+                                ? `<span class="badge bg-dark ms-2">
+                                        ${labels.join(" / ")}
+                                       </span>`
+                                : ""
+                        }
+                        </div>
+                    `;
+                    })
+                    .join("");
+
+                return `
+                <div class="card mb-3 shadow-sm">
+                    <div class="card-body">
+
+                        <div class="d-flex justify-content-between
+                                    align-items-start gap-2 mb-3">
+
+                            <h6 class="mb-0">
+                                Question ${question.questionNumber}
+                            </h6>
+
+                            <span class="badge ${badgeClass}">
+                                ${escapeNotificationHtml(status)}
+                            </span>
+
+                        </div>
+
+                        <p class="fw-semibold">
+                            ${escapeNotificationHtml(question.questionText || "")}
+                        </p>
+
+                        ${optionsHtml}
+
+                        <div class="mt-3 small">
+
+                            <p class="mb-1">
+                                <strong>Your answer:</strong>
+                                ${escapeNotificationHtml(
+                    question.selectedAnswer || "Not answered"
+                )}
+                            </p>
+
+                            <p class="mb-1">
+                                <strong>Correct answer:</strong>
+                                ${escapeNotificationHtml(
+                    question.correctAnswer || "Not available"
+                )}
+                            </p>
+
+                            <p class="mb-0">
+                                <strong>Marks:</strong>
+                                ${Number(question.marksObtained) || 0}
+                                /
+                                ${Number(question.marks) || 0}
+                            </p>
+
+                        </div>
+
+                    </div>
+                </div>
+            `;
+
+            }).join("");
+
+        } catch (error) {
+
+            content.innerHTML = `
+            <div class="alert alert-danger">
+                ${escapeNotificationHtml(error.message)}
+            </div>
+        `;
+        }
+    }
+
+</script>
+
+</body>
+</html>

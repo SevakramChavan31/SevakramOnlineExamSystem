@@ -1,0 +1,1236 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Exam Result | Online Examination System</title>
+
+    <!-- Bootstrap 5.3 -->
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+            rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --dark-blue: #1e40af;
+            --background: #f8fafc;
+            --text: #172033;
+            --secondary: #64748b;
+            --border: #e2e8f0;
+            --success: #16a34a;
+            --danger: #dc2626;
+            --warning: #f59e0b;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: var(--background);
+            color: var(--text);
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        /* =========================
+           NAVBAR
+        ========================= */
+
+        .navbar-custom {
+            height: 70px;
+            background: white;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--text);
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .brand-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: linear-gradient(
+                    135deg,
+                    var(--primary),
+                    var(--dark-blue)
+            );
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 21px;
+        }
+
+        .brand span {
+            color: var(--primary);
+        }
+
+        .profile-btn {
+            border: 1px solid var(--border);
+            background: white;
+            border-radius: 10px;
+            padding: 6px 12px;
+        }
+
+        .profile-avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: #dbeafe;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+
+
+        /* =========================
+           MAIN
+        ========================= */
+
+        .main-wrapper {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 35px 20px 50px;
+        }
+
+
+        /* =========================
+           RESULT HEADER
+        ========================= */
+
+        .result-header {
+            background: linear-gradient(
+                    135deg,
+                    var(--primary),
+                    var(--dark-blue)
+            );
+            border-radius: 20px;
+            color: white;
+            text-align: center;
+            padding: 38px 25px;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 25px;
+        }
+
+        .result-header.failed {
+            background: linear-gradient(
+                    135deg,
+                    #dc2626,
+                    #991b1b
+            );
+        }
+
+        .result-header::before {
+            content: "";
+            position: absolute;
+            width: 260px;
+            height: 260px;
+            border-radius: 50%;
+            background: rgba(255,255,255,.07);
+            left: -100px;
+            top: -130px;
+        }
+
+        .result-header::after {
+            content: "";
+            position: absolute;
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            background: rgba(255,255,255,.07);
+            right: -80px;
+            bottom: -120px;
+        }
+
+        .success-icon {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            background: white;
+            color: var(--success);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            margin: 0 auto 18px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .failed .success-icon {
+            color: var(--danger);
+        }
+
+        .result-header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .result-header p {
+            margin: 0;
+            opacity: .9;
+            font-size: 14px;
+            position: relative;
+            z-index: 2;
+        }
+
+
+        /* =========================
+           EXAM NAME
+        ========================= */
+
+        .exam-name-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            padding: 18px 22px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .exam-name-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .exam-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 11px;
+            background: #eff6ff;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 21px;
+        }
+
+        .exam-name {
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        .exam-date {
+            color: var(--secondary);
+            font-size: 12px;
+            margin-top: 4px;
+        }
+
+        .status-badge {
+            padding: 7px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .status-passed {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .status-failed {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+
+        /* =========================
+           SCORE
+        ========================= */
+
+        .score-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+
+        .score-title {
+            text-align: center;
+            color: var(--secondary);
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+
+        .score-value {
+            text-align: center;
+            color: var(--primary);
+            font-size: 52px;
+            line-height: 1.1;
+            font-weight: 800;
+        }
+
+        .score-out-of {
+            text-align: center;
+            color: var(--secondary);
+            font-size: 13px;
+            margin-top: 5px;
+        }
+
+        .percentage {
+            text-align: center;
+            color: var(--success);
+            font-size: 15px;
+            font-weight: 700;
+            margin-top: 8px;
+        }
+
+        .percentage.failed-percentage {
+            color: var(--danger);
+        }
+
+
+        /* =========================
+           STAT CARDS
+        ========================= */
+
+        .stat-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 20px;
+            text-align: center;
+            height: 100%;
+        }
+
+        .stat-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 12px;
+            font-size: 19px;
+        }
+
+        .green {
+            background: #dcfce7;
+            color: var(--success);
+        }
+
+        .red {
+            background: #fee2e2;
+            color: var(--danger);
+        }
+
+        .yellow {
+            background: #fef3c7;
+            color: #b45309;
+        }
+
+        .blue {
+            background: #dbeafe;
+            color: var(--primary);
+        }
+
+        .stat-value {
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .stat-label {
+            color: var(--secondary);
+            font-size: 12px;
+            margin-top: 3px;
+        }
+
+
+        /* =========================
+           PERFORMANCE
+        ========================= */
+
+        .content-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            padding: 23px;
+            margin-top: 20px;
+        }
+
+        .section-title {
+            font-size: 17px;
+            font-weight: 700;
+            margin-bottom: 18px;
+        }
+
+        .performance-row {
+            margin-bottom: 17px;
+        }
+
+        .performance-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 7px;
+            font-size: 13px;
+        }
+
+        .performance-label {
+            color: #475569;
+        }
+
+        .performance-value {
+            font-weight: 700;
+        }
+
+        .performance-progress {
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 20px;
+        }
+
+        .performance-progress .progress-bar {
+            border-radius: 20px;
+            background: var(--primary);
+        }
+
+        .pass-progress {
+            background: var(--success) !important;
+        }
+
+        .fail-progress {
+            background: var(--danger) !important;
+        }
+
+
+        /* =========================
+           ACTION BUTTONS
+        ========================= */
+
+        .action-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            padding: 22px;
+            margin-top: 20px;
+        }
+
+        .btn-dashboard {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 11px 22px;
+            border-radius: 9px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .btn-dashboard:hover {
+            background: var(--primary-dark);
+            color: white;
+        }
+
+        .btn-retake {
+            background: white;
+            color: var(--primary);
+            border: 1px solid #bfdbfe;
+            padding: 11px 22px;
+            border-radius: 9px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .btn-retake:hover {
+            background: #eff6ff;
+            color: var(--primary-dark);
+        }
+
+        .btn-details {
+            background: white;
+            color: #475569;
+            border: 1px solid var(--border);
+            padding: 11px 22px;
+            border-radius: 9px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .btn-details:hover {
+            background: #f8fafc;
+        }
+
+        .secure-text {
+            text-align: center;
+            color: var(--secondary);
+            font-size: 12px;
+            margin-top: 20px;
+        }
+
+        .secure-text i {
+            color: var(--success);
+            margin-right: 4px;
+        }
+
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 767px) {
+
+            .main-wrapper {
+                padding: 20px 15px 40px;
+            }
+
+            .profile-name {
+                display: none;
+            }
+
+            .result-header {
+                padding: 30px 20px;
+            }
+
+            .result-header h1 {
+                font-size: 23px;
+            }
+
+            .score-value {
+                font-size: 44px;
+            }
+
+            .exam-name-card {
+                align-items: flex-start;
+                gap: 12px;
+            }
+
+            .status-badge {
+                white-space: nowrap;
+            }
+
+            .action-buttons {
+                display: flex;
+                flex-direction: column;
+            }
+
+            .action-buttons a,
+            .action-buttons button {
+                width: 100%;
+                text-align: center;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     NAVBAR
+========================= -->
+
+<nav class="navbar-custom">
+
+    <div class="container-fluid px-4 h-100
+                d-flex align-items-center justify-content-between">
+
+        <a href="/student/dashboard" class="brand">
+
+            <div class="brand-icon">
+                <i class="bi bi-mortarboard-fill"></i>
+            </div>
+
+            <div>
+                Online <span>Exam</span>
+            </div>
+
+        </a>
+
+
+        <div class="dropdown">
+
+            <button
+                    class="profile-btn dropdown-toggle d-flex align-items-center gap-2"
+                    data-bs-toggle="dropdown">
+
+                <!-- Dynamic Student Avatar -->
+                <div class="profile-avatar"
+                     th:text="${session.userName != null
+                         and !#strings.isEmpty(session.userName.trim())
+                         ? #strings.substring(session.userName.trim(), 0, 1).toUpperCase()
+                         : 'U'}">
+                    U
+                </div>
+
+                <!-- Dynamic Student Name -->
+                <span class="profile-name"
+                      th:text="${session.userName != null
+              and !#strings.isEmpty(session.userName.trim())
+              ? session.userName
+              : 'User'}">
+        User
+    </span>
+
+            </button>
+
+
+            <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0">
+
+                <li>
+
+                    <a class="dropdown-item" href="/student/profile">
+
+                        <i class="bi bi-person me-2"></i>
+
+                        My Profile
+
+                    </a>
+
+                </li>
+
+
+                <li>
+
+                    <a class="dropdown-item" href="#">
+
+                        <i class="bi bi-gear me-2"></i>
+
+                        Settings
+
+                    </a>
+
+                </li>
+
+
+                <li>
+
+                    <hr class="dropdown-divider">
+
+                </li>
+
+
+                <li>
+
+                    <a class="dropdown-item text-danger" href="/">
+
+                        <i class="bi bi-box-arrow-right me-2"></i>
+
+                        Logout
+
+                    </a>
+
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+<!-- =========================
+     MAIN
+========================= -->
+
+<main class="main-wrapper">
+
+
+    <!-- =========================
+         RESULT HEADER
+    ========================= -->
+
+    <div
+            class="result-header"
+            th:classappend="${passed} ? '' : ' failed'">
+
+        <div class="success-icon">
+
+            <i
+                    class="bi"
+                    th:classappend="${passed} ? ' bi-check-lg' : ' bi-x-lg'">
+            </i>
+
+        </div>
+
+        <h1 th:if="${passed}">
+            Congratulations! You Passed!
+        </h1>
+
+        <h1 th:unless="${passed}">
+            Exam Completed - You Did Not Pass
+        </h1>
+
+        <p th:if="${passed}">
+            Great job! You have successfully passed this examination.
+        </p>
+
+        <p th:unless="${passed}">
+            Don't worry. Review your answers and try again.
+        </p>
+
+    </div>
+
+
+    <!-- =========================
+         EXAM NAME
+    ========================= -->
+
+    <div class="exam-name-card">
+
+        <div class="exam-name-left">
+
+            <div class="exam-icon">
+
+                <i class="bi bi-code-slash"></i>
+
+            </div>
+
+            <div>
+
+                <div
+                        class="exam-name"
+                        th:text="${exam.title}">
+
+                    Exam Name
+
+                </div>
+
+                <div class="exam-date">
+
+                    Completed on
+
+                    <span
+                            th:text="${#temporals.format(attempt.submittedAt, 'dd MMMM yyyy HH:mm')}">
+
+                        06 October 2026 16:20
+
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Dynamic PASS / FAIL badge -->
+
+        <span
+                class="status-badge"
+                th:classappend="${passed} ? ' status-passed' : ' status-failed'">
+
+            <i
+                    class="bi me-1"
+                    th:classappend="${passed} ? ' bi-check-circle' : ' bi-x-circle'">
+            </i>
+
+            <span th:if="${passed}">
+                PASSED
+            </span>
+
+            <span th:unless="${passed}">
+                FAILED
+            </span>
+
+        </span>
+
+    </div>
+
+
+    <!-- =========================
+         SCORE
+    ========================= -->
+
+    <div class="score-card">
+
+        <div class="score-title">
+            Your Score
+        </div>
+
+        <div class="score-value">
+
+            <span th:text="${attempt.score}">
+                52
+            </span>
+
+            /
+
+            <span th:text="${attempt.totalMarks}">
+                60
+            </span>
+
+        </div>
+
+        <div class="score-out-of">
+
+            Total Marks:
+
+            <span th:text="${attempt.totalMarks}">
+                60
+            </span>
+
+        </div>
+
+        <div
+                class="percentage"
+                th:classappend="${passed} ? '' : ' failed-percentage'">
+
+            <span
+                    th:text="${#numbers.formatDecimal(attempt.percentage, 1, 2)}">
+
+                86.67
+
+            </span>%
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         STATISTICS
+    ========================= -->
+
+    <div class="row g-3">
+
+
+        <!-- CORRECT -->
+
+        <div class="col-6 col-md-3">
+
+            <div class="stat-card">
+
+                <div class="stat-icon green">
+
+                    <i class="bi bi-check-lg"></i>
+
+                </div>
+
+                <div
+                        class="stat-value"
+                        th:text="${attempt.correctAnswers}">
+
+                    26
+
+                </div>
+
+                <div class="stat-label">
+                    Correct Answers
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- WRONG -->
+
+        <div class="col-6 col-md-3">
+
+            <div class="stat-card">
+
+                <div class="stat-icon red">
+
+                    <i class="bi bi-x-lg"></i>
+
+                </div>
+
+                <div
+                        class="stat-value"
+                        th:text="${attempt.wrongAnswers}">
+
+                    4
+
+                </div>
+
+                <div class="stat-label">
+                    Wrong Answers
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- UNANSWERED -->
+
+        <div class="col-6 col-md-3">
+
+            <div class="stat-card">
+
+                <div class="stat-icon yellow">
+
+                    <i class="bi bi-dash-lg"></i>
+
+                </div>
+
+                <div
+                        class="stat-value"
+                        th:text="${attempt.unanswered}">
+
+                    0
+
+                </div>
+
+                <div class="stat-label">
+                    Unanswered
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- TIME -->
+
+        <div class="col-6 col-md-3">
+
+            <div class="stat-card">
+
+                <div class="stat-icon blue">
+
+                    <i class="bi bi-clock"></i>
+
+                </div>
+
+                <div
+                        class="stat-value"
+                        id="timeTaken">
+
+                    --
+
+                </div>
+
+                <div class="stat-label">
+                    Time Taken
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         PERFORMANCE
+    ========================= -->
+
+    <div class="content-card">
+
+        <div class="section-title">
+
+            <i class="bi bi-bar-chart-fill text-primary me-2"></i>
+
+            Performance Summary
+
+        </div>
+
+
+        <!-- Correct -->
+
+        <div class="performance-row">
+
+            <div class="performance-header">
+
+                <span class="performance-label">
+                    Correct Answers
+                </span>
+
+                <span class="performance-value">
+
+                    <span th:text="${attempt.correctAnswers}">
+                        26
+                    </span>
+
+                    /
+
+                    <span
+                            th:text="${attempt.correctAnswers + attempt.wrongAnswers + attempt.unanswered}">
+                        30
+                    </span>
+
+                </span>
+
+            </div>
+
+            <div class="progress performance-progress">
+
+                <div
+                        class="progress-bar"
+                        th:style="'width:' + ${attempt.percentage} + '%;'">
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Accuracy -->
+
+        <div class="performance-row">
+
+            <div class="performance-header">
+
+                <span class="performance-label">
+                    Accuracy
+                </span>
+
+                <span class="performance-value">
+
+                    <span
+                            th:text="${#numbers.formatDecimal(attempt.percentage, 1, 2)}">
+
+                        86.67
+
+                    </span>%
+
+                </span>
+
+            </div>
+
+            <div class="progress performance-progress">
+
+                <div
+                        class="progress-bar"
+                        th:style="'width:' + ${attempt.percentage} + '%;'">
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Passing Requirement -->
+
+        <div class="performance-row mb-0">
+
+            <div class="performance-header">
+
+                <span class="performance-label">
+                    Passing Requirement
+                </span>
+
+                <span
+                        class="performance-value"
+                        th:text="${passingMarks + ' / ' + attempt.totalMarks}">
+
+                    18 / 30
+
+                </span>
+
+            </div>
+
+            <div class="progress performance-progress">
+
+                <div
+                        class="progress-bar"
+                        th:classappend="${passed} ? ' pass-progress' : ' fail-progress'"
+                        th:style="'width:' + ${(passingMarks * 100.0) / attempt.totalMarks} + '%;'">
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Result -->
+
+        <div class="performance-row mb-0 mt-4">
+
+            <div class="performance-header">
+
+                <span class="performance-label">
+                    Final Result
+                </span>
+
+                <span
+                        class="performance-value"
+                        th:classappend="${passed} ? ' text-success' : ' text-danger'">
+
+                    <span th:if="${passed}">
+                        PASSED
+                    </span>
+
+                    <span th:unless="${passed}">
+                        FAILED
+                    </span>
+
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         ACTIONS
+    ========================= -->
+
+    <div class="action-card">
+
+        <div class="action-buttons d-flex
+                    justify-content-center
+                    gap-3 flex-wrap">
+
+
+            <!-- Dashboard -->
+
+            <a
+                    href="/student/dashboard"
+                    class="btn-dashboard text-decoration-none">
+
+                <i class="bi bi-grid-1x2-fill me-1"></i>
+
+                Back to Dashboard
+
+            </a>
+
+
+            <!-- Retake -->
+
+            <a
+                    th:href="@{/student/exam-instructions(examId=${exam.id})}"
+                    class="btn-retake text-decoration-none">
+
+                <i class="bi bi-arrow-repeat me-1"></i>
+
+                Retake Exam
+
+            </a>
+
+
+            <!-- Detailed Answers -->
+
+            <a
+                    th:href="@{/student/result-details(attemptId=${attempt.id})}"
+                    class="btn-details text-decoration-none">
+
+                <i class="bi bi-list-check me-1"></i>
+
+                View Detailed Answers
+
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         SECURITY MESSAGE
+    ========================= -->
+
+    <div class="secure-text">
+
+        <i class="bi bi-shield-check"></i>
+
+        Your result has been recorded securely.
+
+    </div>
+
+
+</main>
+
+
+<!-- Bootstrap JS -->
+
+<script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+
+<script th:inline="javascript">
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const startedAt =
+            /*[[${attempt.startedAt != null ? #temporals.format(attempt.startedAt, "yyyy-MM-dd'T'HH:mm:ss") : null}]]*/ null;
+
+        const submittedAt =
+            /*[[${attempt.submittedAt != null ? #temporals.format(attempt.submittedAt, "yyyy-MM-dd'T'HH:mm:ss") : null}]]*/ null;
+
+        console.log("Started At:", startedAt);
+        console.log("Submitted At:", submittedAt);
+
+        const timeTakenElement = document.getElementById("timeTaken");
+
+        if (!timeTakenElement) {
+            console.error("timeTaken element not found");
+            return;
+        }
+
+        if (!startedAt || !submittedAt) {
+            timeTakenElement.textContent = "N/A";
+            return;
+        }
+
+        const startTime = new Date(startedAt);
+        const endTime = new Date(submittedAt);
+
+        if (
+            Number.isNaN(startTime.getTime()) ||
+            Number.isNaN(endTime.getTime()) ||
+            endTime < startTime
+        ) {
+            timeTakenElement.textContent = "N/A";
+            return;
+        }
+
+        let totalSeconds = Math.floor(
+            (endTime.getTime() - startTime.getTime()) / 1000
+        );
+
+        const hours = Math.floor(totalSeconds / 3600);
+        totalSeconds %= 3600;
+
+        const minutes = Math.floor(totalSeconds / 60);
+        const seconds = totalSeconds % 60;
+
+        if (hours > 0) {
+            timeTakenElement.textContent =
+                String(hours).padStart(2, "0") + ":" +
+                String(minutes).padStart(2, "0") + ":" +
+                String(seconds).padStart(2, "0");
+        } else {
+            timeTakenElement.textContent =
+                String(minutes).padStart(2, "0") + ":" +
+                String(seconds).padStart(2, "0");
+        }
+
+    });
+</script>
+
+
+</body>
+
+</html>
+

@@ -1,0 +1,2135 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Settings | Online Examination System</title>
+
+    <!-- Bootstrap 5.3 -->
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+            rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+
+        :root {
+            --primary: #2563EB;
+            --primary-dark: #1D4ED8;
+            --dark-blue: #1E40AF;
+            --page-bg: #F8FAFC;
+            --text: #172033;
+            --secondary: #64748B;
+            --border: #E2E8F0;
+            --success: #16A34A;
+            --danger: #DC2626;
+        }
+
+        body {
+            background: var(--page-bg);
+            color: var(--text);
+            font-family: Arial, sans-serif;
+        }
+
+        /* ================= NAVBAR ================= */
+
+        .admin-navbar {
+            background: #ffffff;
+            border-bottom: 1px solid var(--border);
+            height: 70px;
+        }
+
+        .brand-logo {
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            background: linear-gradient(
+                    135deg,
+                    var(--primary),
+                    var(--dark-blue)
+            );
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .brand-title {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .brand-subtitle {
+            font-size: 12px;
+            color: var(--secondary);
+        }
+
+        /* ================= RESPONSIVE NOTIFICATIONS ================= */
+        #adminNotificationWrapper {
+            position: relative;
+            flex: 0 0 auto;
+        }
+
+        #adminNotificationBell {
+            min-width: 44px;
+            min-height: 44px;
+        }
+
+        #adminNotificationBadge {
+            min-width: 20px;
+            line-height: 1.2;
+        }
+
+        #markAllAdminNotificationsRead {
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        #markAllAdminNotificationsRead:disabled {
+            opacity: .55;
+            cursor: not-allowed;
+        }
+
+        #adminNotificationDropdown {
+            position: absolute !important;
+            top: calc(100% + 8px) !important;
+            right: 0 !important;
+            left: auto !important;
+            transform: none !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            width: min(390px, calc(100vw - 24px)) !important;
+            max-width: calc(100vw - 24px) !important;
+            max-height: min(70vh, 560px) !important;
+            overflow: hidden !important;
+            box-sizing: border-box;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: #fff;
+            box-shadow: 0 12px 35px rgba(15, 23, 42, .16);
+            z-index: 1085;
+        }
+
+        #adminNotificationDropdown.show {
+            display: block;
+        }
+
+        .admin-notification-header {
+            position: sticky;
+            top: 0;
+            z-index: 2;
+            padding: 13px 15px;
+            background: #fff;
+            border-bottom: 1px solid var(--border);
+        }
+
+        #adminNotificationList {
+            min-width: 0;
+            max-height: calc(min(70vh, 560px) - 65px);
+            overflow-y: auto;
+            overscroll-behavior: contain;
+        }
+
+        .admin-notification-item {
+            display: block;
+            padding: 12px 15px;
+            border-bottom: 1px solid #eef2f7;
+            white-space: normal;
+            overflow-wrap: anywhere;
+        }
+
+        .admin-notification-item.unread {
+            background: #eff6ff;
+        }
+
+        .admin-notification-item:hover {
+            background: #f8fafc;
+        }
+
+        .admin-notification-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .admin-notification-message {
+            margin-top: 4px;
+            font-size: 12px;
+            color: #64748b;
+            overflow-wrap: anywhere;
+        }
+
+        .admin-notification-date {
+            margin-top: 5px;
+            font-size: 11px;
+            color: #94a3b8;
+        }
+
+        .admin-notification-actions {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .admin-notification-actions button,
+        .admin-notification-actions a {
+            font-size: 12px;
+        }
+
+        @media (max-width: 991.98px) {
+            .admin-navbar {
+                height: auto;
+                min-height: 70px;
+            }
+
+            .admin-navbar > .container-fluid {
+                flex-wrap: wrap;
+                row-gap: 10px;
+            }
+        }
+
+        @media (max-width: 575.98px) {
+            .admin-navbar {
+                padding: 10px 12px !important;
+            }
+
+            .admin-navbar > .container-fluid {
+                gap: 10px;
+            }
+
+            .admin-navbar .brand-title {
+                font-size: 15px;
+            }
+
+            .admin-navbar .brand-subtitle {
+                font-size: 11px;
+            }
+
+            .admin-navbar .container-fluid > .d-flex.align-items-center.gap-3:last-child {
+                gap: 8px !important;
+                margin-left: auto;
+            }
+
+            #adminNotificationDropdown {
+                position: fixed !important;
+                top: 80px !important;
+                right: 12px !important;
+                left: 12px !important;
+                width: auto !important;
+                max-width: none !important;
+                max-height: calc(100dvh - 96px) !important;
+                transform: none !important;
+            }
+
+            #adminNotificationList {
+                max-height: calc(100dvh - 170px);
+            }
+
+            .admin-notification-header,
+            .admin-notification-item {
+                padding: 12px;
+            }
+        }
+
+        .admin-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #DBEAFE;
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+
+        /* ================= SIDEBAR ================= */
+
+        .sidebar {
+            position: fixed;
+            top: 70px;
+            left: 0;
+            width: 250px;
+            height: calc(100vh - 70px);
+            background: #ffffff;
+            border-right: 1px solid var(--border);
+            padding: 20px 14px;
+            overflow-y: auto;
+        }
+
+        .sidebar-title {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: .08em;
+            color: #94A3B8;
+            font-weight: 700;
+            padding: 10px 12px;
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 11px 13px;
+            margin-bottom: 5px;
+            border-radius: 9px;
+            color: #475569;
+            text-decoration: none;
+            font-size: 14px;
+            transition: .2s;
+        }
+
+        .sidebar-link:hover {
+            background: #EFF6FF;
+            color: var(--primary);
+        }
+
+        .sidebar-link.active {
+            background: #DBEAFE;
+            color: var(--primary-dark);
+            font-weight: 600;
+        }
+
+        .sidebar-link i {
+            font-size: 17px;
+        }
+
+        /* ================= MAIN ================= */
+
+        .main-content {
+            margin-left: 250px;
+            padding: 30px;
+        }
+
+        .page-title {
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .page-subtitle {
+            color: var(--secondary);
+            font-size: 14px;
+        }
+
+        /* ================= SETTINGS LAYOUT ================= */
+
+        .settings-card {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            overflow: hidden;
+        }
+
+        .settings-nav {
+            border-right: 1px solid var(--border);
+            min-height: 650px;
+            padding: 15px;
+        }
+
+        .settings-nav-link {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px;
+            border: none;
+            background: transparent;
+            color: #475569;
+            border-radius: 9px;
+            margin-bottom: 5px;
+            text-align: left;
+            font-size: 14px;
+            transition: .2s;
+        }
+
+        .settings-nav-link:hover {
+            background: #EFF6FF;
+            color: var(--primary);
+        }
+
+        .settings-nav-link.active {
+            background: #DBEAFE;
+            color: var(--primary-dark);
+            font-weight: 600;
+        }
+
+        .settings-nav-link i {
+            font-size: 17px;
+        }
+
+        .settings-content {
+            padding: 28px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .section-subtitle {
+            color: var(--secondary);
+            font-size: 13px;
+        }
+
+        .settings-section {
+            padding-bottom: 28px;
+            margin-bottom: 28px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .settings-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .form-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #475569;
+        }
+
+        .form-control,
+        .form-select {
+            min-height: 43px;
+            border-color: var(--border);
+            font-size: 14px;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 .2rem rgba(37, 99, 235, .12);
+        }
+
+        /* ================= PROFILE ================= */
+
+        .profile-box {
+            background: #F8FAFC;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .large-avatar {
+            width: 75px;
+            height: 75px;
+            border-radius: 50%;
+            background: linear-gradient(
+                    135deg,
+                    #DBEAFE,
+                    #BFDBFE
+            );
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        /* ================= TOGGLE ================= */
+
+        .form-switch .form-check-input {
+            width: 42px;
+            height: 22px;
+            cursor: pointer;
+        }
+
+        .form-switch .form-check-input:checked {
+            background-color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .setting-row {
+            padding: 16px 0;
+            border-bottom: 1px solid #F1F5F9;
+        }
+
+        .setting-row:last-child {
+            border-bottom: none;
+        }
+
+        .setting-name {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .setting-description {
+            color: var(--secondary);
+            font-size: 12px;
+            margin-top: 3px;
+        }
+
+        /* ================= SECURITY ================= */
+
+        .security-item {
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+
+        .security-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 9px;
+            background: #EFF6FF;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* ================= MOBILE ================= */
+
+        .mobile-menu {
+            display: none;
+        }
+
+        @media (max-width: 991px) {
+
+            .sidebar {
+                position: static;
+                width: 100%;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid var(--border);
+                display: none;
+            }
+
+            .sidebar.show-mobile {
+                display: block;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 20px 15px;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            .settings-nav {
+                min-height: auto;
+                border-right: none;
+                border-bottom: 1px solid var(--border);
+            }
+
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+
+<nav class="navbar admin-navbar px-3">
+
+    <div class="container-fluid">
+
+        <div class="d-flex align-items-center gap-3">
+
+            <button class="btn btn-light mobile-menu"
+                    onclick="toggleSidebar()">
+
+                <i class="bi bi-list fs-5"></i>
+
+            </button>
+
+            <div class="brand-logo">
+                OE
+            </div>
+
+            <div>
+
+                <div class="brand-title">
+                    Online Examination
+                </div>
+
+                <div class="brand-subtitle">
+                    Administration Panel
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="d-flex align-items-center gap-3">
+
+            <div class="dropdown position-relative" id="adminNotificationWrapper">
+                <button class="btn btn-light position-relative"
+                        type="button"
+                        id="adminNotificationBell"
+                        aria-expanded="false"
+                        aria-label="Notifications">
+                    <i class="bi bi-bell fs-5"></i>
+                    <span id="adminNotificationBadge"
+                          class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                          style="display:none;">0</span>
+                </button>
+
+                <div id="adminNotificationDropdown"
+                     class="dropdown-menu dropdown-menu-end p-0 shadow"
+                     style="width:min(360px, 90vw); max-height:420px; overflow-y:auto;">
+                    <div class="admin-notification-header">
+                        <div class="d-flex justify-content-between align-items-center gap-2">
+                            <strong>Notifications</strong>
+                            <small id="adminNotificationCount" class="text-muted">Loading...</small>
+                        </div>
+                        <div class="text-end mt-2">
+                            <button type="button"
+                                    id="markAllAdminNotificationsRead"
+                                    class="btn btn-sm btn-link p-0 text-decoration-none"
+                                    style="cursor: pointer; position: relative; z-index: 20; pointer-events: auto;">
+                                Mark all as read
+                            </button>
+                        </div>
+                    </div>
+                    <div id="adminNotificationList" aria-live="polite">
+                        <div class="px-3 py-4 text-center text-muted">Loading notifications...</div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="admin-avatar"
+                 th:text="${session.userName != null
+         and !#strings.isEmpty(session.userName.trim())
+         ? #strings.substring(session.userName.trim(), 0, 1).toUpperCase()
+         : 'U'}">
+                U
+            </div>
+
+
+            <div class="d-none d-md-block">
+
+                <div class="fw-semibold"
+                     style="font-size:14px;"
+                     th:text="${session.userName != null
+         and !#strings.isEmpty(session.userName.trim())
+         ? session.userName
+         : 'Admin'}">
+                    Admin
+                </div>
+
+                <!--                <div class="text-muted"-->
+                <!--                     style="font-size:12px"-->
+                <!--                     th:text="${session.role != null-->
+                <!--         ? session.role-->
+                <!--         : 'Administrator'}">-->
+                <!--                    Administrator-->
+                <!--                </div>-->
+
+            </div>
+
+
+            <button class="btn btn-light">
+
+                <i class="bi bi-box-arrow-right"></i>
+
+            </button>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+<!-- ================= SIDEBAR ================= -->
+
+<aside class="sidebar" id="sidebar">
+
+    <div class="sidebar-title">
+        Main Menu
+    </div>
+
+
+    <a href="/admin/dashboard"
+       class="sidebar-link">
+
+        <i class="bi bi-grid-1x2"></i>
+
+        Dashboard
+
+    </a>
+
+
+    <a href="/admin/exams"
+       class="sidebar-link">
+
+        <i class="bi bi-journal-text"></i>
+
+        Manage Exams
+
+    </a>
+
+
+    <a href="/admin/questions"
+       class="sidebar-link">
+
+        <i class="bi bi-question-circle"></i>
+
+        Questions
+
+    </a>
+
+
+    <a href="/admin/students"
+       class="sidebar-link">
+
+        <i class="bi bi-people"></i>
+
+        Students
+
+    </a>
+
+
+    <a href="/admin/results"
+       class="sidebar-link">
+
+        <i class="bi bi-bar-chart"></i>
+
+        Exam Results
+
+    </a>
+
+
+    <a href="/admin/support"
+       class="sidebar-link">
+
+        <i class="bi bi-headset"></i>
+
+        Support Tickets
+
+    </a>
+
+
+    <div class="sidebar-title mt-3">
+        Management
+    </div>
+
+
+    <a href="/admin/reports"
+       class="sidebar-link">
+
+        <i class="bi bi-file-earmark-bar-graph"></i>
+
+        Reports
+
+    </a>
+
+
+    <a href="/admin/settings"
+       class="sidebar-link active">
+
+        <i class="bi bi-gear"></i>
+
+        Settings
+
+    </a>
+
+</aside>
+
+
+<!-- ================= MAIN ================= -->
+
+<main class="main-content">
+
+    <!-- Header -->
+
+    <div class="mb-4">
+
+        <h1 class="page-title">
+            Settings
+        </h1>
+
+        <p class="page-subtitle mb-0">
+            Manage your account and examination system preferences.
+        </p>
+
+    </div>
+
+    <!-- ================= SAVE MESSAGES ================= -->
+
+    <div th:if="${success}"
+         class="alert alert-success alert-dismissible fade show"
+         role="alert">
+
+        <i class="bi bi-check-circle me-2"></i>
+
+        <span th:text="${success}">
+            Settings saved successfully.
+        </span>
+
+        <button type="button"
+                class="btn-close"
+                data-bs-dismiss="alert">
+        </button>
+
+    </div>
+
+
+    <div th:if="${error}"
+         class="alert alert-danger alert-dismissible fade show"
+         role="alert">
+
+        <i class="bi bi-exclamation-circle me-2"></i>
+
+        <span th:text="${error}">
+            Error saving settings.
+        </span>
+
+        <button type="button"
+                class="btn-close"
+                data-bs-dismiss="alert">
+        </button>
+
+    </div>
+
+
+    <!-- ================= SETTINGS CARD ================= -->
+
+    <div class="settings-card">
+
+        <div class="row g-0">
+
+            <!-- ================= SETTINGS MENU ================= -->
+
+            <div class="col-lg-3">
+
+                <div class="settings-nav">
+
+                    <button class="settings-nav-link active"
+                            onclick="showSection('general', this)">
+
+                        <i class="bi bi-sliders"></i>
+
+                        General
+
+                    </button>
+
+
+                    <button class="settings-nav-link"
+                            onclick="showSection('exam', this)">
+
+                        <i class="bi bi-journal-check"></i>
+
+                        Exam Settings
+
+                    </button>
+
+
+                    <button class="settings-nav-link"
+                            onclick="showSection('notifications', this)">
+
+                        <i class="bi bi-bell"></i>
+
+                        Notifications
+
+                    </button>
+
+
+                    <button class="settings-nav-link"
+                            onclick="showSection('security', this)">
+
+                        <i class="bi bi-shield-lock"></i>
+
+                        Security
+
+                    </button>
+
+
+                    <button class="settings-nav-link"
+                            onclick="showSection('profile', this)">
+
+                        <i class="bi bi-person"></i>
+
+                        Admin Profile
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= SETTINGS CONTENT ================= -->
+
+            <div class="col-lg-9">
+
+                <div class="settings-content">
+
+                    <form th:action="@{/admin/settings}"
+                          th:object="${settings}"
+                          method="post">
+
+
+                        <!-- ================= GENERAL ================= -->
+
+                        <div id="general"
+                             class="settings-panel">
+
+                            <div class="settings-section">
+
+                                <div class="section-title">
+                                    General Settings
+                                </div>
+
+                                <div class="section-subtitle mb-4">
+                                    Configure basic information about your examination system.
+                                </div>
+
+
+                                <div class="row g-3">
+
+                                    <div class="col-md-6">
+
+                                        <label class="form-label">
+                                            System Name
+                                        </label>
+
+                                        <input type="text"
+                                               class="form-control"
+                                               th:field="*{systemName}">
+
+                                    </div>
+
+
+                                    <div class="col-md-6">
+
+                                        <label class="form-label">
+                                            Administrator Email
+                                        </label>
+
+                                        <input type="email"
+                                               class="form-control"
+                                               th:field="*{administratorEmail}">
+
+                                    </div>
+
+
+                                    <div class="col-md-6">
+
+                                        <label class="form-label">
+                                            Contact Number
+                                        </label>
+
+                                        <input type="text"
+                                               class="form-control"
+                                               th:field="*{contactNumber}">
+
+                                    </div>
+
+
+                                    <div class="col-md-6">
+
+                                        <label class="form-label">
+                                            Time Zone
+                                        </label>
+
+                                        <select class="form-select"
+                                                th:field="*{timeZone}">
+
+                                            <option value="Asia/Kolkata (IST)">
+                                                Asia/Kolkata (IST)
+                                            </option>
+
+                                            <option value="UTC">
+                                                UTC
+                                            </option>
+
+                                            <option value="America/New_York">
+                                                America/New_York
+                                            </option>
+
+                                            <option value="Europe/London">
+                                                Europe/London
+                                            </option>
+
+                                        </select>
+
+                                    </div>
+
+
+                                    <div class="col-md-6">
+
+                                        <label class="form-label">
+                                            Default Language
+                                        </label>
+
+                                        <select class="form-select"
+                                                th:field="*{defaultLanguage}">
+
+                                            <option value="English">
+                                                English
+                                            </option>
+
+                                            <option value="Hindi">
+                                                Hindi
+                                            </option>
+
+                                        </select>
+
+                                    </div>
+
+
+                                    <div class="col-md-6">
+
+                                        <label class="form-label">
+                                            Date Format
+                                        </label>
+
+                                        <select class="form-select"
+                                                th:field="*{dateFormat}">
+
+                                            <option value="DD MMM YYYY">
+                                                DD MMM YYYY
+                                            </option>
+
+                                            <option value="DD/MM/YYYY">
+                                                DD/MM/YYYY
+                                            </option>
+
+                                            <option value="MM/DD/YYYY">
+                                                MM/DD/YYYY
+                                            </option>
+
+                                        </select>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- System Status -->
+
+                            <div class="settings-section">
+
+                                <div class="section-title">
+                                    System Status
+                                </div>
+
+                                <div class="section-subtitle mb-3">
+                                    Current system configuration.
+                                </div>
+
+
+                                <div class="setting-row">
+
+                                    <div class="d-flex justify-content-between
+                                            align-items-center">
+
+                                        <div>
+
+                                            <div class="setting-name">
+                                                Examination System
+                                            </div>
+
+                                            <div class="setting-description">
+                                                Allow students to access examinations.
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-check form-switch">
+
+                                            <input class="form-check-input"
+                                                   type="checkbox"
+                                                   th:field="*{examinationSystemEnabled}">
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="setting-row">
+
+                                    <div class="d-flex justify-content-between
+                                            align-items-center">
+
+                                        <div>
+
+                                            <div class="setting-name">
+                                                Maintenance Mode
+                                            </div>
+
+                                            <div class="setting-description">
+                                                Temporarily disable student access.
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-check form-switch">
+
+                                            <input class="form-check-input"
+                                                   type="checkbox"
+                                                   th:field="*{maintenanceMode}">
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- ================= EXAM SETTINGS ================= -->
+
+                        <div id="exam"
+                             class="settings-panel d-none">
+
+                            <div class="settings-section">
+
+                                <div class="section-title">
+                                    Examination Settings
+                                </div>
+
+                                <div class="section-subtitle mb-4">
+                                    Configure default examination behavior.
+                                </div>
+
+
+                                <div class="row g-3">
+
+                                    <div class="col-md-6">
+
+                                        <label class="form-label">
+                                            Default Exam Duration
+                                        </label>
+
+                                        <div class="input-group">
+
+                                            <input type="number"
+                                                   class="form-control"
+                                                   th:field="*{defaultExamDuration}"
+                                                   min="1"
+                                                   required>
+
+                                            <span class="input-group-text">
+                                            Minutes
+                                        </span>
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="col-md-6">
+
+                                        <label class="form-label">
+                                            Passing Percentage
+                                        </label>
+
+                                        <div class="input-group">
+
+                                            <input type="number"
+                                                   class="form-control"
+                                                   th:field="*{passingPercentage}">
+
+                                            <span class="input-group-text">
+                                            %
+                                        </span>
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="col-md-6">
+
+                                        <label class="form-label">
+                                            Default Questions Per Exam
+                                        </label>
+
+                                        <input type="number"
+                                               class="form-control"
+                                               th:field="*{defaultQuestionsPerExam}">
+
+                                    </div>
+
+
+                                    <div class="col-md-6">
+
+                                        <label class="form-label">
+                                            Default Marks Per Question
+                                        </label>
+
+                                        <input type="number"
+                                               class="form-control"
+                                               th:field="*{defaultMarksPerQuestion}">
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="settings-section">
+
+                                <div class="section-title">
+                                    Exam Behavior
+                                </div>
+
+                                <div class="section-subtitle mb-3">
+                                    Control how students interact with examinations.
+                                </div>
+
+
+                                <div class="setting-row">
+
+                                    <div class="d-flex justify-content-between
+                                            align-items-center">
+
+                                        <div>
+
+                                            <div class="setting-name">
+                                                Allow Question Navigation
+                                            </div>
+
+                                            <div class="setting-description">
+                                                Students can move between previous and next questions.
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-check form-switch">
+
+                                            <input class="form-check-input"
+                                                   type="checkbox"
+                                                   th:field="*{allowQuestionNavigation}">
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="setting-row">
+
+                                    <div class="d-flex justify-content-between
+                                            align-items-center">
+
+                                        <div>
+
+                                            <div class="setting-name">
+                                                Allow Mark for Review
+                                            </div>
+
+                                            <div class="setting-description">
+                                                Students can mark questions for later review.
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-check form-switch">
+
+                                            <input class="form-check-input"
+                                                   type="checkbox"
+                                                   th:field="*{allowMarkForReview}">
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="setting-row">
+
+                                    <div class="d-flex justify-content-between
+                                            align-items-center">
+
+                                        <div>
+
+                                            <div class="setting-name">
+                                                Auto Submit on Time Expiry
+                                            </div>
+
+                                            <div class="setting-description">
+                                                Automatically submit the exam when the timer reaches zero.
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-check form-switch">
+
+                                            <input class="form-check-input"
+                                                   type="checkbox"
+                                                   th:field="*{autoSubmitOnTimeExpiry}">
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="setting-row">
+
+                                    <div class="d-flex justify-content-between
+                                            align-items-center">
+
+                                        <div>
+
+                                            <div class="setting-name">
+                                                Show Result Immediately
+                                            </div>
+
+                                            <div class="setting-description">
+                                                Display the result immediately after submission.
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-check form-switch">
+
+                                            <input class="form-check-input"
+                                                   type="checkbox"
+                                                   th:field="*{showResultImmediately}">
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- ================= NOTIFICATIONS ================= -->
+
+                        <div id="notifications"
+                             class="settings-panel d-none">
+
+                            <div class="settings-section">
+
+                                <div class="section-title">
+                                    Notification Settings
+                                </div>
+
+                                <div class="section-subtitle mb-3">
+                                    Choose which notifications the system should send.
+                                </div>
+
+
+                                <div class="setting-row">
+
+                                    <div class="d-flex justify-content-between
+                                            align-items-center">
+
+                                        <div>
+
+                                            <div class="setting-name">
+                                                New Student Registration
+                                            </div>
+
+                                            <div class="setting-description">
+                                                Notify admin when a new student registers.
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-check form-switch">
+
+                                            <input class="form-check-input"
+                                                   type="checkbox"
+                                                   th:field="*{newExamNotificationEnabled}">
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="setting-row">
+
+                                    <div class="d-flex justify-content-between
+                                            align-items-center">
+
+                                        <div>
+
+                                            <div class="setting-name">
+                                                Exam Submission
+                                            </div>
+
+                                            <div class="setting-description">
+                                                Notify admin when a student submits an examination.
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-check form-switch">
+
+                                            <input class="form-check-input"
+                                                   type="checkbox"
+                                                   th:field="*{examReminderEnabled}">
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="setting-row">
+
+                                    <div class="d-flex justify-content-between
+                                            align-items-center">
+
+                                        <div>
+
+                                            <div class="setting-name">
+                                                Email Notifications
+                                            </div>
+
+                                            <div class="setting-description">
+                                                Send important notifications through email.
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-check form-switch">
+
+                                            <input class="form-check-input"
+                                                   type="checkbox"
+                                                   th:field="*{emailNotificationsEnabled}">
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="setting-row">
+
+                                    <div class="d-flex justify-content-between
+                                            align-items-center">
+
+                                        <div>
+
+                                            <div class="setting-name">
+                                                System Alerts
+                                            </div>
+
+                                            <div class="setting-description">
+                                                Receive important system and security alerts.
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-check form-switch">
+
+                                            <input class="form-check-input"
+                                                   type="checkbox"
+                                                   th:field="*{resultNotificationEnabled}">
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- ================= SECURITY ================= -->
+
+                        <div id="security"
+                             class="settings-panel d-none">
+
+                            <div class="settings-section">
+
+                                <div class="section-title">
+                                    Security
+                                </div>
+
+                                <div class="section-subtitle mb-4">
+                                    Manage your administrator account security.
+                                </div>
+
+
+                                <div class="security-item">
+
+                                    <div class="d-flex gap-3">
+
+                                        <div class="security-icon">
+
+                                            <i class="bi bi-key"></i>
+
+                                        </div>
+
+                                        <div class="flex-grow-1">
+
+                                            <div class="fw-semibold">
+                                                Change Password
+                                            </div>
+
+                                            <div class="text-muted small mb-3">
+                                                Update your administrator password regularly.
+                                            </div>
+
+
+                                            <div class="row g-3">
+
+                                                <div class="col-md-4">
+
+                                                    <input type="password"
+                                                           id="currentPassword"
+                                                           name="currentPassword"
+                                                           class="form-control"
+                                                           placeholder="Current password"
+                                                           autocomplete="current-password">
+
+                                                </div>
+
+
+                                                <div class="col-md-4">
+
+                                                    <input type="password"
+                                                           id="newPassword"
+                                                           name="newPassword"
+                                                           class="form-control"
+                                                           placeholder="New password"
+                                                           autocomplete="new-password">
+
+                                                </div>
+
+
+                                                <div class="col-md-4">
+
+                                                    <input type="password"
+                                                           id="confirmPassword"
+                                                           name="confirmPassword"
+                                                           class="form-control"
+                                                           placeholder="Confirm password"
+                                                           autocomplete="new-password">
+
+                                                </div>
+
+                                            </div>
+
+                                            <button type="submit"
+                                                    class="btn btn-primary mt-3"
+                                                    formaction="/admin/settings/change-password"
+                                                    formmethod="post">
+
+                                                <i class="bi bi-key me-1"></i>
+
+                                                Change Password
+
+                                            </button>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="security-item">
+
+                                    <div class="d-flex gap-3">
+
+                                        <div class="security-icon">
+
+                                            <i class="bi bi-shield-check"></i>
+
+                                        </div>
+
+                                        <div>
+
+                                            <div class="fw-semibold">
+                                                Two-Factor Authentication
+                                            </div>
+
+                                            <div class="text-muted small mb-2">
+                                                Add an additional security layer to your admin account.
+                                            </div>
+
+                                            <button type="submit"
+                                                    class="btn btn-outline-primary btn-sm"
+                                                    formaction="/admin/settings/two-factor"
+                                                    formmethod="post">
+
+    <span th:text="${twoFactorEnabled ? 'Disable 2FA' : 'Enable 2FA'}">
+        Enable 2FA
+    </span>
+
+                                            </button>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="security-item">
+
+                                    <div class="d-flex gap-3">
+
+                                        <div class="security-icon">
+
+                                            <i class="bi bi-clock-history"></i>
+
+                                        </div>
+
+                                        <div>
+
+                                            <div class="fw-semibold">
+                                                Last Login
+                                            </div>
+
+                                            <div class="text-muted small">
+                                                02 Oct 2026, 06:42 PM
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- ================= PROFILE ================= -->
+
+                        <div id="profile"
+                             class="settings-panel d-none">
+
+                            <div class="settings-section">
+
+                                <div class="section-title">
+                                    Administrator Profile
+                                </div>
+
+                                <div class="section-subtitle mb-4">
+                                    Update your administrator account information.
+                                </div>
+
+
+                                <div class="profile-box mb-4">
+
+                                    <div class="d-flex align-items-center gap-3">
+
+                                        <div class="large-avatar">
+                                            AD
+                                        </div>
+
+                                        <div>
+
+                                            <h5 class="mb-1"
+                                                th:text="${profileUser != null ? profileUser.fullName : 'Administrator'}">
+                                                Administrator
+                                            </h5>
+
+                                            <div class="text-muted small">
+                                                System Administrator
+                                            </div>
+
+                                            <button class="btn btn-outline-primary btn-sm mt-2"
+                                                    onclick="changeAvatar()">
+
+                                                <i class="bi bi-camera me-1"></i>
+
+                                                Change Photo
+
+                                            </button>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="row g-3">
+
+                                    <div class="col-md-6">
+
+                                        <label class="form-label">
+                                            First Name
+                                        </label>
+
+                                        <input type="text"
+                                               class="form-control"
+                                               name="firstName"
+                                               th:value="${profileUser != null ? #strings.substringBefore(profileUser.fullName, ' ') : 'Admin'}">
+
+                                    </div>
+
+
+                                    <div class="col-md-6">
+
+                                        <label class="form-label">
+                                            Last Name
+                                        </label>
+
+                                        <input type="text"
+                                               class="form-control"
+                                               name="lastName"
+                                               th:value="${profileUser != null ? #strings.substringAfter(profileUser.fullName, ' ') : 'User'}">
+
+                                    </div>
+
+
+                                    <div class="col-md-6">
+
+                                        <label class="form-label">
+                                            Email Address
+                                        </label>
+
+                                        <input type="email"
+                                               class="form-control"
+                                               name="profileEmail"
+                                               th:value="${profileUser != null ? profileUser.email : 'admin@onlineexam.com'}">
+
+                                    </div>
+
+
+                                    <div class="col-md-6">
+
+                                        <label class="form-label">
+                                            Mobile Number
+                                        </label>
+
+                                        <input type="text"
+                                               class="form-control"
+                                               name="profileMobile"
+                                               th:value="${profileUser != null ? profileUser.mobile : '+91 9876543210'}">
+
+                                    </div>
+
+
+                                    <div class="col-md-6">
+
+                                        <label class="form-label">
+                                            Role
+                                        </label>
+
+                                        <input type="text"
+                                               class="form-control"
+                                               value="Administrator"
+                                               disabled>
+
+                                    </div>
+
+
+                                    <div class="col-md-6">
+
+                                        <label class="form-label">
+                                            Account Status
+                                        </label>
+
+                                        <input type="text"
+                                               class="form-control"
+                                               th:value="${profileUser != null && profileUser.active ? 'Active' : 'Inactive'}"
+                                               disabled>
+
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Last Login</label>
+
+                                        <input type="text"
+                                               class="form-control"
+                                               th:value="${profileUser != null && profileUser.lastLoginAt != null
+                      ? #temporals.format(profileUser.lastLoginAt, 'dd MMM yyyy, hh:mm a')
+                      : 'Never logged in'}"
+                                               disabled>
+                                    </div>
+
+                                </div>
+
+                                <div class="d-flex justify-content-end mt-4">
+
+                                    <button type="submit"
+                                            class="btn btn-primary"
+                                            formaction="/admin/settings/profile"
+                                            formmethod="post">
+
+                                        <i class="bi bi-check-lg me-1"></i>
+
+                                        Save Profile
+
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- ================= ACTION BUTTONS ================= -->
+
+                        <div class="d-flex justify-content-end gap-2">
+
+                            <button type="button"
+                                    class="btn btn-outline-secondary"
+                                    onclick="resetSettings()">
+
+                                Reset
+
+                            </button>
+
+
+                            <button type="submit"
+                                    class="btn btn-primary">
+
+                                <i class="bi bi-check-lg me-1"></i>
+
+                                Save Settings
+
+                            </button>
+
+                        </div>
+
+                    </form>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+
+<!-- ================= BOOTSTRAP JS ================= -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+
+<script>
+
+    /* ================= MOBILE SIDEBAR ================= */
+
+    function toggleSidebar() {
+
+        const sidebar =
+            document.getElementById("sidebar");
+
+        sidebar.classList.toggle("show-mobile");
+
+    }
+
+
+    /* ================= SETTINGS TABS ================= */
+
+    function showSection(sectionId, button) {
+
+        const panels =
+            document.querySelectorAll(".settings-panel");
+
+        panels.forEach(panel => {
+
+            panel.classList.add("d-none");
+
+        });
+
+
+        document
+            .getElementById(sectionId)
+            .classList.remove("d-none");
+
+
+        const buttons =
+            document.querySelectorAll(".settings-nav-link");
+
+        buttons.forEach(btn => {
+
+            btn.classList.remove("active");
+
+        });
+
+
+        button.classList.add("active");
+
+    }
+
+
+    /*
+     * Repair an unset/invalid saved default duration.
+     * This only affects the Default Exam Duration field.
+     */
+    document.addEventListener("DOMContentLoaded", function () {
+        const durationInput = document.getElementById("defaultExamDuration");
+
+        if (durationInput &&
+            (!durationInput.value || Number(durationInput.value) <= 0)) {
+            durationInput.value = 30;
+        }
+    });
+
+    /* ================= RESET ================= */
+
+    function resetSettings() {
+
+        const confirmation =
+            confirm(
+                "Are you sure you want to reset the current settings?"
+            );
+
+        if (confirmation) {
+
+            location.reload();
+
+        }
+
+    }
+
+
+    /* ================= 2FA ================= */
+
+    function enableTwoFactor() {
+
+        alert(
+            "Two-Factor Authentication will be implemented during backend security integration."
+        );
+
+    }
+
+
+    /* ================= AVATAR ================= */
+
+    function changeAvatar() {
+
+        alert(
+            "Profile photo upload will be connected to backend file storage later."
+        );
+
+    }
+
+</script>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const bell = document.getElementById("adminNotificationBell");
+        const dropdown = document.getElementById("adminNotificationDropdown");
+        const badge = document.getElementById("adminNotificationBadge");
+        const list = document.getElementById("adminNotificationList");
+        const count = document.getElementById("adminNotificationCount");
+        const markAllButton = document.getElementById("markAllAdminNotificationsRead");
+        if (!bell || !dropdown || !badge || !list) return;
+
+        let notificationItems = [];
+        let isLoading = false;
+
+        function escapeHtml(value) {
+            const element = document.createElement("span");
+            element.textContent = value == null ? "" : String(value);
+            return element.innerHTML;
+        }
+
+        function formatDate(value) {
+            if (!value) return "";
+            const date = new Date(value);
+            if (Number.isNaN(date.getTime())) return "";
+            return date.toLocaleString("en-IN", {
+                day: "2-digit", month: "short", year: "numeric",
+                hour: "2-digit", minute: "2-digit"
+            });
+        }
+
+        function updateBadge(unreadCount) {
+            const unread = Math.max(0, Number(unreadCount) || 0);
+            badge.textContent = unread > 9 ? "9+" : String(unread);
+            badge.style.display = unread > 0 ? "inline-block" : "none";
+            badge.setAttribute("aria-label", unread + " unread notifications");
+            if (markAllButton) markAllButton.disabled = unread === 0;
+        }
+
+        async function loadAdminNotifications() {
+            if (isLoading) return;
+            isLoading = true;
+            try {
+                const response = await fetch("/admin/notifications", {
+                    method: "GET", headers: { "Accept": "application/json" },
+                    credentials: "same-origin", cache: "no-store"
+                });
+                if (!response.ok) throw new Error("Notification request failed: " + response.status);
+                const data = await response.json();
+                notificationItems = Array.isArray(data.items) ? data.items : [];
+                updateBadge(data.unreadCount);
+                const unread = Math.max(0, Number(data.unreadCount) || 0);
+                if (count) count.textContent = unread + " unread · " + notificationItems.length + " recent";
+
+                if (!notificationItems.length) {
+                    list.innerHTML = '<div class="px-3 py-4 text-center text-muted"><i class="bi bi-bell-slash d-block fs-4 mb-2"></i>No notifications</div>';
+                    return;
+                }
+
+                list.innerHTML = notificationItems.map(function (item) {
+                    const id = Number(item.id);
+                    const url = typeof item.targetUrl === "string" && item.targetUrl.startsWith("/")
+                        ? item.targetUrl : "/admin/dashboard";
+                    const isRead = item.read === true;
+                    const unreadClass = isRead ? "" : " unread";
+                    const newBadge = isRead ? "" : '<span class="badge bg-primary ms-2">New</span>';
+                    const readButton = isRead ? "" :
+                        '<button type="button" class="btn btn-sm btn-outline-primary" data-mark-notification-read="' + id + '">Mark as read</button>';
+                    return '<div class="admin-notification-item' + unreadClass + '">' +
+                        '<a href="' + escapeHtml(url) + '" data-notification-id="' + id +
+                        '" data-target-url="' + escapeHtml(url) +
+                        '" class="text-decoration-none d-block">' +
+                        '<div class="admin-notification-title">' + escapeHtml(item.title) + newBadge + '</div>' +
+                        '<div class="admin-notification-message">' + escapeHtml(item.message) + '</div>' +
+                        '<div class="admin-notification-date">' + escapeHtml(formatDate(item.createdAt)) + '</div>' +
+                        '</a>' +
+                        (readButton ? '<div class="admin-notification-actions">' + readButton + '</div>' : '') +
+                        '</div>';
+                }).join("");
+            } catch (error) {
+                console.error("Unable to load admin notifications:", error);
+                if (count) count.textContent = "Unavailable";
+                list.innerHTML = '<div class="px-3 py-4 text-center text-danger">Unable to load notifications. Please refresh the page.</div>';
+            } finally {
+                isLoading = false;
+            }
+        }
+
+        async function markNotificationRead(id) {
+            const response = await fetch("/admin/notifications/" + encodeURIComponent(id) + "/read", {
+                method: "POST", credentials: "same-origin",
+                headers: { "Accept": "application/json" }
+            });
+            if (!response.ok) throw new Error("Could not mark notification " + id + " as read. HTTP " + response.status);
+        }
+
+        list.addEventListener("click", async function (event) {
+            const link = event.target.closest("a[data-notification-id]");
+            if (!link) return;
+            event.preventDefault();
+            const id = link.dataset.notificationId;
+            const targetUrl = link.dataset.targetUrl || "/admin/dashboard";
+            try {
+                await markNotificationRead(id);
+                await loadAdminNotifications();
+                window.location.href = targetUrl;
+            } catch (error) {
+                console.error(error);
+                alert("The notification could not be marked as read. Please try again.");
+            }
+        });
+
+        // Mark one notification as read without navigating away from the current page.
+        list.addEventListener("click", async function (event) {
+            const button = event.target.closest("button[data-mark-notification-read]");
+            if (!button) return;
+
+            event.preventDefault();
+            event.stopPropagation();
+            const id = button.dataset.markNotificationRead;
+            button.disabled = true;
+            button.textContent = "Saving...";
+
+            try {
+                await markNotificationRead(id);
+                await loadAdminNotifications();
+            } catch (error) {
+                console.error("Unable to mark notification as read:", error);
+                button.disabled = false;
+                button.textContent = "Mark as read";
+                alert("Unable to mark this notification as read. Please try again.");
+            }
+        });
+
+        // Delegate the action so it continues to work if dropdown content changes.
+        document.addEventListener("click", async function (event) {
+            const button = event.target.closest("#markAllAdminNotificationsRead");
+            if (!button) return;
+
+            event.preventDefault();
+            event.stopPropagation();
+
+            if (button.dataset.processing === "true") return;
+
+            button.dataset.processing = "true";
+            button.disabled = true;
+            button.textContent = "Marking...";
+
+            try {
+                // Dedicated endpoint marks ALL unread rows, not just the latest 10.
+                const response = await fetch("/admin/notifications/read-all", {
+                    method: "POST",
+                    credentials: "same-origin",
+                    cache: "no-store",
+                    headers: { "Accept": "application/json" }
+                });
+
+                if (!response.ok) {
+                    throw new Error("Unable to mark all notifications as read. HTTP " + response.status);
+                }
+
+                // Fetch the persisted server-side count and update the badge/list.
+                await loadAdminNotifications();
+            } catch (error) {
+                console.error("Unable to mark all notifications as read:", error);
+                alert("Unable to mark all notifications as read. Please ensure the backend /read-all endpoint is added, then try again.");
+            } finally {
+                button.textContent = "Mark all as read";
+                delete button.dataset.processing;
+                await loadAdminNotifications();
+            }
+        }, true);
+
+        bell.addEventListener("click", async function (event) {
+            event.stopPropagation();
+            const isOpen = dropdown.classList.contains("show");
+            dropdown.classList.toggle("show", !isOpen);
+            bell.setAttribute("aria-expanded", String(!isOpen));
+            if (!isOpen) await loadAdminNotifications();
+        });
+
+        document.addEventListener("click", function (event) {
+            if (!event.target.closest("#adminNotificationWrapper")) {
+                dropdown.classList.remove("show");
+                bell.setAttribute("aria-expanded", "false");
+            }
+        });
+
+        loadAdminNotifications();
+        window.setInterval(loadAdminNotifications, 60000);
+    });
+</script>
+
+</body>
+</html>

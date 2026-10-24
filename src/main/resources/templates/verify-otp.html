@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta  name="viewport"
+           content="width=device-width, initial-scale=1.0">
+
+    <title>Verify OTP - Online Examination System</title>
+
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+            rel="stylesheet">
+
+    <style>
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #eef4ff, #f8fbff);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: Arial, sans-serif;
+        }
+
+        .otp-card {
+            width: 100%;
+            max-width: 460px;
+            background: #ffffff;
+            border-radius: 18px;
+            padding: 35px;
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.10);
+        }
+
+        .otp-icon {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            background: #e8f1ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+        }
+
+        .otp-input {
+            letter-spacing: 10px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .resend-btn {
+            border: none;
+            background: transparent;
+            color: #0d6efd;
+            font-weight: 600;
+            padding: 0;
+        }
+
+        .resend-btn:disabled {
+            color: #999;
+            cursor: not-allowed;
+        }
+
+        .email-text {
+            word-break: break-word;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="otp-card mx-auto">
+
+        <!-- Icon -->
+        <div class="otp-icon">
+            🔐
+        </div>
+
+        <!-- Heading -->
+        <h3 class="text-center fw-bold mb-2">
+            Verify OTP
+        </h3>
+
+        <p class="text-center text-muted mb-4">
+            Enter the 6-digit OTP sent to
+        </p>
+
+        <!-- Email -->
+        <div class="text-center mb-4">
+
+            <strong
+                    class="email-text"
+                    th:text="${email}">
+                student@example.com
+            </strong>
+
+        </div>
+
+        <!-- Error -->
+        <div
+                th:if="${error}"
+                class="alert alert-danger"
+                role="alert">
+
+            <span th:text="${error}">
+                Invalid OTP
+            </span>
+
+        </div>
+
+        <!-- OTP Form -->
+        <form
+                th:action="@{/verify-otp}"
+                method="post"
+                id="otpForm">
+
+            <!-- Email -->
+            <input
+                    type="hidden"
+                    name="email"
+                    th:value="${email}">
+
+            <!-- OTP -->
+            <div class="mb-4">
+
+                <label
+                        for="otp"
+                        class="form-label fw-semibold">
+                    Enter OTP
+                </label>
+
+                <input
+                        type="text"
+                        class="form-control otp-input"
+                        id="otp"
+                        name="otp"
+                        maxlength="6"
+                        minlength="6"
+                        pattern="[0-9]{6}"
+                        inputmode="numeric"
+                        autocomplete="one-time-code"
+                        placeholder="••••••"
+                        required>
+
+            </div>
+
+            <!-- Verify -->
+            <button
+                    type="submit"
+                    class="btn btn-primary w-100 py-2 fw-semibold">
+
+                Verify OTP
+
+            </button>
+
+        </form>
+
+        <!-- Resend Section -->
+        <div class="text-center mt-4">
+
+            <span class="text-muted">
+                Didn't receive the OTP?
+            </span>
+
+            <form
+                    th:action="@{/forgot-password}"
+                    method="post"
+                    class="d-inline">
+
+                <input
+                        type="hidden"
+                        name="email"
+                        th:value="${email}">
+
+                <button
+                        type="submit"
+                        id="resendButton"
+                        class="resend-btn"
+                        disabled>
+
+                    Resend OTP
+
+                </button>
+
+            </form>
+
+        </div>
+
+        <!-- Countdown -->
+        <div
+                class="text-center mt-2 text-muted small"
+                id="countdownText">
+
+            You can resend OTP in
+            <strong id="countdown">60</strong>
+            seconds.
+
+        </div>
+
+        <!-- Back to Login -->
+        <div class="text-center mt-4">
+
+            <a
+                    href="/login"
+                    class="text-decoration-none">
+
+                ← Back to Login
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    let remainingSeconds = 60;
+
+    const countdownElement =
+        document.getElementById("countdown");
+
+    const countdownText =
+        document.getElementById("countdownText");
+
+    const resendButton =
+        document.getElementById("resendButton");
+
+
+    const countdownTimer =
+        setInterval(function () {
+
+            remainingSeconds--;
+
+            countdownElement.textContent =
+                remainingSeconds;
+
+            if (remainingSeconds <= 0) {
+
+                clearInterval(countdownTimer);
+
+                resendButton.disabled = false;
+
+                countdownText.innerHTML =
+                    "You can now resend the OTP.";
+
+            }
+
+        }, 1000);
+
+
+    // Allow only numbers in OTP field
+
+    const otpInput =
+        document.getElementById("otp");
+
+    otpInput.addEventListener(
+        "input",
+        function () {
+
+            this.value =
+                this.value.replace(/\D/g, "");
+
+        }
+    );
+
+</script>
+
+</body>
+
+</html>

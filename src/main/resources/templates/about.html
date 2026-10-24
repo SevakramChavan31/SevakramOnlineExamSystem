@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+     <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>About Us | Online Examination System</title>
+
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+            rel="stylesheet">
+
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+            rel="stylesheet">
+
+    <style>
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f9ff;
+            color: #172033;
+        }
+
+        .navbar {
+            background: #ffffff;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.06);
+        }
+
+        .brand-icon {
+            width: 42px;
+            height: 42px;
+            background: #1769e8;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 21px;
+            box-shadow: 0 5px 15px rgba(23,105,232,0.25);
+        }
+
+        .brand-name {
+            font-size: 20px;
+            font-weight: 700;
+            color: #14213d;
+        }
+
+        .brand-name span {
+            color: #1769e8;
+        }
+
+        .nav-link {
+            color: #172033 !important;
+            font-weight: 600;
+            margin: 0 8px;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: #1769e8 !important;
+        }
+
+        .admin-btn {
+            background: #1769e8;
+            color: white;
+            border-radius: 9px;
+            padding: 11px 20px;
+            text-decoration: none;
+            font-weight: 600;
+            box-shadow: 0 6px 15px rgba(23,105,232,0.25);
+        }
+
+        .admin-btn:hover {
+            background: #0958d9;
+            color: white;
+        }
+
+        .hero {
+            background: linear-gradient(120deg, #075eea, #4b91ed);
+            color: white;
+            padding: 90px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            width: 450px;
+            height: 450px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.08);
+            top: -220px;
+            right: -100px;
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            width: 350px;
+            height: 350px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.06);
+            bottom: -200px;
+            left: -100px;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 8px 17px;
+            border: 1px solid rgba(255,255,255,0.45);
+            border-radius: 30px;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 {
+            font-size: 52px;
+            font-weight: 800;
+            line-height: 1.15;
+        }
+
+        .hero h1 span {
+            color: #20d8d2;
+        }
+
+        .hero p {
+            font-size: 18px;
+            line-height: 1.7;
+            max-width: 650px;
+            opacity: 0.95;
+        }
+
+        .about-section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            font-weight: 800;
+            color: #172033;
+            margin-bottom: 15px;
+        }
+
+        .section-subtitle {
+            color: #667085;
+            max-width: 700px;
+            margin: auto;
+            line-height: 1.7;
+        }
+
+        .about-card {
+            background: white;
+            border-radius: 18px;
+            padding: 35px;
+            height: 100%;
+            box-shadow: 0 10px 35px rgba(26,70,120,0.08);
+            border: 1px solid #edf2f7;
+        }
+
+        .icon-box {
+            width: 58px;
+            height: 58px;
+            border-radius: 15px;
+            background: #e8f1ff;
+            color: #1769e8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 25px;
+            margin-bottom: 20px;
+        }
+
+        .about-card h4 {
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .about-card p {
+            color: #667085;
+            line-height: 1.7;
+            margin-bottom: 0;
+        }
+
+        .mission {
+            background: white;
+            padding: 60px;
+            border-radius: 22px;
+            box-shadow: 0 10px 35px rgba(26,70,120,0.08);
+        }
+
+        .mission-icon {
+            font-size: 50px;
+            color: #1769e8;
+        }
+
+        .stats {
+            background: linear-gradient(120deg, #075eea, #367fe4);
+            padding: 50px 0;
+            color: white;
+        }
+
+        .stat-number {
+            font-size: 35px;
+            font-weight: 800;
+        }
+
+        .stat-text {
+            opacity: 0.9;
+        }
+
+        footer {
+            background: #101828;
+            color: white;
+            padding: 30px 0;
+        }
+
+        footer p {
+            margin: 0;
+            color: #98a2b3;
+        }
+
+        @media(max-width:768px) {
+
+            .hero {
+                padding: 60px 20px;
+            }
+
+            .hero h1 {
+                font-size: 38px;
+            }
+
+            .mission {
+                padding: 30px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+
+<nav class="navbar navbar-expand-lg">
+
+    <div class="container">
+
+        <a class="navbar-brand d-flex align-items-center gap-2"
+           href="/">
+
+            <div class="brand-icon">
+                <i class="bi bi-mortarboard-fill"></i>
+            </div>
+
+            <div class="brand-name">
+                Online <span>Examination</span> System
+            </div>
+
+        </a>
+
+        <button
+                class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarNav">
+
+            <span class="navbar-toggler-icon"></span>
+
+        </button>
+
+        <div class="collapse navbar-collapse"
+             id="navbarNav">
+
+            <ul class="navbar-nav ms-auto align-items-lg-center">
+
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="/">
+                        Home
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link active"
+                       href="/about">
+                        About
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="/features">
+                        Features
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="/help">
+                        Help
+                    </a>
+                </li>
+
+                <li class="nav-item ms-lg-3 mt-3 mt-lg-0">
+
+                    <a href="/login?role=admin"
+                       class="admin-btn">
+
+                        <i class="bi bi-person me-1"></i>
+
+                        Admin Login
+
+                    </a>
+
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+<!-- HERO -->
+
+<section class="hero">
+
+    <div class="container hero-content">
+
+        <span class="hero-badge">
+
+            <i class="bi bi-info-circle me-2"></i>
+
+            About Our Platform
+
+        </span>
+
+        <h1>
+            Smarter Exams.
+            <br>
+            <span>Better Learning.</span>
+        </h1>
+
+        <p class="mt-3">
+
+            Online Examination System is a secure and modern
+            digital examination platform designed to make
+            online assessments simple, reliable and accessible.
+
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- ABOUT -->
+
+<section class="about-section">
+
+    <div class="container">
+
+        <div class="text-center mb-5">
+
+            <h2 class="section-title">
+                About Online Examination System
+            </h2>
+
+            <p class="section-subtitle">
+
+                Our platform provides students, administrators
+                and educational organizations with everything
+                required to conduct and manage online examinations.
+
+            </p>
+
+        </div>
+
+
+        <div class="row g-4">
+
+            <div class="col-md-4">
+
+                <div class="about-card">
+
+                    <div class="icon-box">
+
+                        <i class="bi bi-shield-check"></i>
+
+                    </div>
+
+                    <h4>
+                        Secure Platform
+                    </h4>
+
+                    <p>
+
+                        Student accounts, examination attempts
+                        and results are managed through a secure
+                        and reliable platform.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-4">
+
+                <div class="about-card">
+
+                    <div class="icon-box">
+
+                        <i class="bi bi-laptop"></i>
+
+                    </div>
+
+                    <h4>
+                        Digital Examination
+                    </h4>
+
+                    <p>
+
+                        Students can attend examinations online
+                        from supported devices without traditional
+                        paper-based examination processes.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-4">
+
+                <div class="about-card">
+
+                    <div class="icon-box">
+
+                        <i class="bi bi-bar-chart-line"></i>
+
+                    </div>
+
+                    <h4>
+                        Performance Tracking
+                    </h4>
+
+                    <p>
+
+                        Students and administrators can easily
+                        view examination performance and results
+                        for better analysis.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- MISSION -->
+
+        <div class="mission mt-5">
+
+            <div class="row align-items-center">
+
+                <div class="col-md-2 text-center">
+
+                    <i class="bi bi-bullseye mission-icon"></i>
+
+                </div>
+
+                <div class="col-md-10">
+
+                    <h3 class="fw-bold">
+                        Our Mission
+                    </h3>
+
+                    <p class="text-secondary mb-0">
+
+                        Our mission is to simplify the examination
+                        process by providing a user-friendly,
+                        secure and efficient online platform.
+                        We aim to help institutions conduct
+                        assessments while allowing students to
+                        focus on demonstrating their knowledge.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- STATS -->
+
+<section class="stats">
+
+    <div class="container">
+
+        <div class="row text-center">
+
+            <div class="col-6 col-md-3 mb-4 mb-md-0">
+
+                <div class="stat-number">
+                    10K+
+                </div>
+
+                <div class="stat-text">
+                    Students
+                </div>
+
+            </div>
+
+            <div class="col-6 col-md-3 mb-4 mb-md-0">
+
+                <div class="stat-number">
+                    500+
+                </div>
+
+                <div class="stat-text">
+                    Exams
+                </div>
+
+            </div>
+
+            <div class="col-6 col-md-3">
+
+                <div class="stat-number">
+                    95%
+                </div>
+
+                <div class="stat-text">
+                    Success Rate
+                </div>
+
+            </div>
+
+            <div class="col-6 col-md-3">
+
+                <div class="stat-number">
+                    24/7
+                </div>
+
+                <div class="stat-text">
+                    Availability
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- FOOTER -->
+
+<footer>
+
+    <div class="container text-center">
+
+        <p>
+            © 2026 Sevakram Online Examination System | Developed by Sevakram Chavan. All rights reserved.
+        </p>
+
+    </div>
+
+</footer>
+
+
+<script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+</body>
+
+</html>

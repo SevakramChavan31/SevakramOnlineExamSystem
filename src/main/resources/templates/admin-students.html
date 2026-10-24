@@ -1,0 +1,1314 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport"
+        content ="width=device-width, initial-scale=1.0">
+
+  <title>Manage Students | Online Examination System</title>
+
+  <!-- Bootstrap 5.3 -->
+  <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+  <!-- Bootstrap Icons -->
+  <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+
+  <style>
+
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --dark-blue: #1e40af;
+      --background: #f8fafc;
+      --text: #172033;
+      --secondary: #64748b;
+      --border: #e2e8f0;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--background);
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    /* =========================
+       NAVBAR
+    ========================= */
+
+    .navbar-custom {
+      height: 70px;
+      background: white;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--text);
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .brand-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+
+      background: linear-gradient(
+              135deg,
+              var(--primary),
+              var(--dark-blue)
+      );
+
+      color: white;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .brand span {
+      color: var(--primary);
+    }
+
+    .admin-badge {
+      background: #eff6ff;
+      color: var(--primary);
+      padding: 5px 9px;
+      border-radius: 20px;
+      font-size: 10px;
+      margin-left: 5px;
+    }
+
+    .profile-btn {
+      border: 1px solid var(--border);
+      background: white;
+      border-radius: 10px;
+      padding: 6px 12px;
+    }
+
+    .profile-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: #dbeafe;
+      color: var(--primary);
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      font-weight: 700;
+    }
+
+    /* =========================
+       LAYOUT
+    ========================= */
+
+    .page-wrapper {
+      display: flex;
+      min-height: calc(100vh - 70px);
+    }
+
+    /* =========================
+       SIDEBAR
+    ========================= */
+
+    .sidebar {
+      width: 250px;
+      background: white;
+      border-right: 1px solid var(--border);
+      padding: 25px 15px;
+    }
+
+    .sidebar-title {
+      font-size: 12px;
+      color: var(--secondary);
+      text-transform: uppercase;
+      font-weight: 700;
+
+      padding: 0 12px;
+      margin-bottom: 10px;
+
+      letter-spacing: .6px;
+    }
+
+    .sidebar-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+
+      text-decoration: none;
+      color: #475569;
+
+      padding: 12px;
+      border-radius: 9px;
+
+      margin-bottom: 5px;
+
+      font-size: 14px;
+      font-weight: 500;
+
+      transition: .2s;
+    }
+
+    .sidebar-link i {
+      font-size: 18px;
+    }
+
+    .sidebar-link:hover {
+      background: #eff6ff;
+      color: var(--primary);
+    }
+
+    .sidebar-link.active {
+      background: #eff6ff;
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    .logout-link {
+      color: #dc2626;
+    }
+
+    .logout-link:hover {
+      background: #fef2f2;
+      color: #dc2626;
+    }
+
+    /* =========================
+       MAIN CONTENT
+    ========================= */
+
+    .main-content {
+      flex: 1;
+      padding: 30px;
+      min-width: 0;
+    }
+
+    .page-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      margin-bottom: 25px;
+    }
+
+    .page-header h2 {
+      font-size: 27px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .page-header p {
+      color: var(--secondary);
+      font-size: 14px;
+      margin: 0;
+    }
+
+    /* =========================
+       STAT CARDS
+    ========================= */
+
+    .stat-card {
+      background: white;
+
+      border: 1px solid var(--border);
+      border-radius: 14px;
+
+      padding: 18px;
+
+      height: 100%;
+    }
+
+    .stat-icon {
+      width: 42px;
+      height: 42px;
+
+      border-radius: 10px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      font-size: 18px;
+
+      margin-bottom: 12px;
+    }
+
+    .blue {
+      background: #dbeafe;
+      color: #2563eb;
+    }
+
+    .green {
+      background: #dcfce7;
+      color: #16a34a;
+    }
+
+    .orange {
+      background: #fef3c7;
+      color: #d97706;
+    }
+
+    .purple {
+      background: #ede9fe;
+      color: #7c3aed;
+    }
+
+    .stat-value {
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    .stat-label {
+      color: var(--secondary);
+      font-size: 12px;
+      margin-top: 3px;
+    }
+
+    /* =========================
+       FILTER CARD
+    ========================= */
+
+    .filter-card {
+      background: white;
+
+      border: 1px solid var(--border);
+      border-radius: 14px;
+
+      padding: 18px;
+
+      margin-top: 25px;
+      margin-bottom: 20px;
+    }
+
+    .search-box {
+      position: relative;
+    }
+
+    .search-box i {
+      position: absolute;
+
+      left: 14px;
+      top: 50%;
+
+      transform: translateY(-50%);
+
+      color: var(--secondary);
+    }
+
+    .search-box input {
+      height: 44px;
+
+      padding-left: 40px;
+
+      border-radius: 9px;
+      border-color: var(--border);
+
+      font-size: 13px;
+    }
+
+    .filter-select {
+      height: 44px;
+
+      border-radius: 9px;
+      border-color: var(--border);
+
+      font-size: 13px;
+    }
+
+    /* =========================
+       STUDENT TABLE
+    ========================= */
+
+    .student-card {
+      background: white;
+
+      border: 1px solid var(--border);
+      border-radius: 14px;
+
+      overflow: hidden;
+    }
+
+    .table {
+      margin-bottom: 0;
+    }
+
+    .table thead th {
+      background: #f8fafc;
+
+      color: var(--secondary);
+
+      font-size: 11px;
+
+      text-transform: uppercase;
+
+      letter-spacing: .5px;
+
+      font-weight: 700;
+
+      padding: 15px 16px;
+
+      border-bottom: 1px solid var(--border);
+
+      white-space: nowrap;
+    }
+
+    .table tbody td {
+      padding: 16px;
+
+      font-size: 13px;
+
+      vertical-align: middle;
+
+      border-bottom: 1px solid #f1f5f9;
+
+      white-space: nowrap;
+    }
+
+    .table tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    .student-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .student-avatar {
+      width: 38px;
+      height: 38px;
+
+      border-radius: 50%;
+
+      background: #dbeafe;
+      color: var(--primary);
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      font-size: 12px;
+      font-weight: 700;
+
+      flex-shrink: 0;
+    }
+
+    .student-name {
+      font-weight: 700;
+    }
+
+    .student-email {
+      color: var(--secondary);
+      font-size: 11px;
+      margin-top: 3px;
+    }
+
+    .status {
+      padding: 5px 10px;
+
+      border-radius: 20px;
+
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    .active-status {
+      background: #dcfce7;
+      color: #15803d;
+    }
+
+    .inactive-status {
+      background: #f1f5f9;
+      color: #64748b;
+    }
+
+    .score {
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    .action-btn {
+      width: 32px;
+      height: 32px;
+
+      border: 1px solid var(--border);
+
+      background: white;
+
+      border-radius: 7px;
+
+      color: #475569;
+
+      margin-right: 3px;
+    }
+
+    .action-btn:hover {
+      background: #eff6ff;
+      color: var(--primary);
+      border-color: #bfdbfe;
+    }
+
+    .delete-btn:hover {
+      background: #fef2f2;
+      color: #dc2626;
+      border-color: #fecaca;
+    }
+
+    /* =========================
+       PAGINATION
+    ========================= */
+
+    .pagination-area {
+      padding: 16px;
+
+      border-top: 1px solid var(--border);
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: space-between;
+    }
+
+    .pagination-info {
+      color: var(--secondary);
+      font-size: 12px;
+    }
+
+    .page-btn {
+      width: 34px;
+      height: 34px;
+
+      border: 1px solid var(--border);
+
+      background: white;
+
+      border-radius: 7px;
+
+      margin-left: 4px;
+    }
+
+    .page-btn.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    /* =========================
+       MODAL
+    ========================= */
+
+    .modal-content {
+      border-radius: 14px;
+    }
+
+    .profile-large {
+      width: 70px;
+      height: 70px;
+
+      border-radius: 50%;
+
+      background: #dbeafe;
+      color: var(--primary);
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      font-size: 24px;
+      font-weight: 700;
+
+      margin: auto;
+    }
+
+    .detail-label {
+      color: var(--secondary);
+      font-size: 11px;
+      margin-bottom: 3px;
+    }
+
+    .detail-value {
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    /* =========================
+       RESPONSIVE
+    ========================= */
+
+    @media (max-width: 767px) {
+
+      .page-wrapper {
+        display: block;
+      }
+
+      .sidebar {
+        width: 100%;
+
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+
+        padding: 12px;
+      }
+
+      .sidebar-title {
+        display: none;
+      }
+
+      .sidebar-menu {
+        display: flex;
+        overflow-x: auto;
+        gap: 5px;
+      }
+
+      .sidebar-link {
+        white-space: nowrap;
+        margin-bottom: 0;
+      }
+
+      .main-content {
+        padding: 18px 15px;
+      }
+
+      .page-header {
+        display: block;
+      }
+
+      .page-header h2 {
+        font-size: 23px;
+      }
+
+      .profile-name,
+      .admin-badge {
+        display: none;
+      }
+
+      .pagination-area {
+        display: block;
+      }
+
+      .pagination-area > div:last-child {
+        margin-top: 12px;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     NAVBAR
+========================= -->
+
+<nav class="navbar-custom">
+
+  <div class="container-fluid px-4 h-100
+                d-flex align-items-center justify-content-between">
+
+
+    <a href="/admin/dashboard"
+       class="brand">
+
+      <div class="brand-icon">
+
+        <i class="bi bi-mortarboard-fill"></i>
+
+      </div>
+
+      <div>
+
+        Online <span>Exam</span>
+
+        <span class="admin-badge">
+                    ADMIN
+                </span>
+
+      </div>
+
+    </a>
+
+
+    <div class="dropdown">
+
+      <button
+              class="profile-btn dropdown-toggle
+                           d-flex align-items-center gap-2"
+              data-bs-toggle="dropdown">
+
+        <div class="profile-avatar"
+             th:text="${session.userName != null
+         and !#strings.isEmpty(session.userName.trim())
+         ? #strings.substring(session.userName.trim(), 0, 1).toUpperCase()
+         : 'U'}">
+          U
+        </div>
+
+        <span class="profile-name"
+              th:text="${session.userName != null
+          and !#strings.isEmpty(session.userName.trim())
+          ? session.userName
+          : 'User'}">
+    User
+</span>
+
+      </button>
+
+
+      <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0">
+
+        <li>
+
+          <a class="dropdown-item" href="#">
+
+            <i class="bi bi-person me-2"></i>
+
+            Admin Profile
+
+          </a>
+
+        </li>
+
+
+        <li>
+
+          <a class="dropdown-item" href="#">
+
+            <i class="bi bi-gear me-2"></i>
+
+            Settings
+
+          </a>
+
+        </li>
+
+
+        <li>
+          <hr class="dropdown-divider">
+        </li>
+
+
+        <li>
+
+          <a
+                  class="dropdown-item text-danger"
+                  href="/">
+
+            <i class="bi bi-box-arrow-right me-2"></i>
+
+            Logout
+
+          </a>
+
+        </li>
+
+      </ul>
+
+    </div>
+
+  </div>
+
+</nav>
+
+
+<!-- =========================
+     PAGE WRAPPER
+========================= -->
+
+<div class="page-wrapper">
+
+
+  <!-- =========================
+       SIDEBAR
+  ========================= -->
+
+  <aside class="sidebar">
+
+    <div class="sidebar-title">
+      Administration
+    </div>
+
+
+    <div class="sidebar-menu">
+
+
+      <a
+              href="/admin/dashboard"
+              class="sidebar-link">
+
+        <i class="bi bi-grid-1x2-fill"></i>
+
+        Dashboard
+
+      </a>
+
+
+      <a
+              href="/admin/exams"
+              class="sidebar-link">
+
+        <i class="bi bi-journal-text"></i>
+
+        Manage Exams
+
+      </a>
+
+
+      <a
+              href="/admin/questions"
+              class="sidebar-link">
+
+        <i class="bi bi-patch-question"></i>
+
+        Manage Questions
+
+      </a>
+
+
+      <a
+              href="/admin/students"
+              class="sidebar-link active">
+
+        <i class="bi bi-people"></i>
+
+        Manage Students
+
+      </a>
+
+
+      <a
+              href="/admin/results"
+              class="sidebar-link">
+
+        <i class="bi bi-bar-chart"></i>
+
+        Exam Results
+
+      </a>
+
+
+      <a href="/admin/support"
+         class="sidebar-link">
+
+        <i class="bi bi-headset"></i>
+
+        Support Tickets
+
+      </a>
+
+
+      <a
+              href="/admin/reports"
+              class="sidebar-link">
+
+        <i class="bi bi-file-earmark-bar-graph"></i>
+
+        Reports
+
+      </a>
+
+
+      <a
+              href="/admin/settings"
+              class="sidebar-link">
+
+        <i class="bi bi-gear"></i>
+
+        Settings
+
+      </a>
+
+
+      <a
+              href="/"
+              class="sidebar-link logout-link">
+
+        <i class="bi bi-box-arrow-right"></i>
+
+        Logout
+
+      </a>
+
+    </div>
+
+  </aside>
+
+
+  <!-- =========================
+       MAIN CONTENT
+  ========================= -->
+
+  <main class="main-content">
+
+    <div class="page-header">
+      <div>
+        <h2>Manage Students</h2>
+        <p>View and manage registered student accounts.</p>
+      </div>
+    </div>
+
+    <!-- DYNAMIC STATISTICS -->
+    <div class="row g-3">
+
+      <div class="col-6 col-xl-3">
+        <div class="stat-card">
+          <div class="stat-icon blue"><i class="bi bi-people-fill"></i></div>
+          <div class="stat-value" th:text="${#lists.size(students)}">0</div>
+          <div class="stat-label">Total Students</div>
+        </div>
+      </div>
+
+      <div class="col-6 col-xl-3">
+        <div class="stat-card">
+          <div class="stat-icon green"><i class="bi bi-person-check-fill"></i></div>
+          <div class="stat-value"
+               th:text="${#lists.size(students.?[active == true])}">0</div>
+          <div class="stat-label">Active Students</div>
+        </div>
+      </div>
+
+      <div class="col-6 col-xl-3">
+        <div class="stat-card">
+          <div class="stat-icon orange"><i class="bi bi-person-x-fill"></i></div>
+          <div class="stat-value"
+               th:text="${#lists.size(students.?[active == false])}">0</div>
+          <div class="stat-label">Inactive Students</div>
+        </div>
+      </div>
+
+      <div class="col-6 col-xl-3">
+        <div class="stat-card">
+          <div class="stat-icon purple"><i class="bi bi-person-plus-fill"></i></div>
+          <div class="stat-value"
+               th:text="${newStudentsThisMonth}">0</div>
+          <div class="stat-label">New Students This Month</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- FILTERS -->
+    <div class="filter-card">
+      <form method="get" action="/admin/students">
+        <div class="row g-3 align-items-center">
+
+          <div class="col-lg-7">
+            <div class="search-box">
+              <i class="bi bi-search"></i>
+              <input type="text"
+                     name="keyword"
+                     class="form-control"
+                     placeholder="Search by name or email..."
+                     th:value="${keyword}">
+            </div>
+          </div>
+
+          <div class="col-lg-3">
+            <button type="submit" class="btn btn-primary w-100" style="height:44px;">
+              <i class="bi bi-search me-1"></i> Search
+            </button>
+          </div>
+
+          <div class="col-lg-2">
+            <a href="/admin/students"
+               class="btn btn-light w-100"
+               style="height:44px;border:1px solid #e2e8f0;">
+              <i class="bi bi-arrow-counterclockwise me-1"></i> Reset
+            </a>
+          </div>
+
+        </div>
+      </form>
+    </div>
+
+    <!-- STUDENT TABLE -->
+    <div class="student-card">
+
+      <div class="table-responsive">
+
+        <table class="table">
+
+          <thead>
+          <tr>
+            <th>Student</th>
+            <th>Qualification</th>
+            <th>Mobile</th>
+            <th>Exams</th>
+            <th>Avg Score</th>
+            <th>Registered</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+          </thead>
+
+          <tbody>
+
+          <tr th:each="student : ${students}">
+
+            <td>
+              <div class="student-info">
+
+                <div class="student-avatar"
+                     th:with="name=${student.fullName}"
+                     th:text="${name != null and !#strings.isEmpty(name.trim())
+         ? #strings.substring(name.trim(), 0, 1).toUpperCase()
+         : 'U'}">
+                  U
+                </div>
+                <div>
+                  <div class="student-name"
+                       th:text="${student.fullName != null
+         ? student.fullName
+         : 'Student'}">
+                    Student
+                  </div>
+
+                  <div class="student-email"
+                       th:text="${student.email != null
+         ? student.email
+         : 'No email available'}">
+                    No email available
+                  </div>
+                </div>
+
+              </div>
+            </td>
+
+            <td th:text="${student.qualification != null ? student.qualification : '—'}">
+              —
+            </td>
+
+            <td th:text="${student.mobile != null ? student.mobile : '—'}">
+              —
+            </td>
+
+            <td>
+              <span th:text="${examsAttempted[student.id]}">0</span>
+            </td>
+
+            <td>
+              <span class="score"
+                    th:text="${#numbers.formatDecimal(averageScores[student.id], 1, 1) + '%'}">
+                0.0%
+              </span>
+            </td>
+
+            <td th:text="${student.createdAt != null
+                           ? #temporals.format(student.createdAt, 'dd MMM yyyy')
+                           : '—'}">
+              —
+            </td>
+
+            <td>
+              <span th:if="${student.active}"
+                    class="status active-status">
+                Active
+              </span>
+
+              <span th:unless="${student.active}"
+                    class="status inactive-status">
+                Inactive
+              </span>
+            </td>
+
+            <td>
+
+              <form th:action="@{/admin/students/{id}/toggle-status(id=${student.id})}"
+                    method="post"
+                    style="display:inline;">
+
+                <button type="submit"
+                        class="action-btn"
+                        th:title="${student.active ? 'Deactivate' : 'Activate'}">
+
+                  <i class="bi"
+                     th:classappend="${student.active
+                                      ? 'bi-toggle-on'
+                                      : 'bi-toggle-off'}"></i>
+
+                </button>
+
+              </form>
+
+              <form th:action="@{/admin/students/{id}/delete(id=${student.id})}"
+                    method="post"
+                    style="display:inline;"
+                    onsubmit="return confirm('Are you sure you want to delete this student?');">
+
+                <button type="submit"
+                        class="action-btn delete-btn"
+                        title="Delete">
+
+                  <i class="bi bi-trash"></i>
+
+                </button>
+
+              </form>
+
+            </td>
+
+          </tr>
+
+          <!-- EMPTY STATE -->
+          <tr th:if="${#lists.isEmpty(students)}">
+
+            <td colspan="8" class="text-center py-5">
+
+              <div class="text-muted">
+
+                <i class="bi bi-people"
+                   style="font-size:40px;"></i>
+
+                <h6 class="mt-3 fw-semibold">
+                  No students found
+                </h6>
+
+                <p class="small mb-0">
+                  <span th:if="${keyword != null && !#strings.isEmpty(keyword)}">
+                    No student matched your search.
+                  </span>
+                  <span th:unless="${keyword != null && !#strings.isEmpty(keyword)}">
+                    No student accounts are registered yet.
+                  </span>
+                </p>
+
+              </div>
+
+            </td>
+
+          </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+      <div class="pagination-area">
+
+        <div class="pagination-info">
+          Showing
+          <strong th:text="${#lists.size(students)}">0</strong>
+          students
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+</div>
+
+
+<!-- =========================
+     STUDENT DETAILS MODAL
+========================= -->
+
+<div
+        class="modal fade"
+        id="studentModal"
+        tabindex="-1">
+
+  <div class="modal-dialog modal-dialog-centered">
+
+    <div class="modal-content border-0 shadow">
+
+
+      <div class="modal-header">
+
+        <h5 class="modal-title">
+          Student Details
+        </h5>
+
+        <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal">
+        </button>
+
+      </div>
+
+
+      <div class="modal-body">
+
+
+        <div class="text-center mb-4">
+
+          <div
+                  class="profile-large"
+                  id="modalAvatar">
+
+            RS
+
+          </div>
+
+          <h5
+                  class="mt-3 mb-1"
+                  id="modalName">
+
+            Rahul Sharma
+
+          </h5>
+
+          <div
+                  class="text-muted small"
+                  id="modalEmail">
+
+            rahul@gmail.com
+
+          </div>
+
+        </div>
+
+
+        <div class="row g-3">
+
+
+          <div class="col-6">
+
+            <div class="detail-label">
+              Qualification
+            </div>
+
+            <div class="detail-value">
+              BCA
+            </div>
+
+          </div>
+
+
+          <div class="col-6">
+
+            <div class="detail-label">
+              Registration Date
+            </div>
+
+            <div class="detail-value">
+              02 Oct 2026
+            </div>
+
+          </div>
+
+
+          <div class="col-6">
+
+            <div class="detail-label">
+              Exams Attempted
+            </div>
+
+            <div class="detail-value">
+              8
+            </div>
+
+          </div>
+
+
+          <div class="col-6">
+
+            <div class="detail-label">
+              Average Score
+            </div>
+
+            <div class="detail-value text-primary">
+              86%
+            </div>
+
+          </div>
+
+
+          <div class="col-6">
+
+            <div class="detail-label">
+              Mobile
+            </div>
+
+            <div class="detail-value">
+              +91 98765 43210
+            </div>
+
+          </div>
+
+
+          <div class="col-6">
+
+            <div class="detail-label">
+              Status
+            </div>
+
+            <span class="status active-status">
+                            Active
+                        </span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="modal-footer">
+
+        <button
+                type="button"
+                class="btn btn-light"
+                data-bs-dismiss="modal">
+
+          Close
+
+        </button>
+
+        <a
+                href="/admin/results"
+                class="btn btn-primary">
+
+          View Results
+
+        </a>
+
+      </div>
+
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- Bootstrap JS -->
+
+<script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+
+
+
+
+</body>
+
+</html>

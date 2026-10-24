@@ -1,0 +1,2535 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+ <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Student Registration | Online Examination System</title>
+
+
+    <!-- =========================================================
+         BOOTSTRAP
+    ========================================================== -->
+
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+            rel="stylesheet">
+
+
+    <!-- =========================================================
+         BOOTSTRAP ICONS
+    ========================================================== -->
+
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+            rel="stylesheet">
+
+
+    <style>
+
+        /* =========================================================
+           GLOBAL
+        ========================================================== */
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            min-height: 100%;
+        }
+
+        body {
+
+            font-family:
+                    "Segoe UI",
+                    Arial,
+                    sans-serif;
+
+            color: #172033;
+
+            background:
+                    #f4f7fc;
+
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+
+        /* =========================================================
+           TOP NAVBAR
+        ========================================================== */
+
+        .top-navbar {
+
+            height: 74px;
+
+            width: 100%;
+
+            background: #ffffff;
+
+            border-bottom:
+                    1px solid #e6ebf2;
+
+            box-shadow:
+                    0 3px 18px
+                    rgba(15, 23, 42, .05);
+
+            position: relative;
+
+            z-index: 100;
+        }
+
+
+        .navbar-container {
+
+            width: 100%;
+
+            max-width: 1450px;
+
+            height: 100%;
+
+            margin: auto;
+
+            padding:
+                    0 42px;
+
+            display: flex;
+
+            align-items: center;
+        }
+
+
+        /* =========================================================
+           BRAND
+        ========================================================== */
+
+        .brand {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 11px;
+
+            color: #10182f;
+
+            font-size: 20px;
+
+            font-weight: 800;
+
+            letter-spacing: -.5px;
+        }
+
+        .brand:hover {
+            color: #10182f;
+        }
+
+
+        .brand-icon {
+
+            width: 45px;
+
+            height: 45px;
+
+            border-radius: 12px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            color: #ffffff;
+
+            background:
+                    linear-gradient(
+                            135deg,
+                            #1765ea,
+                            #347cf5
+                    );
+
+            font-size: 23px;
+
+            box-shadow:
+                    0 7px 18px
+                    rgba(37,99,235,.22);
+        }
+
+
+        .brand-blue {
+            color: #1766e8;
+        }
+
+
+        /* =========================================================
+           NAVIGATION
+        ========================================================== */
+
+        .nav-area {
+
+            margin-left: auto;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 28px;
+        }
+
+
+        .nav-link {
+
+            color: #28354d;
+
+            font-size: 12px;
+
+            font-weight: 650;
+
+            transition: .2s ease;
+        }
+
+
+        .nav-link:hover {
+            color: #1766e8;
+        }
+
+
+        .login-btn {
+
+            height: 42px;
+
+            padding:
+                    0 18px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 7px;
+
+            border-radius: 9px;
+
+            color: #ffffff;
+
+            background:
+                    linear-gradient(
+                            135deg,
+                            #1766e8,
+                            #286ff0
+                    );
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+            box-shadow:
+                    0 7px 18px
+                    rgba(37,99,235,.20);
+
+            transition: .2s ease;
+        }
+
+
+        .login-btn:hover {
+
+            color: #ffffff;
+
+            transform:
+                    translateY(-1px);
+
+            box-shadow:
+                    0 10px 22px
+                    rgba(37,99,235,.28);
+        }
+
+
+        /* =========================================================
+           MAIN PAGE
+        ========================================================== */
+
+        .registration-page {
+
+            min-height:
+                    calc(100vh - 74px);
+
+            position: relative;
+
+            overflow: hidden;
+
+            background:
+                    linear-gradient(
+                            115deg,
+                            #075bea 0%,
+                            #1769ed 38%,
+                            #5991ed 72%,
+                            #eaf3ff 100%
+                    );
+
+            display: flex;
+
+            align-items: center;
+        }
+
+
+        /* =========================================================
+           BACKGROUND DECORATIONS
+        ========================================================== */
+
+        .bg-circle {
+
+            position: absolute;
+
+            border-radius: 50%;
+
+            pointer-events: none;
+        }
+
+
+        .circle-one {
+
+            width: 540px;
+
+            height: 540px;
+
+            top: -310px;
+
+            left: 25%;
+
+            background:
+                    rgba(255,255,255,.075);
+        }
+
+
+        .circle-two {
+
+            width: 420px;
+
+            height: 420px;
+
+            right: -210px;
+
+            bottom: -190px;
+
+            background:
+                    rgba(255,255,255,.075);
+        }
+
+
+        .circle-three {
+
+            width: 270px;
+
+            height: 270px;
+
+            left: -150px;
+
+            bottom: -140px;
+
+            background:
+                    rgba(255,255,255,.06);
+        }
+
+
+        .circle-four {
+
+            width: 190px;
+
+            height: 190px;
+
+            right: 34%;
+
+            top: 18%;
+
+            border:
+                    1px solid
+                    rgba(255,255,255,.10);
+        }
+
+
+        /* =========================================================
+           MAIN CONTAINER
+        ========================================================== */
+
+        .page-container {
+
+            width: 100%;
+
+            max-width: 1450px;
+
+            margin: auto;
+
+            padding:
+                    30px 42px 28px;
+
+            position: relative;
+
+            z-index: 5;
+        }
+
+
+        /* =========================================================
+           MAIN GRID
+        ========================================================== */
+
+        .registration-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                    minmax(0, 1fr)
+                    560px;
+
+            gap: 48px;
+
+            align-items: center;
+        }
+
+
+        /* =========================================================
+           LEFT HERO
+        ========================================================== */
+
+        .welcome-area {
+
+            color: #ffffff;
+
+            padding:
+                    10px 0 10px 40px;
+
+            max-width: 650px;
+        }
+
+
+        .welcome-badge {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            padding:
+                    9px 17px;
+
+            border:
+                    1px solid
+                    rgba(255,255,255,.32);
+
+            border-radius: 30px;
+
+            background:
+                    rgba(255,255,255,.08);
+
+            font-size: 10px;
+
+            font-weight: 700;
+
+            margin-bottom: 20px;
+        }
+
+
+        .welcome-icon {
+
+            width: 62px;
+
+            height: 62px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 16px;
+
+            background:
+                    rgba(255,255,255,.13);
+
+            border:
+                    1px solid
+                    rgba(255,255,255,.18);
+
+            font-size: 27px;
+
+            margin-bottom: 20px;
+        }
+
+
+        .welcome-title {
+
+            margin: 0;
+
+            font-size: 55px;
+
+            line-height: 1.02;
+
+            letter-spacing: -2.4px;
+
+            font-weight: 850;
+        }
+
+
+        .welcome-title .highlight {
+
+            display: block;
+
+            color: #22ded4;
+        }
+
+
+        .welcome-description {
+
+            max-width: 600px;
+
+            margin:
+                    20px 0 28px;
+
+            color:
+                    rgba(255,255,255,.85);
+
+            font-size: 13px;
+
+            line-height: 1.75;
+        }
+
+
+        /* =========================================================
+           BENEFITS
+        ========================================================== */
+
+        .benefits-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                    repeat(2, minmax(200px, 1fr));
+
+            gap:
+                    16px 28px;
+
+            max-width: 570px;
+        }
+
+
+        .benefit-item {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 11px;
+        }
+
+
+        .benefit-icon {
+
+            width: 42px;
+
+            height: 42px;
+
+            flex-shrink: 0;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 10px;
+
+            background:
+                    rgba(255,255,255,.12);
+
+            border:
+                    1px solid
+                    rgba(255,255,255,.18);
+
+            font-size: 17px;
+        }
+
+
+        .benefit-title {
+
+            font-size: 11px;
+
+            font-weight: 800;
+
+            margin-bottom: 3px;
+        }
+
+
+        .benefit-text {
+
+            color:
+                    rgba(255,255,255,.68);
+
+            font-size: 9px;
+
+            line-height: 1.35;
+        }
+
+
+        /* =========================================================
+           STATS CARD
+        ========================================================== */
+
+        .stats-card {
+
+            max-width: 610px;
+
+            margin-top: 28px;
+
+            padding:
+                    13px 10px;
+
+            display: grid;
+
+            grid-template-columns:
+                    repeat(4, 1fr);
+
+            background:
+                    rgba(255,255,255,.97);
+
+            border-radius: 15px;
+
+            box-shadow:
+                    0 15px 35px
+                    rgba(15,23,42,.12);
+        }
+
+
+        .stat {
+
+            text-align: center;
+
+            padding:
+                    3px 8px;
+
+            border-right:
+                    1px solid #e7ebf1;
+        }
+
+
+        .stat:last-child {
+            border-right: 0;
+        }
+
+
+        .stat-icon {
+
+            width: 30px;
+
+            height: 30px;
+
+            margin:
+                    0 auto 5px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 8px;
+
+            background: #edf4ff;
+
+            color: #1766e8;
+
+            font-size: 13px;
+        }
+
+
+        .stat strong {
+
+            display: block;
+
+            color: #111a35;
+
+            font-size: 11px;
+        }
+
+
+        .stat span {
+
+            display: block;
+
+            color: #718096;
+
+            font-size: 8px;
+
+            margin-top: 2px;
+        }
+
+
+        /* =========================================================
+           RIGHT REGISTRATION CARD
+        ========================================================== */
+
+        .registration-card {
+
+            width: 100%;
+
+            background:
+                    rgba(255,255,255,.99);
+
+            border:
+                    1px solid
+                    rgba(255,255,255,.85);
+
+            border-radius: 20px;
+
+            overflow: hidden;
+
+            box-shadow:
+                    0 25px 65px
+                    rgba(15,23,42,.18);
+
+            position: relative;
+        }
+
+
+        /* =========================================================
+           CARD HEADER
+        ========================================================== */
+
+        .registration-header {
+
+            text-align: center;
+
+            padding:
+                    25px 32px 20px;
+
+            border-bottom:
+                    1px solid #edf0f4;
+        }
+
+
+        .registration-icon {
+
+            width: 54px;
+
+            height: 54px;
+
+            margin:
+                    0 auto 12px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 14px;
+
+            background:
+                    #eaf2ff;
+
+            color: #1766e8;
+
+            font-size: 25px;
+        }
+
+
+        .registration-header h2 {
+
+            margin:
+                    0 0 5px;
+
+            color: #111a35;
+
+            font-size: 25px;
+
+            font-weight: 850;
+
+            letter-spacing: -.6px;
+        }
+
+
+        .registration-header p {
+
+            margin: 0;
+
+            color: #718096;
+
+            font-size: 10px;
+        }
+
+
+        /* =========================================================
+           FORM BODY
+        ========================================================== */
+
+        .registration-body {
+
+            padding:
+                    24px 30px 23px;
+        }
+
+
+        /* =========================================================
+           LABEL
+        ========================================================== */
+
+        .form-label {
+
+            display: block;
+
+            color: #1f2937;
+
+            font-size: 10px;
+
+            font-weight: 750;
+
+            margin-bottom: 6px;
+        }
+
+
+        /* =========================================================
+           INPUTS
+        ========================================================== */
+
+        .form-control,
+        .form-select {
+
+            height: 44px;
+
+            border:
+                    1px solid #d9e2ed;
+
+            border-radius: 8px;
+
+            color: #172033;
+
+            font-size: 11px;
+
+            box-shadow: none;
+
+            transition: .2s ease;
+        }
+
+
+        .form-control::placeholder {
+
+            color: #a0acbb;
+        }
+
+
+        .form-control:focus,
+        .form-select:focus {
+
+            border-color: #1766e8;
+
+            box-shadow:
+                    0 0 0 3px
+                    rgba(23,102,232,.08);
+        }
+
+
+        .input-group {
+
+            height: 44px;
+        }
+
+
+        .input-group-text {
+
+            min-width: 43px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background: #ffffff;
+
+            color: #77869b;
+
+            border:
+                    1px solid #d9e2ed;
+
+            border-right: 0;
+
+            border-radius:
+                    8px 0 0 8px;
+
+            font-size: 13px;
+        }
+
+
+        .input-group .form-control {
+
+            border-left: 0;
+
+            border-radius:
+                    0 8px 8px 0;
+        }
+
+
+        .input-group:focus-within
+        .input-group-text {
+
+            border-color: #1766e8;
+
+            color: #1766e8;
+        }
+
+
+        /* =========================================================
+           FIELD SPACING
+        ========================================================== */
+
+        .field-group {
+
+            margin-bottom: 12px;
+        }
+
+
+        /* =========================================================
+           TERMS
+        ========================================================== */
+
+        .terms-area {
+
+            margin-top: 3px;
+
+            margin-bottom: 15px;
+        }
+
+
+        .terms-area .form-check-input {
+
+            width: 14px;
+
+            height: 14px;
+
+            margin-top: 2px;
+        }
+
+
+        .terms-area .form-check-label {
+
+            color: #667085;
+
+            font-size: 9px;
+
+            line-height: 1.5;
+        }
+
+
+        .terms-link {
+
+            color: #1766e8;
+
+            font-weight: 700;
+        }
+
+
+        .terms-link:hover {
+
+            color: #0d54c9;
+
+            text-decoration: underline;
+        }
+
+
+        /* =========================================================
+           REGISTER BUTTON
+        ========================================================== */
+
+        .register-btn {
+
+            width: 100%;
+
+            height: 47px;
+
+            border: 0;
+
+            border-radius: 9px;
+
+            background:
+                    linear-gradient(
+                            135deg,
+                            #1766e8,
+                            #286ff0
+                    ) !important;
+
+            color: #ffffff;
+
+            font-size: 11px;
+
+            font-weight: 750;
+
+            box-shadow:
+                    0 9px 20px
+                    rgba(37,99,235,.20);
+
+            transition: .2s ease;
+        }
+
+
+        .register-btn:hover {
+
+            color: #ffffff;
+
+            transform:
+                    translateY(-1px);
+
+            box-shadow:
+                    0 12px 25px
+                    rgba(37,99,235,.28);
+        }
+
+
+        /* =========================================================
+           LOGIN LINK
+        ========================================================== */
+
+        .already-text {
+
+            color: #718096;
+
+            font-size: 10px;
+        }
+
+
+        .login-link {
+
+            color: #1766e8;
+
+            font-weight: 750;
+
+            font-size: 10px;
+        }
+
+
+        .login-link:hover {
+
+            color: #0d54c9;
+
+            text-decoration: underline;
+        }
+
+
+        /* =========================================================
+           SECURITY FOOTER
+        ========================================================== */
+
+        .card-security {
+
+            border-top:
+                    1px solid #edf0f4;
+
+            margin-top: 17px;
+
+            padding-top: 14px;
+
+            text-align: center;
+
+            color: #8a94a6;
+
+            font-size: 8px;
+        }
+
+
+        .card-security i {
+
+            color: #6581a8;
+
+            margin-right: 3px;
+        }
+
+
+        /* =========================================================
+           PASSWORD EYE
+        ========================================================== */
+
+        .password-wrapper {
+
+            position: relative;
+        }
+
+
+        .password-toggle {
+
+            position: absolute;
+
+            right: 11px;
+
+            top: 50%;
+
+            transform:
+                    translateY(-50%);
+
+            border: 0;
+
+            background: transparent;
+
+            color: #8090a5;
+
+            padding: 5px;
+
+            cursor: pointer;
+
+            z-index: 5;
+        }
+
+
+        .password-wrapper .form-control {
+
+            padding-right: 40px;
+        }
+
+
+        /* =========================================================
+           PAGE FOOTER
+        ========================================================== */
+
+        .page-footer {
+
+            color:
+                    rgba(255,255,255,.55);
+
+            text-align: center;
+
+            font-size: 8px;
+
+            margin-top: 16px;
+        }
+
+
+        /* =========================================================
+           TABLET
+        ========================================================== */
+
+        @media (max-width: 1100px) {
+
+            .navbar-container {
+
+                padding:
+                        0 25px;
+            }
+
+
+            .page-container {
+
+                padding:
+                        28px 25px;
+            }
+
+
+            .registration-grid {
+
+                grid-template-columns:
+                        minmax(0, 1fr)
+                        500px;
+
+                gap: 30px;
+            }
+
+
+            .welcome-area {
+
+                padding-left: 10px;
+            }
+
+
+            .welcome-title {
+
+                font-size: 47px;
+            }
+
+
+            .registration-body {
+
+                padding:
+                        22px 25px;
+            }
+        }
+
+
+        /* =========================================================
+           TABLET / SMALL LAPTOP
+        ========================================================== */
+
+        @media (max-width: 950px) {
+
+            .registration-page {
+
+                min-height: auto;
+            }
+
+
+            .registration-grid {
+
+                grid-template-columns: 1fr;
+
+                gap: 30px;
+
+                max-width: 650px;
+
+                margin: auto;
+            }
+
+
+            .welcome-area {
+
+                text-align: center;
+
+                max-width: 650px;
+
+                margin: auto;
+
+                padding: 20px 0 0;
+            }
+
+
+            .welcome-description {
+
+                margin-left: auto;
+
+                margin-right: auto;
+            }
+
+
+            .benefits-grid {
+
+                margin-left: auto;
+
+                margin-right: auto;
+
+                text-align: left;
+            }
+
+
+            .stats-card {
+
+                margin-left: auto;
+
+                margin-right: auto;
+            }
+
+
+            .registration-card {
+
+                max-width: 620px;
+
+                margin: auto;
+            }
+
+
+            .page-footer {
+
+                margin-bottom: 8px;
+            }
+        }
+
+
+        /* =========================================================
+           MOBILE
+        ========================================================== */
+
+        @media (max-width: 600px) {
+
+            .top-navbar {
+
+                height: 66px;
+            }
+
+
+            .navbar-container {
+
+                padding:
+                        0 14px;
+            }
+
+
+            .brand {
+
+                font-size: 14px;
+            }
+
+
+            .brand-icon {
+
+                width: 38px;
+
+                height: 38px;
+
+                font-size: 19px;
+            }
+
+
+            .nav-area {
+
+                gap: 0;
+            }
+
+
+            .nav-area .nav-link {
+
+                display: none;
+            }
+
+
+            .login-btn {
+
+                height: 37px;
+
+                padding:
+                        0 11px;
+
+                font-size: 10px;
+            }
+
+
+            .registration-page {
+
+                min-height: auto;
+            }
+
+
+            .page-container {
+
+                padding:
+                        20px 12px 25px;
+            }
+
+
+            .registration-grid {
+
+                gap: 20px;
+            }
+
+
+            .welcome-area {
+
+                padding:
+                        15px 8px 0;
+            }
+
+
+            .welcome-badge {
+
+                font-size: 8px;
+
+                padding:
+                        8px 12px;
+            }
+
+
+            .welcome-icon {
+
+                width: 55px;
+
+                height: 55px;
+
+                font-size: 24px;
+
+                margin-left: auto;
+
+                margin-right: auto;
+            }
+
+
+            .welcome-title {
+
+                font-size: 38px;
+
+                letter-spacing: -1.6px;
+            }
+
+
+            .welcome-description {
+
+                font-size: 11px;
+
+                line-height: 1.65;
+            }
+
+
+            .benefits-grid {
+
+                grid-template-columns: 1fr;
+
+                max-width: 360px;
+
+                gap: 11px;
+            }
+
+
+            .stats-card {
+
+                grid-template-columns:
+                        repeat(2, 1fr);
+
+                gap: 10px;
+
+                padding: 12px;
+            }
+
+
+            .stat {
+
+                border-right: 0;
+
+                border-bottom:
+                        1px solid #e7ebf1;
+
+                padding-bottom: 10px;
+            }
+
+
+            .stat:nth-child(3),
+            .stat:nth-child(4) {
+
+                border-bottom: 0;
+
+                padding-bottom: 3px;
+            }
+
+
+            .registration-card {
+
+                border-radius: 17px;
+            }
+
+
+            .registration-header {
+
+                padding:
+                        25px 20px 19px;
+            }
+
+
+            .registration-header h2 {
+
+                font-size: 23px;
+            }
+
+
+            .registration-body {
+
+                padding:
+                        22px 18px 21px;
+            }
+
+
+            .form-label {
+
+                font-size: 10px;
+            }
+
+
+            .form-control,
+            .form-select,
+            .input-group {
+
+                height: 45px;
+            }
+
+
+            .input-group-text {
+
+                min-width: 42px;
+            }
+
+
+            .page-footer {
+
+                line-height: 1.5;
+            }
+        }
+
+
+        /* =========================================================
+           VERY SMALL MOBILE
+        ========================================================== */
+
+        @media (max-width: 390px) {
+
+            .brand {
+
+                font-size: 12px;
+            }
+
+
+            .brand-icon {
+
+                width: 35px;
+
+                height: 35px;
+
+                font-size: 17px;
+            }
+
+
+            .login-btn {
+
+                padding:
+                        0 9px;
+
+                font-size: 9px;
+            }
+
+
+            .welcome-title {
+
+                font-size: 34px;
+            }
+
+
+            .registration-body {
+
+                padding:
+                        20px 15px;
+            }
+
+
+            .registration-header h2 {
+
+                font-size: 21px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     NAVBAR
+========================================================== -->
+
+<header class="top-navbar">
+
+    <div class="navbar-container">
+
+
+        <!-- BRAND -->
+
+        <a
+                href="/"
+                class="brand">
+
+            <span class="brand-icon">
+
+                <i class="bi bi-mortarboard-fill"></i>
+
+            </span>
+
+
+            <span>
+
+                Online
+
+                <span class="brand-blue">
+                    Examination
+                </span>
+
+                System
+
+            </span>
+
+        </a>
+
+
+
+        <!-- NAV -->
+
+        <div class="nav-area">
+
+
+            <a
+                    href="/"
+                    class="nav-link">
+
+                Home
+
+            </a>
+
+
+            <a
+                    href="/about"
+                    class="nav-link">
+
+                About
+
+            </a>
+
+
+            <a
+                    href="/features"
+                    class="nav-link">
+
+                Features
+
+            </a>
+
+
+            <a
+                    href="/help"
+                    class="nav-link">
+
+                Help
+
+            </a>
+
+
+            <a
+                    href="/login"
+                    class="login-btn">
+
+                <i class="bi bi-box-arrow-in-right"></i>
+
+                Login
+
+            </a>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+
+<!-- =========================================================
+     REGISTRATION PAGE
+========================================================== -->
+
+<main class="registration-page">
+
+
+    <!-- BACKGROUND -->
+
+    <div class="bg-circle circle-one"></div>
+
+    <div class="bg-circle circle-two"></div>
+
+    <div class="bg-circle circle-three"></div>
+
+    <div class="bg-circle circle-four"></div>
+
+
+
+    <div class="page-container">
+
+
+        <div class="registration-grid">
+
+
+            <!-- =================================================
+                 LEFT SIDE
+            ================================================== -->
+
+            <section class="welcome-area">
+
+
+                <!-- BADGE -->
+
+                <div class="welcome-badge">
+
+                    <i class="bi bi-mortarboard-fill"></i>
+
+                    Start Your Learning Journey
+
+                </div>
+
+
+
+                <!-- ICON -->
+
+                <div class="welcome-icon">
+
+                    <i class="bi bi-person-plus-fill"></i>
+
+                </div>
+
+
+
+                <!-- TITLE -->
+
+                <h1 class="welcome-title">
+
+                    Create your
+
+                    <span class="highlight">
+                        Student Account
+                    </span>
+
+                </h1>
+
+
+
+                <!-- DESCRIPTION -->
+
+                <p class="welcome-description">
+
+                    Register once and get access to online
+                    examinations, instant results, performance
+                    tracking and your complete student dashboard.
+
+                </p>
+
+
+
+                <!-- =================================================
+                     BENEFITS
+                ================================================== -->
+
+                <div class="benefits-grid">
+
+
+                    <!-- SECURITY -->
+
+                    <div class="benefit-item">
+
+                        <div class="benefit-icon">
+
+                            <i class="bi bi-shield-check"></i>
+
+                        </div>
+
+
+                        <div>
+
+                            <div class="benefit-title">
+                                Secure Account
+                            </div>
+
+                            <div class="benefit-text">
+                                Your personal information stays protected.
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- EXAM -->
+
+                    <div class="benefit-item">
+
+                        <div class="benefit-icon">
+
+                            <i class="bi bi-journal-check"></i>
+
+                        </div>
+
+
+                        <div>
+
+                            <div class="benefit-title">
+                                Online Examinations
+                            </div>
+
+                            <div class="benefit-text">
+                                Attend exams from anywhere, anytime.
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- PERFORMANCE -->
+
+                    <div class="benefit-item">
+
+                        <div class="benefit-icon">
+
+                            <i class="bi bi-bar-chart-fill"></i>
+
+                        </div>
+
+
+                        <div>
+
+                            <div class="benefit-title">
+                                Track Performance
+                            </div>
+
+                            <div class="benefit-text">
+                                View scores and examination history.
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- RESULTS -->
+
+                    <div class="benefit-item">
+
+                        <div class="benefit-icon">
+
+                            <i class="bi bi-lightning-charge-fill"></i>
+
+                        </div>
+
+
+                        <div>
+
+                            <div class="benefit-title">
+                                Instant Results
+                            </div>
+
+                            <div class="benefit-text">
+                                Get your examination results quickly.
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- =================================================
+                     STATS
+                ================================================== -->
+
+                <div class="stats-card">
+
+
+                    <div class="stat">
+
+                        <div class="stat-icon">
+
+                            <i class="bi bi-people-fill"></i>
+
+                        </div>
+
+                        <strong>
+                            10K+
+                        </strong>
+
+                        <span>
+                            Students
+                        </span>
+
+                    </div>
+
+
+
+                    <div class="stat">
+
+                        <div class="stat-icon">
+
+                            <i class="bi bi-file-earmark-text-fill"></i>
+
+                        </div>
+
+                        <strong>
+                            500+
+                        </strong>
+
+                        <span>
+                            Exams
+                        </span>
+
+                    </div>
+
+
+
+                    <div class="stat">
+
+                        <div class="stat-icon">
+
+                            <i class="bi bi-graph-up-arrow"></i>
+
+                        </div>
+
+                        <strong>
+                            95%
+                        </strong>
+
+                        <span>
+                            Success Rate
+                        </span>
+
+                    </div>
+
+
+
+                    <div class="stat">
+
+                        <div class="stat-icon">
+
+                            <i class="bi bi-headset"></i>
+
+                        </div>
+
+                        <strong>
+                            24/7
+                        </strong>
+
+                        <span>
+                            Support
+                        </span>
+
+                    </div>
+
+
+                </div>
+
+
+            </section>
+
+
+
+            <!-- =================================================
+                 RIGHT SIDE
+            ================================================== -->
+
+            <section>
+
+
+                <div class="registration-card">
+
+
+                    <!-- =================================================
+                         CARD HEADER
+                    ================================================== -->
+
+                    <div class="registration-header">
+
+
+                        <div class="registration-icon">
+
+                            <i class="bi bi-person-plus"></i>
+
+                        </div>
+
+
+                        <h2>
+                            Student Registration
+                        </h2>
+
+
+                        <p>
+                            Create your account to start your journey
+                        </p>
+
+
+                    </div>
+
+
+
+                    <!-- =================================================
+                         FORM BODY
+                    ================================================== -->
+
+                    <div class="registration-body">
+
+
+                        <form
+                                method="post"
+                                action="/register"
+                                id="registrationForm">
+                            <input type="hidden"
+                                   th:name="${_csrf.parameterName}"
+                                   th:value="${_csrf.token}">
+
+
+
+                            <!-- =================================================
+                                 FULL NAME
+                            ================================================== -->
+
+                            <div class="field-group">
+
+                                <label
+                                        for="fullName"
+                                        class="form-label">
+
+                                    Full Name
+
+                                </label>
+
+
+                                <div class="input-group">
+
+            <span class="input-group-text">
+
+                <i class="bi bi-person"></i>
+
+            </span>
+
+
+                                    <input
+                                            type="text"
+                                            id="fullName"
+                                            name="fullName"
+                                            class="form-control"
+                                            placeholder="Enter your full name"
+                                            autocomplete="name"
+                                            required>
+
+                                </div>
+
+                            </div>
+
+
+
+                            <!-- =================================================
+                                 EMAIL
+                            ================================================== -->
+
+                            <div class="field-group">
+
+                                <label
+                                        for="email"
+                                        class="form-label">
+
+                                    Email Address
+
+                                </label>
+
+
+                                <div class="input-group">
+
+            <span class="input-group-text">
+
+                <i class="bi bi-envelope"></i>
+
+            </span>
+
+
+                                    <input
+                                            type="email"
+                                            id="email"
+                                            name="email"
+                                            class="form-control"
+                                            placeholder="Enter your email"
+                                            autocomplete="email"
+                                            required>
+
+                                </div>
+
+                            </div>
+
+
+
+                            <!-- =================================================
+                                 MOBILE
+                            ================================================== -->
+
+                            <div class="field-group">
+
+                                <label
+                                        for="mobile"
+                                        class="form-label">
+
+                                    Mobile Number
+
+                                </label>
+
+
+                                <div class="input-group">
+
+            <span class="input-group-text">
+
+                <i class="bi bi-phone"></i>
+
+            </span>
+
+
+                                    <input
+                                            type="tel"
+                                            id="mobile"
+                                            name="mobile"
+                                            class="form-control"
+                                            placeholder="Enter your mobile number"
+                                            autocomplete="tel"
+                                            maxlength="15"
+                                            required>
+
+                                </div>
+
+                            </div>
+
+
+
+                            <!-- =================================================
+                                 DOB + QUALIFICATION
+                            ================================================== -->
+
+                            <div class="row g-3">
+
+
+                                <!-- DOB -->
+
+                                <div class="col-md-6">
+
+                                    <div class="field-group">
+
+                                        <label
+                                                for="dateOfBirth"
+                                                class="form-label">
+
+                                            Date of Birth
+
+                                        </label>
+
+
+                                        <input
+                                                type="date"
+                                                id="dateOfBirth"
+                                                name="dateOfBirth"
+                                                class="form-control"
+                                                required>
+
+                                    </div>
+
+                                </div>
+
+
+
+                                <!-- QUALIFICATION -->
+
+                                <div class="col-md-6">
+
+                                    <div class="field-group">
+
+                                        <label
+                                                for="qualification"
+                                                class="form-label">
+
+                                            Qualification
+
+                                        </label>
+
+
+                                        <select
+                                                id="qualification"
+                                                name="qualification"
+                                                class="form-select"
+                                                required>
+
+                                            <option value="">
+                                                Select qualification
+                                            </option>
+
+                                            <option value="BCA">
+                                                BCA
+                                            </option>
+
+                                            <option value="B.Tech">
+                                                B.Tech
+                                            </option>
+
+                                            <option value="MCA">
+                                                MCA
+                                            </option>
+
+                                            <option value="M.Tech">
+                                                M.Tech
+                                            </option>
+
+                                            <option value="MBA">
+                                                MBA
+                                            </option>
+
+                                            <option value="Other">
+                                                Other
+                                            </option>
+
+                                        </select>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+
+                            <!-- =================================================
+                                 PASSWORD + CONFIRM
+                            ================================================== -->
+
+                            <div class="row g-3">
+
+
+                                <!-- PASSWORD -->
+
+                                <div class="col-md-6">
+
+                                    <div class="field-group">
+
+                                        <label
+                                                for="password"
+                                                class="form-label">
+
+                                            Password
+
+                                        </label>
+
+
+                                        <div class="password-wrapper">
+
+
+                                            <div class="input-group">
+
+                        <span
+                                class="input-group-text">
+
+                            <i class="bi bi-lock"></i>
+
+                        </span>
+
+
+                                                <input
+                                                        type="password"
+                                                        id="password"
+                                                        name="password"
+                                                        class="form-control"
+                                                        placeholder="Create password"
+                                                        autocomplete="new-password"
+                                                        required>
+
+                                            </div>
+
+
+                                            <button
+                                                    type="button"
+                                                    class="password-toggle"
+                                                    data-target="password"
+                                                    aria-label="Show password">
+
+                                                <i class="bi bi-eye"></i>
+
+                                            </button>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+
+                                <!-- CONFIRM PASSWORD -->
+
+                                <div class="col-md-6">
+
+                                    <div class="field-group">
+
+                                        <label
+                                                for="confirmPassword"
+                                                class="form-label">
+
+                                            Confirm Password
+
+                                        </label>
+
+
+                                        <div class="password-wrapper">
+
+
+                                            <div class="input-group">
+
+                        <span
+                                class="input-group-text">
+
+                            <i class="bi bi-lock-fill"></i>
+
+                        </span>
+
+
+                                                <input
+                                                        type="password"
+                                                        id="confirmPassword"
+                                                        name="confirmPassword"
+                                                        class="form-control"
+                                                        placeholder="Confirm password"
+                                                        autocomplete="new-password"
+                                                        required>
+
+                                            </div>
+
+
+                                            <button
+                                                    type="button"
+                                                    class="password-toggle"
+                                                    data-target="confirmPassword"
+                                                    aria-label="Show password">
+
+                                                <i class="bi bi-eye"></i>
+
+                                            </button>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+
+                            <!-- =================================================
+                                 TERMS
+                            ================================================== -->
+
+                            <div class="terms-area">
+
+                                <div class="form-check">
+
+
+                                    <input
+                                            class="form-check-input"
+                                            type="checkbox"
+                                            id="terms"
+                                            required>
+
+
+                                    <label
+                                            class="form-check-label"
+                                            for="terms">
+
+                                        I agree to the
+
+                                        <a
+                                                href="#"
+                                                class="terms-link">
+
+                                            Terms & Conditions
+
+                                        </a>
+
+                                    </label>
+
+                                </div>
+
+                            </div>
+
+
+
+                            <!-- =================================================
+                                 CREATE ACCOUNT
+                            ================================================== -->
+
+                            <button
+                                    type="submit"
+                                    class="btn register-btn">
+
+                                <i class="bi bi-person-plus me-2"></i>
+
+                                Create Account
+
+                            </button>
+
+
+
+                            <!-- =================================================
+                                 LOGIN
+                            ================================================== -->
+
+                            <div
+                                    class="text-center mt-3">
+
+        <span class="already-text">
+
+            Already have an account?
+
+        </span>
+
+
+                                <a
+                                        href="/login"
+                                        class="login-link ms-1">
+
+                                    Login
+
+                                </a>
+
+                            </div>
+
+
+
+                            <!-- =================================================
+                                 SECURITY
+                            ================================================== -->
+
+                            <div class="card-security">
+
+                                <i class="bi bi-shield-lock"></i>
+
+                                Your personal information is securely protected
+
+                            </div>
+
+
+                        </form>
+
+
+                    </div>
+
+                </div>
+
+
+            </section>
+
+
+        </div>
+
+
+
+        <!-- =================================================
+             PAGE FOOTER
+        ================================================== -->
+
+        <div class="page-footer">
+
+            <i class="bi bi-shield-check me-1"></i>
+
+            Secure registration
+
+            &nbsp;•&nbsp;
+
+            Online Examination System
+
+            &nbsp;•&nbsp;
+
+            Available 24/7
+
+        </div>
+
+
+    </div>
+
+</main>
+
+
+
+<!-- =========================================================
+     BOOTSTRAP JS
+========================================================== -->
+
+<script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+
+
+<!-- =========================================================
+     PASSWORD TOGGLE + VALIDATION
+========================================================== -->
+
+<script>
+
+    /* =========================================================
+       PASSWORD SHOW / HIDE
+    ========================================================== */
+
+    document.querySelectorAll(".password-toggle")
+        .forEach(function(button) {
+
+            button.addEventListener("click", function() {
+
+                const targetId =
+                    button.getAttribute("data-target");
+
+                const input =
+                    document.getElementById(targetId);
+
+                const icon =
+                    button.querySelector("i");
+
+
+                if (input.type === "password") {
+
+                    input.type = "text";
+
+                    icon.classList.remove("bi-eye");
+
+                    icon.classList.add("bi-eye-slash");
+
+                    button.setAttribute(
+                        "aria-label",
+                        "Hide password"
+                    );
+
+                } else {
+
+                    input.type = "password";
+
+                    icon.classList.remove("bi-eye-slash");
+
+                    icon.classList.add("bi-eye");
+
+                    button.setAttribute(
+                        "aria-label",
+                        "Show password"
+                    );
+                }
+
+            });
+
+        });
+
+
+
+    /* =========================================================
+       PASSWORD MATCH VALIDATION
+    ========================================================== */
+
+    document.getElementById("registrationForm")
+        .addEventListener("submit", function(event) {
+
+            const password =
+                document.getElementById("password").value;
+
+            const confirmPassword =
+                document.getElementById("confirmPassword").value;
+
+
+            if (password !== confirmPassword) {
+
+                event.preventDefault();
+
+                alert("Password and Confirm Password do not match.");
+
+                document
+                    .getElementById("confirmPassword")
+                    .focus();
+
+            }
+
+        });
+
+</script>
+
+
+</body>
+
+</html>

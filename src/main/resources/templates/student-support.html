@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta  name="viewport"
+           content="width=device-width, initial-scale=1.0">
+
+    <title>Help & Support - Online Exam</title>
+
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+            rel="stylesheet">
+
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+            rel="stylesheet">
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #f5f7fb;
+            color: #1f2937;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        /* =====================================================
+           SIDEBAR
+           ===================================================== */
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 250px;
+            height: 100vh;
+            background: #ffffff;
+            border-right: 1px solid #e3e7ef;
+            z-index: 1000;
+        }
+
+        .brand {
+            height: 69px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0 24px;
+            border-bottom: 1px solid #e3e7ef;
+        }
+
+        .brand-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: #2859d9;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .brand-text {
+            font-size: 20px;
+            font-weight: 700;
+            color: #111827;
+        }
+
+        .brand-text span {
+            color: #2859d9;
+        }
+
+        .sidebar-content {
+            padding: 25px 15px;
+        }
+
+        .menu-title {
+            padding: 0 13px;
+            margin-bottom: 10px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.7px;
+            color: #64748b;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            width: 100%;
+            height: 52px;
+            padding: 0 13px;
+            margin-bottom: 5px;
+            border-radius: 10px;
+            color: #374151;
+            text-decoration: none;
+            font-size: 15px;
+            transition: all 0.2s ease;
+        }
+
+        .menu-item i {
+            width: 20px;
+            font-size: 18px;
+            text-align: center;
+        }
+
+        .menu-item:hover {
+            background: #f1f5ff;
+            color: #2859d9;
+        }
+
+        .menu-item.active {
+            background: #edf4ff;
+            color: #2860e6;
+            font-weight: 600;
+        }
+
+        .menu-item.logout {
+            margin-top: 8px;
+            color: #ef4444;
+        }
+
+        .menu-item.logout:hover {
+            background: #fff1f2;
+            color: #dc2626;
+        }
+
+        /* =====================================================
+           MAIN
+           ===================================================== */
+
+        .main-content {
+            margin-left: 250px;
+            min-height: 100vh;
+            padding: 32px 35px;
+        }
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 28px;
+        }
+
+        .page-heading h1 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: 700;
+            color: #172033;
+        }
+
+        .page-heading p {
+            margin: 7px 0 0;
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .student-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 7px 12px;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+        }
+
+        .profile-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #e9efff;
+            color: #2859d9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .profile-text {
+            font-size: 13px;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        /* =====================================================
+           COMMON CARD
+           ===================================================== */
+
+        .support-card {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 14px;
+            box-shadow: 0 3px 12px rgba(15, 23, 42, 0.04);
+        }
+
+        .card-header-custom {
+            padding: 20px 22px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .card-title {
+            margin: 0;
+            font-size: 17px;
+            font-weight: 700;
+            color: #172033;
+        }
+
+        .card-subtitle {
+            margin: 5px 0 0;
+            font-size: 13px;
+            color: #6b7280;
+        }
+
+        /* =====================================================
+           SUCCESS / ERROR
+           ===================================================== */
+
+        .alert {
+            border-radius: 10px;
+            font-size: 14px;
+        }
+
+        /* =====================================================
+           FAQ
+           ===================================================== */
+
+        .faq-section {
+            margin-bottom: 24px;
+        }
+
+        .accordion-item {
+            border-left: none;
+            border-right: none;
+            border-top: none;
+        }
+
+        .accordion-item:last-child {
+            border-bottom: none;
+        }
+
+        .accordion-button {
+            font-size: 14px;
+            font-weight: 600;
+            color: #374151;
+            padding: 17px 20px;
+        }
+
+        .accordion-button:not(.collapsed) {
+            background: #f8fafc;
+            color: #2859d9;
+            box-shadow: none;
+        }
+
+        .accordion-button:focus {
+            box-shadow: none;
+        }
+
+        .accordion-body {
+            color: #64748b;
+            font-size: 13px;
+            line-height: 1.7;
+            padding: 0 20px 18px;
+        }
+
+        /* =====================================================
+           FORM
+           ===================================================== */
+
+        .form-section {
+            padding: 22px;
+        }
+
+        .form-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .form-control {
+            border: 1px solid #dbe1ea;
+            border-radius: 9px;
+            padding: 11px 13px;
+            font-size: 14px;
+        }
+
+        .form-control:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.10);
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 135px;
+        }
+
+        .submit-button {
+            border: none;
+            background: #2563eb;
+            color: white;
+            border-radius: 9px;
+            padding: 11px 20px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .submit-button:hover {
+            background: #1d4ed8;
+        }
+
+        /* =====================================================
+           TICKETS
+           ===================================================== */
+
+        .tickets-section {
+            margin-top: 24px;
+        }
+
+        .ticket-list {
+            padding: 0;
+        }
+
+        .ticket-item {
+            padding: 18px 22px;
+            border-bottom: 1px solid #eef1f5;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .ticket-item:last-child {
+            border-bottom: none;
+        }
+
+        .ticket-subject {
+            font-size: 14px;
+            font-weight: 700;
+            color: #1e40af;
+            margin-bottom: 5px;
+        }
+
+        .ticket-date {
+            font-size: 12px;
+            color: #94a3b8;
+        }
+
+        .ticket-message {
+            font-size: 13px;
+            color: #64748b;
+            margin-top: 5px;
+        }
+
+        .ticket-status {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6px 11px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .status-open {
+            background: #fff7ed;
+            color: #c2410c;
+        }
+
+        .status-progress {
+            background: #edf4ff;
+            color: #2563eb;
+        }
+
+        .status-resolved {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .status-closed {
+            background: #f1f5f9;
+            color: #64748b;
+        }
+
+        .view-ticket {
+            color: #2563eb;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .view-ticket:hover {
+            text-decoration: underline;
+        }
+
+        /* =====================================================
+           EMPTY
+           ===================================================== */
+
+        .empty-ticket {
+            padding: 45px 20px;
+            text-align: center;
+        }
+
+        .empty-ticket-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 15px;
+            border-radius: 50%;
+            background: #edf4ff;
+            color: #2563eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 25px;
+        }
+
+        .empty-ticket-title {
+            font-weight: 700;
+            color: #374151;
+            font-size: 16px;
+        }
+
+        .empty-ticket-text {
+            color: #94a3b8;
+            font-size: 13px;
+            margin-top: 5px;
+        }
+
+        /* =====================================================
+           RESPONSIVE
+           ===================================================== */
+
+        @media (max-width: 991px) {
+
+            .sidebar {
+                width: 220px;
+            }
+
+            .main-content {
+                margin-left: 220px;
+                padding: 25px 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+            }
+
+            .sidebar-content {
+                padding: 15px;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 22px 15px;
+            }
+
+            .topbar {
+                align-items: flex-start;
+            }
+
+            .student-profile {
+                display: none;
+            }
+
+            .ticket-item {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     SIDEBAR
+     ========================================================= -->
+
+<aside class="sidebar">
+
+    <div class="brand">
+
+        <div class="brand-icon">
+
+            <i class="bi bi-mortarboard-fill"></i>
+
+        </div>
+
+        <div class="brand-text">
+
+            Online <span>Exam</span>
+
+        </div>
+
+    </div>
+
+
+    <div class="sidebar-content">
+
+        <div class="menu-title">
+            STUDENT MENU
+        </div>
+
+
+        <a
+                href="/student/dashboard"
+                class="menu-item">
+
+            <i class="bi bi-grid-fill"></i>
+
+            <span>
+                Dashboard
+            </span>
+
+        </a>
+
+
+        <a
+                href="/student/exams"
+                class="menu-item">
+
+            <i class="bi bi-journal-text"></i>
+
+            <span>
+                Available Exams
+            </span>
+
+        </a>
+
+
+        <a
+                href="/student/exam-history"
+                class="menu-item">
+
+            <i class="bi bi-clock-history"></i>
+
+            <span>
+                Exam History
+            </span>
+
+        </a>
+
+
+        <a
+                href="/student/result"
+                class="menu-item">
+
+            <i class="bi bi-trophy"></i>
+
+            <span>
+                Results
+            </span>
+
+        </a>
+
+
+        <a
+                href="/student/profile"
+                class="menu-item">
+
+            <i class="bi bi-person"></i>
+
+            <span>
+                My Profile
+            </span>
+
+        </a>
+
+
+        <a
+                href="/student/support"
+                class="menu-item active">
+
+            <i class="bi bi-question-circle"></i>
+
+            <span>
+                Help &amp; Support
+            </span>
+
+        </a>
+
+
+        <a
+                href="/logout"
+                class="menu-item logout">
+
+            <i class="bi bi-box-arrow-right"></i>
+
+            <span>
+                Logout
+            </span>
+
+        </a>
+
+    </div>
+
+</aside>
+
+
+
+<!-- =========================================================
+     MAIN CONTENT
+     ========================================================= -->
+
+<main class="main-content">
+
+
+    <!-- TOP BAR -->
+
+    <div class="topbar">
+
+        <div class="page-heading">
+
+            <h1>
+                Help &amp; Support
+            </h1>
+
+            <p>
+                Find answers or contact our support team.
+            </p>
+
+        </div>
+
+
+        <div class="student-profile">
+
+            <!-- Dynamic User Avatar -->
+            <div class="profile-icon"
+                 th:text="${session.userName != null
+             and !#strings.isEmpty(session.userName.trim())
+             ? #strings.substring(session.userName.trim(), 0, 1).toUpperCase()
+             : 'U'}">
+                U
+            </div>
+
+            <!-- Dynamic User Name -->
+            <div class="profile-text"
+                 th:text="${session.userName != null
+             and !#strings.isEmpty(session.userName.trim())
+             ? session.userName
+             : 'User'}">
+                User
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         SUCCESS MESSAGE
+         ===================================================== -->
+
+    <div
+            th:if="${param.success != null and param.success[0] == 'ticket'}"
+            class="alert alert-success">
+
+        <i class="bi bi-check-circle-fill me-2"></i>
+
+        Your support request has been submitted successfully.
+
+    </div>
+
+
+
+    <!-- =====================================================
+         ERROR MESSAGE
+         ===================================================== -->
+
+    <div
+            th:if="${error}"
+            class="alert alert-danger">
+
+        <i class="bi bi-exclamation-circle-fill me-2"></i>
+
+        <span th:text="${error}">
+            Something went wrong.
+        </span>
+
+    </div>
+
+
+
+    <div class="row g-4">
+
+
+        <!-- =================================================
+             FAQ
+             ================================================= -->
+
+        <div class="col-lg-7">
+
+            <div class="support-card faq-section">
+
+                <div class="card-header-custom">
+
+                    <h2 class="card-title">
+                        Frequently Asked Questions
+                    </h2>
+
+                    <p class="card-subtitle">
+                        Quick answers to common questions.
+                    </p>
+
+                </div>
+
+
+                <div
+                        class="accordion"
+                        id="faqAccordion">
+
+
+                    <!-- FAQ 1 -->
+
+                    <div class="accordion-item">
+
+                        <h2 class="accordion-header">
+
+                            <button
+                                    class="accordion-button"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#faqOne">
+
+                                How can I start an examination?
+
+                            </button>
+
+                        </h2>
+
+                        <div
+                                id="faqOne"
+                                class="accordion-collapse collapse show"
+                                data-bs-parent="#faqAccordion">
+
+                            <div class="accordion-body">
+
+                                Go to <strong>Available Exams</strong>,
+                                select an active examination and click
+                                <strong>Start Exam</strong>.
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- FAQ 2 -->
+
+                    <div class="accordion-item">
+
+                        <h2 class="accordion-header">
+
+                            <button
+                                    class="accordion-button collapsed"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#faqTwo">
+
+                                What happens if my exam is automatically submitted?
+
+                            </button>
+
+                        </h2>
+
+                        <div
+                                id="faqTwo"
+                                class="accordion-collapse collapse"
+                                data-bs-parent="#faqAccordion">
+
+                            <div class="accordion-body">
+
+                                If the examination time expires,
+                                the system automatically submits your
+                                answers and calculates your result.
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- FAQ 3 -->
+
+                    <div class="accordion-item">
+
+                        <h2 class="accordion-header">
+
+                            <button
+                                    class="accordion-button collapsed"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#faqThree">
+
+                                Where can I see my examination result?
+
+                            </button>
+
+                        </h2>
+
+                        <div
+                                id="faqThree"
+                                class="accordion-collapse collapse"
+                                data-bs-parent="#faqAccordion">
+
+                            <div class="accordion-body">
+
+                                Open <strong>Results</strong> from the
+                                student menu. You can view your score,
+                                percentage, pass/fail status and detailed
+                                answer review.
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- FAQ 4 -->
+
+                    <div class="accordion-item">
+
+                        <h2 class="accordion-header">
+
+                            <button
+                                    class="accordion-button collapsed"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#faqFour">
+
+                                I forgot my password. What should I do?
+
+                            </button>
+
+                        </h2>
+
+                        <div
+                                id="faqFour"
+                                class="accordion-collapse collapse"
+                                data-bs-parent="#faqAccordion">
+
+                            <div class="accordion-body">
+
+                                Use the <strong>Forgot Password</strong>
+                                option on the login page. A verification
+                                OTP will be sent to your registered email.
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             CONTACT SUPPORT
+             ================================================= -->
+
+        <div class="col-lg-5">
+
+            <div class="support-card">
+
+                <div class="card-header-custom">
+
+                    <h2 class="card-title">
+                        Contact Support
+                    </h2>
+
+                    <p class="card-subtitle">
+                        Tell us how we can help you.
+                    </p>
+
+                </div>
+
+
+                <div class="form-section">
+
+                    <form
+                            th:action="@{/student/support/create}"
+                            method="post">
+
+
+                        <!-- SUBJECT -->
+
+                        <div class="mb-3">
+
+                            <label
+                                    for="subject"
+                                    class="form-label">
+
+                                Subject
+
+                            </label>
+
+                            <input
+                                    type="text"
+                                    id="subject"
+                                    name="subject"
+                                    class="form-control"
+                                    maxlength="150"
+                                    placeholder="Enter your issue"
+                                    th:value="${subject}"
+                                    required>
+
+                        </div>
+
+
+                        <!-- MESSAGE -->
+
+                        <div class="mb-3">
+
+                            <label
+                                    for="message"
+                                    class="form-label">
+
+                                Message
+
+                            </label>
+
+                            <textarea
+                                    id="message"
+                                    name="message"
+                                    class="form-control"
+                                    placeholder="Describe your issue..."
+                                    required
+                                    th:text="${message}"></textarea>
+
+                        </div>
+
+
+                        <!-- SUBMIT -->
+
+                        <button
+                                type="submit"
+                                class="submit-button">
+
+                            <i class="bi bi-send-fill me-2"></i>
+
+                            Submit Request
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         PREVIOUS TICKETS
+         ===================================================== -->
+
+    <div class="support-card tickets-section">
+
+
+        <div class="card-header-custom">
+
+            <h2 class="card-title">
+                My Support Requests
+            </h2>
+
+            <p class="card-subtitle">
+                Track your previously submitted requests.
+            </p>
+
+        </div>
+
+
+
+        <!-- =================================================
+             TICKETS AVAILABLE
+             ================================================= -->
+
+        <div
+                th:if="${tickets != null and !tickets.isEmpty()}"
+                class="ticket-list">
+
+
+            <div
+                    th:each="ticket : ${tickets}"
+                    class="ticket-item">
+
+
+                <div>
+
+                    <div
+                            class="ticket-subject"
+                            th:text="${ticket.subject}">
+
+                        Login problem
+
+                    </div>
+
+
+                    <div
+                            class="ticket-message"
+                            th:text="${ticket.message}">
+
+                        I am unable to login.
+
+                    </div>
+
+
+                    <div
+                            class="ticket-date"
+                            th:if="${ticket.createdAt != null}"
+                            th:text="${#temporals.format(
+                                ticket.createdAt,
+                                'dd MMM yyyy, hh:mm a'
+                            )}">
+
+                        07 Oct 2026, 10:30 AM
+
+                    </div>
+
+                </div>
+
+
+
+                <div
+                        class="d-flex align-items-center gap-3">
+
+
+                    <!-- OPEN -->
+
+                    <span
+                            th:if="${ticket.status.name() == 'OPEN'}"
+                            class="ticket-status status-open">
+
+                        OPEN
+
+                    </span>
+
+
+                    <!-- IN PROGRESS -->
+
+                    <span
+                            th:if="${ticket.status.name() == 'IN_PROGRESS'}"
+                            class="ticket-status status-progress">
+
+                        IN PROGRESS
+
+                    </span>
+
+
+                    <!-- RESOLVED -->
+
+                    <span
+                            th:if="${ticket.status.name() == 'RESOLVED'}"
+                            class="ticket-status status-resolved">
+
+                        RESOLVED
+
+                    </span>
+
+
+                    <!-- CLOSED -->
+
+                    <span
+                            th:if="${ticket.status.name() == 'CLOSED'}"
+                            class="ticket-status status-closed">
+
+                        CLOSED
+
+                    </span>
+
+
+                    <!-- VIEW -->
+
+                    <a
+                            th:href="@{/student/support/ticket/{id}(id=${ticket.id})}"
+                            class="view-ticket">
+
+                        View
+
+                        <i class="bi bi-arrow-right"></i>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             NO TICKETS
+             ================================================= -->
+
+        <div
+                th:if="${tickets == null or tickets.isEmpty()}"
+                class="empty-ticket">
+
+            <div class="empty-ticket-icon">
+
+                <i class="bi bi-chat-square-text"></i>
+
+            </div>
+
+            <div class="empty-ticket-title">
+
+                No Support Requests
+
+            </div>
+
+            <div class="empty-ticket-text">
+
+                You haven't submitted any support request yet.
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+</main>
+
+
+
+<script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+
+</body>
+
+</html>

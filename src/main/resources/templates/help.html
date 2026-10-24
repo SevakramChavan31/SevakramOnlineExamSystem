@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Help & Support | Online Examination System</title>
+
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+            rel="stylesheet">
+
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+            rel="stylesheet">
+
+    <style>
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f9ff;
+            color: #172033;
+        }
+
+        /* NAVBAR */
+
+        .navbar {
+            background: #ffffff;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.06);
+        }
+
+        .brand-icon {
+            width: 42px;
+            height: 42px;
+            background: #1769e8;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 21px;
+            box-shadow: 0 5px 15px rgba(23,105,232,0.25);
+        }
+
+        .brand-name {
+            font-size: 20px;
+            font-weight: 700;
+            color: #14213d;
+        }
+
+        .brand-name span {
+            color:  #1769e8;
+        }
+
+        .nav-link {
+            color: #172033 !important;
+            font-weight: 600;
+            margin: 0 8px;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: #1769e8 !important;
+        }
+
+        .admin-btn {
+            background: #1769e8;
+            color: white;
+            border-radius: 9px;
+            padding: 11px 20px;
+            text-decoration: none;
+            font-weight: 600;
+            box-shadow: 0 6px 15px rgba(23,105,232,0.25);
+        }
+
+        .admin-btn:hover {
+            background: #0958d9;
+            color: white;
+        }
+
+        /* HERO */
+
+        .hero {
+            background: linear-gradient(120deg, #075eea, #4b91ed);
+            color: white;
+            padding: 80px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            width: 450px;
+            height: 450px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.08);
+            top: -230px;
+            right: -100px;
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            width: 350px;
+            height: 350px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.06);
+            bottom: -220px;
+            left: -100px;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 8px 18px;
+            border: 1px solid rgba(255,255,255,0.45);
+            border-radius: 30px;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 {
+            font-size: 52px;
+            font-weight: 800;
+            line-height: 1.15;
+        }
+
+        .hero h1 span {
+            color: #20d8d2;
+        }
+
+        .hero p {
+            font-size: 18px;
+            max-width: 700px;
+            line-height: 1.7;
+            opacity: .95;
+        }
+
+        /* HELP SECTION */
+
+        .help-section {
+            padding: 75px 0;
+        }
+
+        .section-title {
+            font-weight: 800;
+            color: #172033;
+        }
+
+        .section-subtitle {
+            color: #667085;
+            max-width: 700px;
+            margin: auto;
+            line-height: 1.7;
+        }
+
+        /* HELP CARDS */
+
+        .help-card {
+            background: white;
+            border-radius: 18px;
+            padding: 30px;
+            height: 100%;
+            border: 1px solid #e8eef7;
+            box-shadow: 0 8px 30px rgba(25,70,120,.07);
+            transition: .25s;
+        }
+
+        .help-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(25,70,120,.12);
+        }
+
+        .help-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
+            background: #e8f1ff;
+            color: #1769e8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 27px;
+            margin-bottom: 20px;
+        }
+
+        .help-card h4 {
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .help-card p {
+            color: #667085;
+            line-height: 1.7;
+            margin-bottom: 0;
+        }
+
+        /* FAQ */
+
+        .faq-section {
+            background: white;
+            padding: 75px 0;
+        }
+
+        .accordion-item {
+            border: 1px solid #e5eaf2;
+            margin-bottom: 12px;
+            border-radius: 10px !important;
+            overflow: hidden;
+        }
+
+        .accordion-button {
+            font-weight: 600;
+            color: #172033;
+            background: white;
+            padding: 18px 20px;
+        }
+
+        .accordion-button:not(.collapsed) {
+            color: #1769e8;
+            background: #f1f6ff;
+            box-shadow: none;
+        }
+
+        .accordion-button:focus {
+            box-shadow: none;
+        }
+
+        .accordion-body {
+            color: #667085;
+            line-height: 1.7;
+        }
+
+        /* CONTACT */
+
+        .contact-section {
+            padding: 75px 0;
+        }
+
+        .contact-box {
+            background: linear-gradient(120deg, #075eea, #397fe2);
+            color: white;
+            border-radius: 22px;
+            padding: 50px;
+            box-shadow: 0 15px 40px rgba(23,105,232,.20);
+        }
+
+        .contact-icon {
+            width: 58px;
+            height: 58px;
+            background: rgba(255,255,255,.15);
+            border-radius: 14px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 25px;
+            margin-bottom: 15px;
+        }
+
+        .contact-box h3 {
+            font-weight: 800;
+        }
+
+        .contact-box p {
+            opacity: .9;
+        }
+
+        .contact-btn {
+            display: inline-block;
+            background: white;
+            color: #1769e8;
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 700;
+            margin-top: 10px;
+        }
+
+        .contact-btn:hover {
+            color: #0958d9;
+        }
+
+        /* FOOTER */
+
+        footer {
+            background: #101828;
+            color: white;
+            padding: 30px 0;
+        }
+
+        footer p {
+            margin: 0;
+            color: #98a2b3;
+        }
+
+        /* RESPONSIVE */
+
+        @media(max-width:768px) {
+
+            .hero {
+                padding: 60px 20px;
+            }
+
+            .hero h1 {
+                font-size: 38px;
+            }
+
+            .contact-box {
+                padding: 30px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+
+<!-- NAVBAR -->
+
+<nav class="navbar navbar-expand-lg">
+
+    <div class="container">
+
+        <a class="navbar-brand d-flex align-items-center gap-2"
+           href="/">
+
+            <div class="brand-icon">
+
+                <i class="bi bi-mortarboard-fill"></i>
+
+            </div>
+
+            <div class="brand-name">
+
+                Online <span>Examination</span> System
+
+            </div>
+
+        </a>
+
+
+        <button
+                class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarNav">
+
+            <span class="navbar-toggler-icon"></span>
+
+        </button>
+
+
+        <div class="collapse navbar-collapse"
+             id="navbarNav">
+
+            <ul class="navbar-nav ms-auto align-items-lg-center">
+
+                <li class="nav-item">
+
+                    <a class="nav-link"
+                       href="/">
+
+                        Home
+
+                    </a>
+
+                </li>
+
+
+                <li class="nav-item">
+
+                    <a class="nav-link"
+                       href="/about">
+
+                        About
+
+                    </a>
+
+                </li>
+
+
+                <li class="nav-item">
+
+                    <a class="nav-link"
+                       href="/features">
+
+                        Features
+
+                    </a>
+
+                </li>
+
+
+                <li class="nav-item">
+
+                    <a class="nav-link active"
+                       href="/help">
+
+                        Help
+
+                    </a>
+
+                </li>
+
+
+                <li class="nav-item ms-lg-3 mt-3 mt-lg-0">
+
+                    <a href="/login?role=admin"
+                       class="admin-btn">
+
+                        <i class="bi bi-person me-1"></i>
+
+                        Admin Login
+
+                    </a>
+
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+<!-- HERO -->
+
+<section class="hero">
+
+    <div class="container hero-content">
+
+        <span class="hero-badge">
+
+            <i class="bi bi-question-circle me-2"></i>
+
+            Help & Support
+
+        </span>
+
+
+        <h1>
+
+            How Can We
+            <br>
+
+            <span>Help You?</span>
+
+        </h1>
+
+
+        <p class="mt-3">
+
+            Find answers to common questions about login,
+            examinations, results and using the Online
+            Examination System.
+
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- HELP OPTIONS -->
+
+<section class="help-section">
+
+    <div class="container">
+
+        <div class="text-center mb-5">
+
+            <h2 class="section-title">
+
+                How Can We Help?
+
+            </h2>
+
+            <p class="section-subtitle">
+
+                Select a topic below to find useful information
+                about using the examination portal.
+
+            </p>
+
+        </div>
+
+
+        <div class="row g-4">
+
+
+            <!-- LOGIN -->
+
+            <div class="col-md-6 col-lg-3">
+
+                <div class="help-card">
+
+                    <div class="help-icon">
+
+                        <i class="bi bi-box-arrow-in-right"></i>
+
+                    </div>
+
+                    <h4>
+
+                        Login Help
+
+                    </h4>
+
+                    <p>
+
+                        Having trouble signing in? Check your
+                        email address and password. Students
+                        should use Student Login.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- EXAMS -->
+
+            <div class="col-md-6 col-lg-3">
+
+                <div class="help-card">
+
+                    <div class="help-icon">
+
+                        <i class="bi bi-journal-check"></i>
+
+                    </div>
+
+                    <h4>
+
+                        Exam Help
+
+                    </h4>
+
+                    <p>
+
+                        Learn how to select an available exam,
+                        read instructions and submit your
+                        examination.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- RESULTS -->
+
+            <div class="col-md-6 col-lg-3">
+
+                <div class="help-card">
+
+                    <div class="help-icon">
+
+                        <i class="bi bi-bar-chart-line"></i>
+
+                    </div>
+
+                    <h4>
+
+                        Results
+
+                    </h4>
+
+                    <p>
+
+                        View your examination score,
+                        percentage, correct answers and
+                        overall performance.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- ACCOUNT -->
+
+            <div class="col-md-6 col-lg-3">
+
+                <div class="help-card">
+
+                    <div class="help-icon">
+
+                        <i class="bi bi-person-gear"></i>
+
+                    </div>
+
+                    <h4>
+
+                        Account Help
+
+                    </h4>
+
+                    <p>
+
+                        Manage your account information,
+                        password and other student profile
+                        details.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- FAQ -->
+
+<section class="faq-section">
+
+    <div class="container">
+
+        <div class="text-center mb-5">
+
+            <h2 class="section-title">
+
+                Frequently Asked Questions
+
+            </h2>
+
+            <p class="section-subtitle">
+
+                Quick answers to some of the most common
+                questions.
+
+            </p>
+
+        </div>
+
+
+        <div class="accordion"
+             id="faqAccordion">
+
+
+            <!-- FAQ 1 -->
+
+            <div class="accordion-item">
+
+                <h2 class="accordion-header">
+
+                    <button
+                            class="accordion-button"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#faq1">
+
+                        How do I login as a student?
+
+                    </button>
+
+                </h2>
+
+                <div id="faq1"
+                     class="accordion-collapse collapse show"
+                     data-bs-parent="#faqAccordion">
+
+                    <div class="accordion-body">
+
+                        Use the Student Login option and enter
+                        the email address and password associated
+                        with your student account.
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- FAQ 2 -->
+
+            <div class="accordion-item">
+
+                <h2 class="accordion-header">
+
+                    <button
+                            class="accordion-button collapsed"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#faq2">
+
+                        How do I start an examination?
+
+                    </button>
+
+                </h2>
+
+                <div id="faq2"
+                     class="accordion-collapse collapse"
+                     data-bs-parent="#faqAccordion">
+
+                    <div class="accordion-body">
+
+                        After logging in, open your Student
+                        Dashboard and select an available
+                        examination. Read the examination
+                        instructions and start the exam.
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- FAQ 3 -->
+
+            <div class="accordion-item">
+
+                <h2 class="accordion-header">
+
+                    <button
+                            class="accordion-button collapsed"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#faq3">
+
+                        What happens when the exam time expires?
+
+                    </button>
+
+                </h2>
+
+                <div id="faq3"
+                     class="accordion-collapse collapse"
+                     data-bs-parent="#faqAccordion">
+
+                    <div class="accordion-body">
+
+                        The examination can be automatically
+                        submitted when the configured examination
+                        duration expires.
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- FAQ 4 -->
+
+            <div class="accordion-item">
+
+                <h2 class="accordion-header">
+
+                    <button
+                            class="accordion-button collapsed"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#faq4">
+
+                        Can I see my exam result?
+
+                    </button>
+
+                </h2>
+
+                <div id="faq4"
+                     class="accordion-collapse collapse"
+                     data-bs-parent="#faqAccordion">
+
+                    <div class="accordion-body">
+
+                        After completing an examination, the
+                        available result information can be
+                        viewed from the student dashboard or
+                        result section.
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- FAQ 5 -->
+
+            <div class="accordion-item">
+
+                <h2 class="accordion-header">
+
+                    <button
+                            class="accordion-button collapsed"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#faq5">
+
+                        I forgot my password. What should I do?
+
+                    </button>
+
+                </h2>
+
+                <div id="faq5"
+                     class="accordion-collapse collapse"
+                     data-bs-parent="#faqAccordion">
+
+                    <div class="accordion-body">
+
+                        Use the "Forgot Password?" option on
+                        the login page and follow the password
+                        reset process.
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- FAQ 6 -->
+
+            <div class="accordion-item">
+
+                <h2 class="accordion-header">
+
+                    <button
+                            class="accordion-button collapsed"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#faq6">
+
+                        How can an administrator manage exams?
+
+                    </button>
+
+                </h2>
+
+                <div id="faq6"
+                     class="accordion-collapse collapse"
+                     data-bs-parent="#faqAccordion">
+
+                    <div class="accordion-body">
+
+                        Administrators can log in through Admin
+                        Login and manage examinations, questions,
+                        students and reports from the admin portal.
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- CONTACT SUPPORT -->
+
+<section class="contact-section">
+
+    <div class="container">
+
+        <div class="contact-box">
+
+            <div class="row align-items-center">
+
+                <div class="col-md-8">
+
+                    <div class="contact-icon">
+
+                        <i class="bi bi-headset"></i>
+
+                    </div>
+
+                    <h3>
+
+                        Still Need Help?
+
+                    </h3>
+
+                    <p>
+
+                        If you cannot find the answer you're
+                        looking for, please contact your system
+                        administrator for further assistance.
+
+                    </p>
+
+                </div>
+
+
+                <div class="col-md-4 text-md-end mt-4 mt-md-0">
+
+                    <a href="mailto:sevakramchavan2003@gmail.com"
+                       class="contact-btn">
+
+                        <i class="bi bi-envelope me-2"></i>
+
+                        Contact Support
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- FOOTER -->
+
+<footer>
+
+    <div class="container text-center">
+
+        <p>
+            © 2026 Sevakram Online Examination System | Developed by Sevakram Chavan. All rights reserved.        </p>
+
+    </div>
+
+</footer>
+
+
+<script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+</body>
+
+</html>
